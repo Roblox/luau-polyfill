@@ -1,2 +1,8 @@
 # Rbxm model files
 /*.rbxm
+
+# Dependencies
+/Packages
+
+# Rotriever lockfile
+rotriever.lock

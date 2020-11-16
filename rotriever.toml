@@ -1,11 +1,11 @@
 [package]
-name = "pdoyle/roblox-luau-polyfill"
+name = "roblox/roblox-luau-polyfill"
 version = "0.1.0"
 author = "Paul Doyle <pdoyle@roblox.com>"
+content_root = "src"
+default_alias = "LuauPolyfill"
 
-# Optional fields and their definitions can be found at:
-# https://pages.github.rbx.com/pdoyle/rotriever-docs/reference/manifest-format/#manifest-fields
-
-[dependencies]
-# Different kinds of dependencies are specified in different ways. See more details at:
-# https://pages.github.rbx.com/pdoyle/rotriever-docs/reference/manifest-format/#specifying-manifest-dependencies
+[dev_dependencies]
+# TODO: Flip over to the jest-roblox repo whenever a release is ready, or if
+# there's a particular git branch we'd like to use
+TestEZ = "github.com/roblox/testez@0.4.1"
