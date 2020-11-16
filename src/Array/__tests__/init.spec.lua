@@ -2,13 +2,13 @@
 -- use custom matchers added via `expect.extend`
 --!nocheck
 return function()
-	local Workspace = script.Parent.Parent.Parent.Parent
-	local RobloxJest = require(Workspace.RobloxJest)
+	local TestMatchers = script.Parent.Parent.Parent.TestMatchers
+	local toEqual = require(TestMatchers.toEqual)
 
 	beforeAll(function()
 		expect.extend({
-			toEqual = RobloxJest.Matchers.toEqual,
-			toThrow = RobloxJest.Matchers.toThrow,
+			-- FIXME: Replace this with jest-roblox builtins
+			toEqual = toEqual,
 		})
 	end)
 end
