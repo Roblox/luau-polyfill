@@ -1,12 +1,13 @@
 --!nocheck
 return function()
-	local Workspace = script.Parent.Parent.Parent.Parent
+	local TestMatchers = script.Parent.Parent.Parent.TestMatchers
+	local toEqual = require(TestMatchers.toEqual)
 	local seal = require(script.Parent.Parent.seal)
-	local RobloxJest = require(Workspace.RobloxJest)
 
 	beforeAll(function()
 		expect.extend({
-			toEqual = RobloxJest.Matchers.toEqual,
+			-- FIXME: Replace this with jest-roblox builtins
+			toEqual = toEqual,
 		})
 	end)
 
