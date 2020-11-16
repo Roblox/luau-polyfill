@@ -1,13 +1,7 @@
 --!nonstrict
 return function()
-	-- local Modules = script.Parent.Parent.Parent.Parent
 	local makeTimerImpl = require(script.Parent.Parent.makeTimerImpl)
-	-- local RobloxJest = require(Modules.RobloxJest)
-	-- local createSpy = RobloxJest.createSpy
-	-- FIXME: Stubbed for now
-	local createSpy = function()
-		return nil
-	end
+	local createSpy = require(script.Parent.Parent.Parent.createSpy)
 
 	local Timeout
 	local mockTime, timeouts
@@ -30,8 +24,6 @@ return function()
 			end
 		end
 	end
-
-	SKIP()
 
 	beforeEach(function()
 		mockTime = 0
