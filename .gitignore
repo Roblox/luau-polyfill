@@ -1,8 +1,9 @@
 # Rbxm model files
-/*.rbxm
+/*.rbxmx
 
 # Dependencies
-/Packages
+Packages/*
+!Packages/.robloxrc
 
 # Rotriever lockfile
 rotriever.lock
