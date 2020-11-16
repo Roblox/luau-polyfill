@@ -1,3 +1,3 @@
 return {
-    trim = require(script.trim),
+	trim = require(script.trim),
 }
