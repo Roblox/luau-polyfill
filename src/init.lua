@@ -7,6 +7,6 @@ return {
 	Math = require(script.Math),
 	Object = require(script.Object),
 	String = require(script.String),
-	getTimeout = Timers.getTimeout,
+	setTimeout = Timers.setTimeout,
 	clearTimeout = Timers.clearTimeout,
 }
