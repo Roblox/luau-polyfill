@@ -1,5 +1,6 @@
 return function()
-	local find = require(script.Parent.Parent.find)
+	local Array = script.Parent.Parent
+	local find = require(Array.find)
 
 	local function returnTrue()
 		return true
