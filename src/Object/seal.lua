@@ -1,20 +1,12 @@
--- FIXME: We need to shore this up to be much closer to the actual
--- `Object.seal` functionality in JS
+local preventExtensions = require(script.Parent.preventExtensions)
+
 local function seal(t)
-	local name = tostring(t)
-
-	return setmetatable(t, {
-		__newindex = function(self, key, value)
-			local message = ("%q (%s) is not a valid member of %s"):format(
-				tostring(key),
-				typeof(key),
-				name
-			)
-
-			error(message, 2)
-		end,
-		__metatable = false,
-	})
+	-- FIXME: We don't have needed VM support to mimic the functionality of
+	-- seal, so we approximate with preventExtensions Seal should also support:
+	-- * Reassigning to a value that was set to nil
+	-- * Preventing removal of a field; this is hard to define given lua's
+	--   understanding of 'nil' and table membership
+	return preventExtensions(t)
 end
 
 return seal
