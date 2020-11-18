@@ -1,15 +1,6 @@
 --!nocheck
 return function()
-	local TestMatchers = script.Parent.Parent.Parent.TestMatchers
-	local toEqual = require(TestMatchers.toEqual)
 	local freeze = require(script.Parent.Parent.freeze)
-
-	beforeAll(function()
-		expect.extend({
-			-- FIXME: Replace this with jest-roblox builtins
-			toEqual = toEqual,
-		})
-	end)
 
 	it("should return the same table", function()
 		local unfrozen = {
