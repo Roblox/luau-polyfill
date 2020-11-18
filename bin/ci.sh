@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ex
+
 echo "Build project"
 rojo build test-model.project.json --output model.rbxmx
 echo "Run static analysis"
