@@ -1,11 +1,12 @@
 return {
+	every = require(script.every),
 	find = require(script.find),
+	from = require(script.from),
 	indexOf = require(script.indexOf),
 	isArray = require(script.isArray),
-	splice = require(script.splice),
-	slice = require(script.slice),
 	map = require(script.map),
 	reduce = require(script.reduce),
+	slice = require(script.slice),
 	some = require(script.some),
-	every = require(script.every),
+	splice = require(script.splice),
 }
