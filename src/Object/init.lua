@@ -1,5 +1,6 @@
 return {
 	assign = require(script.assign),
+	entries = require(script.entries),
 	freeze = require(script.freeze),
 	keys = require(script.keys),
 	seal = require(script.seal),
