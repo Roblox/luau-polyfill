@@ -2,6 +2,7 @@ local Timers = require(script.Timers)
 
 return {
 	Array = require(script.Array),
+	Boolean = require(script.Boolean),
 	console = require(script.console),
 	Error = require(script.Error),
 	Math = require(script.Math),
