@@ -6,6 +6,7 @@ return {
 	isArray = require(script.isArray),
 	map = require(script.map),
 	reduce = require(script.reduce),
+	shift = require(script.shift),
 	slice = require(script.slice),
 	some = require(script.some),
 	splice = require(script.splice),
