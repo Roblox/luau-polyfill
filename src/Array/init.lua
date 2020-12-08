@@ -1,5 +1,6 @@
 return {
 	every = require(script.every),
+	filter = require(script.filter),
 	find = require(script.find),
 	from = require(script.from),
 	indexOf = require(script.indexOf),
