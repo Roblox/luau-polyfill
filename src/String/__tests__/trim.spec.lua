@@ -1,7 +1,7 @@
 return function()
 	local trim = require(script.Parent.Parent.trim)
 
-	it("removes spaces at begining", function()
+	it("removes spaces at beginning", function()
 		expect(trim("  abc")).to.equal("abc")
 	end)
 
