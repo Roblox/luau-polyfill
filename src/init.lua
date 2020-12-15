@@ -9,6 +9,7 @@ return {
 	Number = require(script.Number),
 	Object = require(script.Object),
 	String = require(script.String),
+	Symbol = require(script.Symbol),
 	setTimeout = Timers.setTimeout,
 	clearTimeout = Timers.clearTimeout,
 }
