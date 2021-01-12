@@ -15,6 +15,11 @@ return function(delayImpl)
 		local task = {
 			[Status] = SCHEDULED
 		}
+		
+		-- delayTime is an optional parameter
+		if delayTime == nil then
+			delayTime = 0
+		end
 
 		-- To mimic the JS interface, we're expecting delayTime to be in ms
 		local delayTimeMs = delayTime / 1000
