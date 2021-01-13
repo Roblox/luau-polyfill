@@ -2,6 +2,7 @@ return {
 	every = require(script.every),
 	filter = require(script.filter),
 	find = require(script.find),
+	findIndex = require(script.findIndex),
 	from = require(script.from),
 	indexOf = require(script.indexOf),
 	isArray = require(script.isArray),
