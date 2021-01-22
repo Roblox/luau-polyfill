@@ -8,6 +8,7 @@ return {
 	Math = require(script.Math),
 	Number = require(script.Number),
 	Object = require(script.Object),
+	RegExp = require(script.RegExp),
 	String = require(script.String),
 	Symbol = require(script.Symbol),
 	setTimeout = Timers.setTimeout,
