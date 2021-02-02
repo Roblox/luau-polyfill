@@ -11,5 +11,6 @@ return {
 	shift = require(script.shift),
 	slice = require(script.slice),
 	some = require(script.some),
+	sort = require(script.sort),
 	splice = require(script.splice),
 }
