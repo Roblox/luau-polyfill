@@ -2,7 +2,12 @@
 local RegEx = require(script.RegEx)
 
 local RegExp = {}
-local RegExpMetatable = { __index = RegExp }
+local RegExpMetatable = {
+	__index = RegExp,
+	__tostring = function(self)
+		return tostring(self._innerRegEx)
+	end
+}
 
 function RegExp:exec(str: string)
 	local match = self._innerRegEx:match(str)
