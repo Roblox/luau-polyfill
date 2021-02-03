@@ -1,6 +1,6 @@
 [package]
 name = "roblox/roblox-luau-polyfill"
-version = "0.1.0"
+version = "0.1.1"
 author = "Paul Doyle <pdoyle@roblox.com>"
 content_root = "src"
 default_alias = "LuauPolyfill"

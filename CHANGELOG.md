@@ -1,5 +1,16 @@
 # LuauPolyfills Changelog
 
+## 0.1.1
+
+### Added Polyfills
+* `Array.sort()`
+* `Error.new()`
+* `Error:extend()`
+
+### Fixes
+* Fixed Luau type analysis regression in `TestMatchers`
+* Added a `__tostring` metamethod for `RegExp`
+
 ## 0.1.0
 
 ### Added Polyfills
