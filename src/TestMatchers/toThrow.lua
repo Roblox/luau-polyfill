@@ -31,7 +31,8 @@ local function toThrow(fn: () -> any, errorString: string?)
 					pass = true,
 					message = string.format(
 						"Expected function not to throw with '%s'",
-						errorString
+						-- ROBLOX FIXME: adding tostring() is a workaround for a false positive in roblox-cli 3 Feb 2021
+						tostring(errorString)
 					),
 				}
 			end
@@ -40,7 +41,8 @@ local function toThrow(fn: () -> any, errorString: string?)
 				pass = false,
 				message = string.format(
 					"Expected function to throw with '%s'",
-					errorString
+					-- ROBLOX FIXME: adding tostring() is a workaround for a false positive in roblox-cli 3 Feb 2021
+					tostring(errorString)
 				),
 			}
 		end
