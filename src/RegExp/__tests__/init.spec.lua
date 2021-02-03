@@ -32,4 +32,15 @@ return function()
 			expect(RegExp("foo").global).to.equal(false)
 		end)
 	end)
+
+	describe("toString", function()
+		it("has a correct tostring output", function()
+			expect(tostring(RegExp("pattern"))).to.equal("/pattern/")
+		end)
+
+		it("has a correct ordering of flags in tostring output", function()
+			expect(tostring(RegExp("regexp\\d", "mi"))).to.equal("/regexp\\d/im")
+		end)
+	end)
+
 end
