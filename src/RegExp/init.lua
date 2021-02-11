@@ -46,6 +46,6 @@ local function new(_self, source, flags)
 	return setmetatable(object, RegExpMetatable)
 end
 
-return setmetatable({}, {
+return setmetatable(RegExp, {
 	__call = new,
 })
