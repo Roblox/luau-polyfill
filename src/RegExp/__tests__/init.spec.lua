@@ -1,5 +1,6 @@
 return function()
 	local RegExp = require(script.Parent.Parent)
+	local instanceof = require(script.Parent.Parent.Parent).instanceof
 
 	describe("ignoreCase", function()
 		it("has a `ignoreCase` property set to true if the `i` flag is used", function()
@@ -40,6 +41,12 @@ return function()
 
 		it("has a correct ordering of flags in tostring output", function()
 			expect(tostring(RegExp("regexp\\d", "mi"))).to.equal("/regexp\\d/im")
+		end)
+	end)
+
+	describe("inheritance", function()
+		it("follows our expectations for inheritance", function()
+			expect(instanceof(RegExp("test"), RegExp)).to.equal(true)
 		end)
 	end)
 
