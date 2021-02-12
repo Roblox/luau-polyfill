@@ -1,6 +1,7 @@
 --!nonstrict
 return function()
 	local Error = require(script.Parent.Parent)
+	local extends = require(script.Parent.Parent.Parent).extends
 
 	it("accepts a message value as an argument", function()
 		local err = Error("Some message")
@@ -25,49 +26,57 @@ return function()
 	end)
 
 	it("checks the inheritance of Error", function()
-		local MyError = Error:extend("MyError")
+		local MyError = extends(Error, "MyError", function(self, message)
+			self.message = message
+			self.name = "MyError"
+		end)
 
 		local inst = MyError("my error message")
 
 		expect(inst.message).to.equal("my error message")
 		expect(inst.name).to.equal("MyError")
 
-	 	-- inheritance using metatable chain
-	 	expect(getmetatable(inst)).to.equal(MyError)
-	 	expect(getmetatable(inst).__index).to.equal(Error)
+		-- inheritance using metatable chain
+		expect(getmetatable(inst).__index).to.equal(MyError)
+		expect(getmetatable(getmetatable(inst).__index).__index).to.equal(Error)
+
 	end)
 
 	it("checks the inheritance of a sub error", function()
-		local MyError = Error:extend("MyError")
-		local YourError = MyError:extend("YourError")
+		local MyError = extends(Error, "MyError", function(self, message)
+			self.message = message
+			self.name = "MyError"
+		end)
+
+		local YourError = extends(MyError, "MyError", function(self, message)
+			self.message = message
+			self.name = "YourError"
+		end)
 
 		local inst = YourError("your error message")
-
-		local inst2 = YourError("your error message 2")
 
 		expect(inst.message).to.equal("your error message")
 		expect(inst.name).to.equal("YourError")
 
-		expect(inst2.message).to.equal("your error message 2")
-		expect(inst2.name).to.equal("YourError")
-
 		-- inheritance using metatable chain
-		expect(getmetatable(inst)).to.equal(YourError)
-	 	expect(getmetatable(inst).__index).to.equal(MyError)
-	 	expect(getmetatable(getmetatable(inst).__index).__index).to.equal(Error)
-
-	 	expect(getmetatable(inst)).to.equal(getmetatable(inst2))
-	 	expect(getmetatable(inst).__index).to.equal(getmetatable(inst2).__index)
-	 	expect(getmetatable(getmetatable(inst).__index).__index).to.equal(getmetatable(getmetatable(inst).__index).__index)
+		expect(getmetatable(inst).__index).to.equal(YourError)
+		expect(getmetatable(getmetatable(inst).__index).__index).to.equal(MyError)
+		expect(getmetatable(getmetatable(getmetatable(inst).__index).__index).__index).to.equal(Error)
 	end)
 
 	it("evaluates both toString methods", function()
-		local MyError = Error:extend("MyError")
+		local MyError = extends(Error, "MyError", function(self, message)
+			self.message = message
+			self.name = "MyError"
+		end)
 
 		expect(tostring(MyError)).to.equal("MyError")
 		expect(tostring(MyError("my test"))).to.equal("MyError: my test")
 
-		local YourError = Error:extend("YourError")
+		local YourError = extends(Error, "YourError", function(self, message)
+			self.message = message
+			self.name = "YourError"
+		end)
 
 		expect(tostring(YourError)).to.equal("YourError")
 		expect(tostring(YourError("your test"))).to.equal("YourError: your test")

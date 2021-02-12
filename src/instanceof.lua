@@ -9,9 +9,9 @@ return function(tbl, class)
 		print("Warning: received a function not a table as the class for inheritance check")
 	end
 
-	while tbl ~= nil do
+	while typeof(tbl) == "table" and tbl ~= nil do
 		tbl = getmetatable(tbl)
-		if tbl ~= nil then
+		if typeof(tbl) == "table" and tbl ~= nil then
 			tbl = tbl.__index
 
 			if tbl == class then
