@@ -1,4 +1,5 @@
 return {
+	concat = require(script.concat),
 	every = require(script.every),
 	filter = require(script.filter),
 	find = require(script.find),
@@ -6,6 +7,7 @@ return {
 	from = require(script.from),
 	indexOf = require(script.indexOf),
 	isArray = require(script.isArray),
+	join = require(script.join),
 	map = require(script.map),
 	reduce = require(script.reduce),
 	shift = require(script.shift),
