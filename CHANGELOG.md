@@ -1,5 +1,16 @@
 # LuauPolyfills Changelog
 
+## 0.1.2
+
+### Added Polyfills
+* `extends`
+* `instanceof`
+* `Array.concat()`
+* `Array.join`
+
+### Fixes
+* `Error:extend()` removed, changd how inheritance is handled
+
 ## 0.1.1
 
 ### Added Polyfills
