@@ -1,8 +1,19 @@
 --!nonstrict
 return function()
 	local Error = require(script.Parent.Parent)
+	local RegExp = require(script.Parent.Parent.Parent).RegExp
 	local extends = require(script.Parent.Parent.Parent).extends
 	local instanceof = require(script.Parent.Parent.Parent).instanceof
+
+	local MyError = extends(Error, "MyError", function(self, message)
+		self.message = message
+		self.name = "MyError"
+	end)
+
+	local YourError = extends(MyError, "YourError", function(self, message)
+		self.message = message
+		self.name = "YourError"
+	end)
 
 	it("accepts a message value as an argument", function()
 		local err = Error("Some message")
@@ -32,11 +43,6 @@ return function()
 	end)
 
 	it("checks the inheritance of Error", function()
-		local MyError = extends(Error, "MyError", function(self, message)
-			self.message = message
-			self.name = "MyError"
-		end)
-
 		local inst = MyError("my error message")
 
 		expect(inst.message).to.equal("my error message")
@@ -45,20 +51,9 @@ return function()
 		-- inheritance checks
 		expect(instanceof(inst, MyError)).to.equal(true)
 		expect(instanceof(inst, Error)).to.equal(true)
-
 	end)
 
 	it("checks the inheritance of a sub error", function()
-		local MyError = extends(Error, "MyError", function(self, message)
-			self.message = message
-			self.name = "MyError"
-		end)
-
-		local YourError = extends(MyError, "MyError", function(self, message)
-			self.message = message
-			self.name = "YourError"
-		end)
-
 		local inst = YourError("your error message")
 
 		expect(inst.message).to.equal("your error message")
@@ -71,20 +66,20 @@ return function()
 	end)
 
 	it("evaluates both toString methods", function()
-		local MyError = extends(Error, "MyError", function(self, message)
-			self.message = message
-			self.name = "MyError"
-		end)
-
 		expect(tostring(MyError)).to.equal("MyError")
 		expect(tostring(MyError("my test"))).to.equal("MyError: my test")
 
-		local YourError = extends(Error, "YourError", function(self, message)
-			self.message = message
-			self.name = "YourError"
-		end)
-
 		expect(tostring(YourError)).to.equal("YourError")
 		expect(tostring(YourError("your test"))).to.equal("YourError: your test")
+	end)
+
+	it("checks Error stack field", function()
+		local err = Error("test stack for Error()")
+		local err2 = Error.new("test stack for Error.new()")
+
+		local topLineRegExp = RegExp("^.*Error.__tests__\\.Error\\.spec:\\d+")
+
+		expect(topLineRegExp:test(err.stack)).to.equal(true)
+		expect(topLineRegExp:test(err2.stack)).to.equal(true)
 	end)
 end

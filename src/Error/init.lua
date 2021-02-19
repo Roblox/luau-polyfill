@@ -8,13 +8,15 @@ function Error.new(message)
 	return setmetatable({
 		name = DEFAULT_NAME,
 		message = message,
+		stack = debug.traceback(nil, 2)
 	}, Error)
 end
 
 return setmetatable(Error, {
-
 	__call = function(_, ...)
-		return Error.new(...)
+		local inst = Error.new(...)
+		inst.stack = debug.traceback(nil, 2)
+		return inst
 	end,
 	__tostring = function(self)
 		if self.name ~= nil then
