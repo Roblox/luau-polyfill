@@ -2,6 +2,7 @@
 return function()
 	local Error = require(script.Parent.Parent)
 	local extends = require(script.Parent.Parent.Parent).extends
+	local instanceof = require(script.Parent.Parent.Parent).instanceof
 
 	it("accepts a message value as an argument", function()
 		local err = Error("Some message")
@@ -25,6 +26,11 @@ return function()
 		expect(result).to.equal(err)
 	end)
 
+	it("checks that Error is a class according to our inheritance standard", function()
+		local err = Error("Test")
+		expect(instanceof(err, Error)).to.equal(true)
+	end)
+
 	it("checks the inheritance of Error", function()
 		local MyError = extends(Error, "MyError", function(self, message)
 			self.message = message
@@ -36,9 +42,9 @@ return function()
 		expect(inst.message).to.equal("my error message")
 		expect(inst.name).to.equal("MyError")
 
-		-- inheritance using metatable chain
-		expect(getmetatable(inst).__index).to.equal(MyError)
-		expect(getmetatable(getmetatable(inst).__index).__index).to.equal(Error)
+		-- inheritance checks
+		expect(instanceof(inst, MyError)).to.equal(true)
+		expect(instanceof(inst, Error)).to.equal(true)
 
 	end)
 
@@ -58,10 +64,10 @@ return function()
 		expect(inst.message).to.equal("your error message")
 		expect(inst.name).to.equal("YourError")
 
-		-- inheritance using metatable chain
-		expect(getmetatable(inst).__index).to.equal(YourError)
-		expect(getmetatable(getmetatable(inst).__index).__index).to.equal(MyError)
-		expect(getmetatable(getmetatable(getmetatable(inst).__index).__index).__index).to.equal(Error)
+		-- inheritance checks
+		expect(instanceof(inst, YourError))
+		expect(instanceof(inst, MyError)).to.equal(true)
+		expect(instanceof(inst, Error)).to.equal(true)
 	end)
 
 	it("evaluates both toString methods", function()

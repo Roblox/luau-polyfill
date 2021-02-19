@@ -2,12 +2,13 @@
 local Error = {}
 
 local DEFAULT_NAME = "Error"
+Error.__index = Error
 
 function Error.new(message)
-	return {
+	return setmetatable({
 		name = DEFAULT_NAME,
 		message = message,
-	}
+	}, Error)
 end
 
 return setmetatable(Error, {

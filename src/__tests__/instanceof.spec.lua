@@ -123,4 +123,11 @@ return function()
 
 		expect(instanceof(function() end, Class)).to.equal(false)
 	end)
+
+	it("keeps track of seen metatables to prevent infinite loops", function()
+		local breakingTable = {}
+		breakingTable.__index = breakingTable
+		setmetatable(breakingTable, breakingTable)
+		instanceof(breakingTable, {})
+	end)
 end
