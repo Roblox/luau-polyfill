@@ -9,15 +9,26 @@ return function(tbl, class)
 		print("Warning: received a function not a table as the class for inheritance check")
 	end
 
-	while typeof(tbl) == "table" and tbl ~= nil do
+	local seen = { tbl = true }
+
+	while tbl and typeof(tbl) == "table" do
 		tbl = getmetatable(tbl)
-		if typeof(tbl) == "table" and tbl ~= nil then
+		if typeof(tbl) == "table" then
 			tbl = tbl.__index
 
 			if tbl == class then
 				return true
 			end
 		end
+
+		-- if we still have a valid table then check against seen
+		if typeof(tbl) == "table" then
+			if seen[tbl] then
+				return false
+			end
+			seen[tbl] = true
+		end
 	end
+
 	return false
 end
