@@ -1,56 +1,62 @@
 -- Tests partially based on examples from:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
 return function()
-	local isArray = require(script.Parent.Parent.isArray)
+	local Array = script.Parent.Parent
+	local LuauPolyfill = Array.Parent
+	local isArray = require(Array.isArray)
+
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	it("returns false for non-tables", function()
-		expect(isArray(nil)).to.equal(false)
-		expect(isArray(1)).to.equal(false)
-		expect(isArray("hello")).to.equal(false)
-		expect(isArray(function() end)).to.equal(false)
-		expect(isArray(newproxy(false))).to.equal(false)
+		jestExpect(isArray(nil)).toEqual(false)
+		jestExpect(isArray(1)).toEqual(false)
+		jestExpect(isArray("hello")).toEqual(false)
+		jestExpect(isArray(function() end)).toEqual(false)
+		jestExpect(isArray(newproxy(false))).toEqual(false)
 	end)
 
 	it("returns false for tables with non-number keys", function()
-		expect(isArray({ hello = 1 })).to.equal(false)
-		expect(isArray({ [function() end] = 1 })).to.equal(false)
-		expect(isArray({ [newproxy(false)] = 1 })).to.equal(false)
+		jestExpect(isArray({ hello = 1 })).toEqual(false)
+		jestExpect(isArray({ [function() end] = 1 })).toEqual(false)
+		jestExpect(isArray({ [newproxy(false)] = 1 })).toEqual(false)
 	end)
 
 	it("returns false for a table with non-integer key", function()
-		expect(isArray({ [0.5] = true })).to.equal(false)
+		jestExpect(isArray({ [0.5] = true })).toEqual(false)
 	end)
 
 	it("returns false for a table with a key equal to zero", function()
-		expect(isArray({ [0] = true })).to.equal(false)
+		jestExpect(isArray({ [0] = true })).toEqual(false)
 	end)
 
 	it("returns true for an empty table", function()
-		expect(isArray({})).to.equal(true)
+		jestExpect(isArray({})).toEqual(true)
 	end)
 
 	it("returns false for sparse arrays", function()
-		expect(isArray({
+		jestExpect(isArray({
 			[1] = "1",
 			[3] = "3",
-		})).to.equal(false)
-		expect(isArray({
+		})).toEqual(false)
+		jestExpect(isArray({
 			[2] = "2",
 			[3] = "3",
-		})).to.equal(false)
+		})).toEqual(false)
 	end)
 
 	it("returns false for tables with non-positive-number keys", function()
-		expect(isArray({
+		jestExpect(isArray({
 			[-2] = "-2",
 			[2] = "2",
 			[3] = "3",
-		})).to.equal(false)
+		})).toEqual(false)
 	end)
 
 	it("returns true for valid arrays", function()
-		expect(isArray({ "a", "b", "c" })).to.equal(true)
-		expect(isArray({ 1, 2, 3 })).to.equal(true)
-		expect(isArray({ 1, "b", function() end })).to.equal(true)
+		jestExpect(isArray({ "a", "b", "c" })).toEqual(true)
+		jestExpect(isArray({ 1, 2, 3 })).toEqual(true)
+		jestExpect(isArray({ 1, "b", function() end })).toEqual(true)
 	end)
 end

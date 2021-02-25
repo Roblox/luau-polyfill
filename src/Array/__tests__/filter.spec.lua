@@ -1,13 +1,17 @@
--- FIXME: roblox-cli has special, hard-coded types for TestEZ that break when we
--- use custom matchers added via `expect.extend`
 --!nocheck
 
 -- Tests adapted directly from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
 
 return function()
-	local filter = require(script.Parent.Parent.filter)
-	local isFinite = require(script.Parent.Parent.Parent.Number.isFinite)
+	local Array = script.Parent.Parent
+	local LuauPolyfill = Array.Parent
+	local filter = require(Array.filter)
+	local isFinite = require(LuauPolyfill.Number.isFinite)
+
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	it("Filtering out all small values", function()
 		local isBigEnough = function(value)
@@ -15,7 +19,7 @@ return function()
 		end
 
 		local filtered = filter({12, 5, 8, 130, 44}, isBigEnough)
-		expect(filtered).toEqual({12, 130, 44})
+		jestExpect(filtered).toEqual({12, 130, 44})
 	end)
 
 	it("Find all prime numbers in an array", function()
@@ -34,7 +38,7 @@ return function()
 			{-3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13},
 			isPrime
 		)
-		expect(filtered).toEqual({2, 3, 5, 7, 11, 13})
+		jestExpect(filtered).toEqual({2, 3, 5, 7, 11, 13})
 	end)
 
 	it("Filtering invalid entries from JSON", function()
@@ -61,10 +65,10 @@ return function()
 		end
 
 		local arrByID = filter(arr, filterByID)
-		expect(arrByID).toEqual(
+		jestExpect(arrByID).toEqual(
 			{{ id = 15 }, { id = -1 }, { id = 3 }, { id = 12.2 }}
 		)
-		expect(invalidEntries).to.equal(5)
+		jestExpect(invalidEntries).toEqual(5)
 	end)
 
 	it("Searching in array", function()
@@ -75,8 +79,8 @@ return function()
 			end)
 		end
 
-		expect(filterItems(fruits, "ap")).toEqual({"apple", "grapes"})
-		expect(filterItems(fruits, "an")).toEqual({"banana", "mango", "orange"})
+		jestExpect(filterItems(fruits, "ap")).toEqual({"apple", "grapes"})
+		jestExpect(filterItems(fruits, "an")).toEqual({"banana", "mango", "orange"})
 	end)
 
 	describe("Affecting Initial Array", function()
@@ -94,7 +98,7 @@ return function()
 				end
 			)
 
-			expect(modifiedWords).toEqual({"spray"})
+			jestExpect(modifiedWords).toEqual({"spray"})
 		end)
 
 		it("Appending to initial array", function()
@@ -108,7 +112,7 @@ return function()
 				end
 			)
 
-			expect(modifiedWords).toEqual({"spray", "limit", "elite"})
+			jestExpect(modifiedWords).toEqual({"spray", "limit", "elite"})
 		end)
 
 		it("Deleting from initial array", function()
@@ -122,7 +126,7 @@ return function()
 				end
 			)
 
-			expect(modifiedWords).toEqual({"spray", "limit"})
+			jestExpect(modifiedWords).toEqual({"spray", "limit"})
 		end)
 	end)
 end

@@ -1,6 +1,11 @@
 return function()
 	local Array = script.Parent.Parent
+	local LuauPolyfill = Array.Parent
 	local find = require(Array.find)
+
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	local function returnTrue()
 		return true
@@ -11,18 +16,18 @@ return function()
 	end
 
 	it("returns nil if the array is empty", function()
-		expect(find({}, returnTrue)).to.equal(nil)
+		jestExpect(find({}, returnTrue)).toEqual(nil)
 	end)
 
 	it("returns nil if the predicate is always false", function()
-		expect(find({1, 2, 3}, returnFalse)).to.equal(nil)
+		jestExpect(find({1, 2, 3}, returnFalse)).toEqual(nil)
 	end)
 
 	it("returns the first element where the predicate is true", function()
 		local result = find({3, 4, 5, 6}, function(element)
 			return element % 2 == 0
 		end)
-		expect(result).to.equal(4)
+		jestExpect(result).toEqual(4)
 	end)
 
 	it("passes the element, its index and the array to the predicate", function()
@@ -31,9 +36,6 @@ return function()
 		find(array, function(...)
 			arguments = {...}
 		end)
-		expect(#arguments).to.equal(3)
-		expect(arguments[1]).to.equal("foo")
-		expect(arguments[2]).to.equal(1)
-		expect(arguments[3]).to.equal(array)
+		jestExpect(arguments).toEqual({"foo", 1, array})
 	end)
 end

@@ -6,6 +6,4 @@ content_root = "src"
 default_alias = "LuauPolyfill"
 
 [dev_dependencies]
-# TODO: Flip over to the jest-roblox repo whenever a release is ready, or if
-# there's a particular git branch we'd like to use
-TestEZ = "github.com/roblox/testez@0.4.1"
+JestRoblox = "github.com/roblox/jest-roblox@0.6.0"

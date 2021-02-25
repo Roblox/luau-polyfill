@@ -1,19 +1,24 @@
--- FIXME: roblox-cli has special, hard-coded types for TestEZ that break when we
--- use custom matchers added via `expect.extend`
---!nocheck
-
 -- Tests adapted directly from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 return function()
-	local map = require(script.Parent.Parent.map)
+	local Array = script.Parent.Parent
+	local LuauPolyfill = Array.Parent
+	local map = require(Array.map)
+
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	it("Invalid argument", function()
-		expect(function()
-			map(nil, function() end)
-		end).to.throw()
-		expect(function()
-			map({0, 1}, nil)
-		end).to.throw()
+		-- roblox-cli analyze fails because map is called with an
+		-- invalid argument, so it needs to be cast to any
+		local mapAny: any = map
+		jestExpect(function()
+			mapAny(nil, function() end)
+		end).toThrow()
+		jestExpect(function()
+			mapAny({0, 1}, nil)
+		end).toThrow()
 	end)
 
 	it("Mapping an array of numbers to an array of square roots", function()
@@ -21,8 +26,8 @@ return function()
 		local roots = map(numbers, function(num)
 			return math.sqrt(num)
 		end)
-		expect(numbers).toEqual({1, 4, 9})
-		expect(roots).toEqual({1, 2, 3})
+		jestExpect(numbers).toEqual({1, 4, 9})
+		jestExpect(roots).toEqual({1, 2, 3})
 	end)
 
 	it("Using map to reformat objects in an array", function()
@@ -37,7 +42,7 @@ return function()
 			return rObj
 		end)
 		-- // reformattedArray is now [{1: 10}, {2: 20}, {3: 30}]
-		expect(reformattedArray).toEqual({
+		jestExpect(reformattedArray).toEqual({
 			{[1] = 10},
 			{[2] = 20},
 			{[3] = 30},
@@ -49,6 +54,6 @@ return function()
 		local doubles = map(numbers, function(num)
 			return num * 2
 		end)
-		expect(doubles).toEqual({2, 8, 18})
+		jestExpect(doubles).toEqual({2, 8, 18})
 	end)
 end

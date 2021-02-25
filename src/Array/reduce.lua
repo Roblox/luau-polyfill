@@ -5,7 +5,7 @@ type Function = (any, any, any, any) -> any;
 
 -- Implements Javascript's `Array.prototype.reduce` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
-return function(t: Array, callback: Function, initialValue: any): any
+return function(t: Array, callback: Function, initialValue: any?): any
 	if typeof(t) ~= "table" then
 		error(string.format("Array.reduce called on %s", typeof(t)))
 	end

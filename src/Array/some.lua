@@ -5,7 +5,7 @@ type Function = (any, any?, any?, any?) -> any;
 
 -- Implements Javascript's `Array.prototype.map` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some
-return function(t: Array, fun: Function, thisArg: any)
+return function(t: Array, fun: Function, thisArg: any?)
 	if typeof(t) ~= "table" then
 		error(string.format("Array.some called on %s", typeof(t)))
 	end

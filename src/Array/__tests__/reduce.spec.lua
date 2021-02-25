@@ -1,33 +1,39 @@
--- FIXME: roblox-cli has special, hard-coded types for TestEZ that break when we
--- use custom matchers added via `expect.extend`
---!nocheck
-
 -- Tests adapted directly from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
 return function()
-	local reduce = require(script.Parent.Parent.reduce)
+	local Array = script.Parent.Parent
+	local LuauPolyfill = Array.Parent
+	local reduce = require(Array.reduce)
+
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
+
 	it("Invalid argument", function()
-		expect(function()
-			reduce(nil, function() end)
-		end).to.throw()
-		expect(function()
-			reduce({0, 1}, nil)
-		end).to.throw()
+		-- roblox-cli analyze fails because map is called with an
+		-- invalid argument, so it needs to be cast to any
+		local reduceAny: any = reduce
+		jestExpect(function()
+			reduceAny(nil, function() end)
+		end).toThrow()
+		jestExpect(function()
+			reduceAny({0, 1}, nil)
+		end).toThrow()
 	end)
 
 	it("Sum all the values of an array", function()
-		expect(
+		jestExpect(
 			reduce(
 				{1, 2, 3, 4},
 				function(accumulator, currentValue)
 					return accumulator + currentValue
 				end
 			)
-		).to.equal(10)
+		).toEqual(10)
 	end)
 
 	it("Sum of values in an object array", function()
-		expect(
+		jestExpect(
 			reduce(
 				{ { x = 1 }, { x = 2 }, { x = 3 } },
 				function(accumulator, currentValue)
@@ -35,7 +41,7 @@ return function()
 				end,
 				0
 			)
-		).to.equal(6)
+		).toEqual(6)
 	end)
 
 	it("Counting instances of values in an object", function()
@@ -52,7 +58,7 @@ return function()
 			end,
 			{}
 		)
-		expect(reduced).toEqual({
+		jestExpect(reduced).toEqual({
 			Alice = 2,
 			Bob = 1,
 			Tiff = 1,
@@ -78,7 +84,7 @@ return function()
 			end,
 			{}
 		)
-		expect(reduced).toEqual({
+		jestExpect(reduced).toEqual({
 			[20] = {
 				{ name = "Max", age = 20 },
 				{ name = "Jane", age = 20 },
