@@ -3,10 +3,10 @@
   "tree": {
     "$className": "Folder",
     "Packages": {
-      "$path": "Packages"
-    },
-    "LuauPolyfill": {
-      "$path": "src"
+      "$path": "Packages",
+	  "LuauPolyfill": {
+		"$path": "src"
+	  }
     }
   }
 }

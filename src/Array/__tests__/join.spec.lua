@@ -1,26 +1,36 @@
 return function()
-	local join = require(script.Parent.Parent.join)
+	local Array = script.Parent.Parent
+	local LuauPolyfill = Array.Parent
+	local join = require(Array.join)
+
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	describe("Join", function()
 		local arr = { "Wind", "Water", "Fire" }
+
 		it("should join strings arrays without specified separator", function()
-			expect(join(arr)).to.equal("Wind,Water,Fire")
+			jestExpect(join(arr)).toEqual("Wind,Water,Fire")
 		end)
+
 		it("should join strings arrays with specified separator", function()
-			expect(join(arr, ", ")).to.equal("Wind, Water, Fire")
-			expect(join(arr, " + ")).to.equal("Wind + Water + Fire")
-			expect(join(arr, "")).to.equal("WindWaterFire")
+			jestExpect(join(arr, ", ")).toEqual("Wind, Water, Fire")
+			jestExpect(join(arr, " + ")).toEqual("Wind + Water + Fire")
+			jestExpect(join(arr, "")).toEqual("WindWaterFire")
 		end)
+
 		it("should join empty array", function()
-			expect(join({})).to.equal("")
-			expect(join({}, ", ")).to.equal("")
-			expect(join({}, " + ")).to.equal("")
-			expect(join({}, "")).to.equal("")
+			jestExpect(join({})).toEqual("")
+			jestExpect(join({}, ", ")).toEqual("")
+			jestExpect(join({}, " + ")).toEqual("")
+			jestExpect(join({}, "")).toEqual("")
 		end)
+
 		it("should not add separator for array with single element", function()
-			expect(join({"foo"}, ", ")).to.equal("foo")
-			expect(join({"foo"}, " + ")).to.equal("foo")
-			expect(join({"foo"}, "")).to.equal("foo")
+			jestExpect(join({"foo"}, ", ")).toEqual("foo")
+			jestExpect(join({"foo"}, " + ")).toEqual("foo")
+			jestExpect(join({"foo"}, "")).toEqual("foo")
 		end)
 	end)
 end

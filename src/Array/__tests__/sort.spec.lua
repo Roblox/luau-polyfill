@@ -3,53 +3,54 @@
 
 return function()
 	local Array = script.Parent.Parent
+	local LuauPolyfill = Array.Parent
 	local sort = require(Array.sort)
 
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
+
 	it("sorts string by default", function()
-		local expect: any = expect
 		local months = { "March", "Jan", "Feb", "Dec" }
 		sort(months)
-		expect(months).toEqual({ "Dec", "Feb", "Jan", "March" })
+		jestExpect(months).toEqual({ "Dec", "Feb", "Jan", "March" })
 	end)
 
 	it("returns the same array", function()
 		local array = {}
-		expect(sort(array)).to.equal(array)
+		jestExpect(sort(array)).toBe(array)
 	end)
 
 	it("compares non-string values as strings", function()
-		local expect: any = expect
 		local numbers = { 4, 5, 10, 88 }
 		sort(numbers)
-		expect(numbers).toEqual({ 10, 4, 5, 88 })
+		jestExpect(numbers).toEqual({ 10, 4, 5, 88 })
 	end)
 
 	describe("with comparator", function()
 		it("throws if comparator is not a function", function()
-			expect(function()
+			jestExpect(function()
 				sort({}, "foo")
-			end).to.throw("invalid argument to Array.sort: compareFunction must be a function")
+			end).toThrow("invalid argument to Array.sort: compareFunction must be a function")
 		end)
 
 		it("throws when the compare function does not return a number", function()
-			expect(function()
+			jestExpect(function()
 				sort({ 2, 1 }, function()
 					return "foo"
 				end)
-			end).to.throw("invalid result from compare function, expected number but got string")
+			end).toThrow("invalid result from compare function, expected number but got string")
 		end)
 
 		it("sorts a list of numbers", function()
-			local expect: any = expect
 			local numbers = { 4, 2, 5, 1, 3 }
 			sort(numbers, function(a, b)
 				return a - b
 			end)
-			expect(numbers).toEqual({ 1, 2, 3, 4, 5 })
+			jestExpect(numbers).toEqual({ 1, 2, 3, 4, 5 })
 		end)
 
 		it("sorts a list of objects", function()
-			local expect: any = expect
 			-- deviation: table.sort is not stable, so
 			-- equal items does not stay in the same order.
 			local items = {
@@ -64,7 +65,7 @@ return function()
 			sort(items, function(a, b)
 				return a.value - b.value
 			end)
-			expect(items).toEqual({
+			jestExpect(items).toEqual({
 				{ name = 'The', value = -12 },
 				{ name = 'Magnetic', value = 13 },
 				{ name = 'Edward', value = 21 },
@@ -86,7 +87,7 @@ return function()
 
 				return 0
 			end)
-			expect(items).toEqual({
+			jestExpect(items).toEqual({
 				{ name = 'And', value = 45 },
 				{ name = 'Edward', value = 21 },
 				{ name = 'Magnetic', value = 13 },

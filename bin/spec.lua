@@ -1,13 +1,14 @@
 local ProcessService = game:GetService("ProcessService")
 local Root = script.Parent.LuauPolyfillTestModel
 
--- Load RoactNavigation source into Packages folder so it's next to Roact as expected
-local TestEZ = require(Root.Packages.Dev.TestEZ)
+local Packages = Root.Packages
+-- Load JestRoblox source into Packages folder so it's next to Roact as expected
+local JestRoblox = require(Root.Packages.Dev.JestRoblox)
 
 -- Run all tests, collect results, and report to stdout.
-local result = TestEZ.TestBootstrap:run(
-	{ Root.LuauPolyfill },
-	TestEZ.Reporters.TextReporter
+local result = JestRoblox.TestBootstrap:run(
+	{ Packages.LuauPolyfill },
+	JestRoblox.Reporters.TextReporter
 )
 
 if result.failureCount == 0 then

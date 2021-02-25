@@ -1,53 +1,55 @@
--- FIXME: roblox-cli has special, hard-coded types for TestEZ that break when we
--- use custom matchers added via `expect.extend`
---!nocheck
-
 -- Tests adapted directly from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
 return function()
-	local slice = require(script.Parent.Parent.slice)
+	local Array = script.Parent.Parent
+	local LuauPolyfill = Array.Parent
+	local slice = require(Array.slice)
+
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	it("Invalid argument", function()
-		expect(function()
+		jestExpect(function()
 			slice(nil, 1)
-		end).to.throw()
+		end).toThrow()
 	end)
 
 	it("Return the whole array", function()
 		local animals = {"ant", "bison", "camel", "duck", "elephant"}
 		local array_slice = slice(animals)
-		expect(array_slice).toEqual({"ant", "bison", "camel", "duck", "elephant"})
+		jestExpect(array_slice).toEqual({"ant", "bison", "camel", "duck", "elephant"})
 	end)
 
 	it("Return from index 3 to end", function()
 		local animals = {"ant", "bison", "camel", "duck", "elephant"}
 		local array_slice = slice(animals, 3)
-		expect(array_slice).toEqual({"camel", "duck", "elephant"})
+		jestExpect(array_slice).toEqual({"camel", "duck", "elephant"})
 	end)
 
 	it("Return from index 3 to 5", function()
 		local animals = {"ant", "bison", "camel", "duck", "elephant"}
 		local array_slice = slice(animals, 3, 5)
-		expect(array_slice).toEqual({"camel", "duck"})
+		jestExpect(array_slice).toEqual({"camel", "duck"})
 	end)
 
 	it("Return from index 2 to index 6 (out of bounds)", function()
 		local animals = {"ant", "bison", "camel", "duck", "elephant"}
 		local array_slice = slice(animals, 2, 6)
-		expect(array_slice).toEqual({"bison", "camel", "duck", "elephant"})
+		jestExpect(array_slice).toEqual({"bison", "camel", "duck", "elephant"})
 	end)
 
 	describe("Negative indices", function()
 		it("Return from index 0 to end", function()
 			local animals = {"ant", "bison", "camel", "duck", "elephant"}
 			local array_slice = slice(animals, 0)
-			expect(array_slice).toEqual({"elephant"})
+			jestExpect(array_slice).toEqual({"elephant"})
 		end)
 
 		it("Return from index -1 to 0", function()
 			local animals = {"ant", "bison", "camel", "duck", "elephant"}
 			local array_slice = slice(animals, -1, 0)
-			expect(array_slice).toEqual({"duck"})
+			jestExpect(array_slice).toEqual({"duck"})
 		end)
 	end)
 
@@ -55,13 +57,13 @@ return function()
 		it("Start index out of bounds", function()
 			local animals = {"ant", "bison", "camel", "duck", "elephant"}
 			local array_slice = slice(animals, 10)
-			expect(array_slice).toEqual({})
+			jestExpect(array_slice).toEqual({})
 		end)
 
 		it("Start index after end index", function()
 			local animals = {"ant", "bison", "camel", "duck", "elephant"}
 			local array_slice = slice(animals, 2, 1)
-			expect(array_slice).toEqual({})
+			jestExpect(array_slice).toEqual({})
 		end)
 	end)
 end

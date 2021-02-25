@@ -3,37 +3,42 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
 return function()
 	local Array = script.Parent.Parent
+	local LuauPolyfill = Array.Parent
 	local from = require(Array.from)
 
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
+
 	it("creates a array of characters given a string", function()
-		expect(from("bar")).toEqual({"b", "a", "r"})
+		jestExpect(from("bar")).toEqual({"b", "a", "r"})
 	end)
 
 	it("creates an array from another array", function()
-		expect(from({"foo", "bar"})).toEqual({"foo", "bar"})
+		jestExpect(from({"foo", "bar"})).toEqual({"foo", "bar"})
 	end)
 
 	it("returns an empty array given a number", function()
-		expect(from(10)).toEqual({})
+		jestExpect(from(10)).toEqual({})
 	end)
 
 	it("returns an empty array given an empty table", function()
-		expect(from({})).toEqual({})
+		jestExpect(from({})).toEqual({})
 	end)
 
 	it("returns an empty array given a map-like table", function()
-		expect(from({foo = "bar"})).toEqual({})
+		jestExpect(from({foo = "bar"})).toEqual({})
 	end)
 
 	it("throws when given nil", function()
 		expect(function()
 			from(nil)
-		end).to.throw("cannot create array from a nil value")
+		end).toThrow("cannot create array from a nil value")
 	end)
 
 	describe("with mapping function", function()
 		it("maps each character", function()
-			expect(
+			jestExpect(
 				from("bar", function(character, index)
 					return character .. index
 				end)
@@ -41,7 +46,7 @@ return function()
 		end)
 
 		it("maps each element of the array", function()
-			expect(
+			jestExpect(
 				from({10, 20}, function(element, index)
 					return element + index
 				end)
