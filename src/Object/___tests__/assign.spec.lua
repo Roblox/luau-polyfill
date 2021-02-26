@@ -1,14 +1,20 @@
 --!nocheck
 return function()
-	local None = require(script.Parent.Parent.None)
+	local Object = script.Parent.Parent
+	local None = require(Object.None)
 
-	local assign = require(script.Parent.Parent.assign)
+	local assign = require(Object.assign)
+
+	local LuauPolyfill = Object.Parent
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	it("should accept zero additional tables", function()
 		local input = {}
 		local result = assign(input)
 
-		expect(input).to.equal(result)
+		jestExpect(input).toEqual(result)
 	end)
 
 	it("should merge multiple tables onto the given target table", function()
@@ -28,9 +34,9 @@ return function()
 
 		assign(target, source1, source2)
 
-		expect(target.a).to.equal(5)
-		expect(target.b).to.equal(source2.b)
-		expect(target.c).to.equal(source1.c)
+		jestExpect(target.a).toEqual(5)
+		jestExpect(target.b).toEqual(source2.b)
+		jestExpect(target.c).toEqual(source1.c)
 	end)
 
 	it("should remove keys if specified as None", function()
@@ -45,8 +51,8 @@ return function()
 
 		assign(target, source)
 
-		expect(target.foo).to.equal(nil)
-		expect(target.bar).to.equal(3)
+		jestExpect(target.foo).toEqual(nil)
+		jestExpect(target.bar).toEqual(3)
 	end)
 
 	it("should re-add keys if specified after None", function()
@@ -64,7 +70,7 @@ return function()
 
 		assign(target, source1, source2)
 
-		expect(target.foo).to.equal(source2.foo)
+		jestExpect(target.foo).toEqual(source2.foo)
 	end)
 
 	it("should ignore non-table arguments", function()
@@ -79,7 +85,7 @@ return function()
 
 		assign(target, nil, true, 1, source1)
 
-		expect(target.foo).to.equal(2)
-		expect(target.bar).to.equal(1)
+		jestExpect(target.foo).toEqual(2)
+		jestExpect(target.bar).toEqual(1)
 	end)
 end

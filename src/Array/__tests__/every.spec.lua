@@ -1,7 +1,4 @@
--- FIXME: roblox-cli has special, hard-coded types for TestEZ that break when we
--- use custom matchers added via `expect.extend`
 --!nocheck
-
 -- Tests adapted directly from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every
 return function()

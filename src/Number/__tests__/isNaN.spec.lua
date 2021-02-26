@@ -1,35 +1,41 @@
 return function()
-	local isNaN = require(script.Parent.Parent.isNaN)
+	local Number = script.Parent.Parent
+	local isNaN = require(Number.isNaN)
+
+	local LuauPolyfill = Number.Parent
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	it("returns true when given 0/0", function()
-		expect(isNaN(0/0)).to.equal(true)
+		jestExpect(isNaN(0/0)).toEqual(true)
 	end)
 
 	it("returns false when given \"nan\"", function()
-		expect(isNaN("nan")).to.equal(false)
+		jestExpect(isNaN("nan")).toEqual(false)
 	end)
 
 	it("returns false when given nil", function()
-		expect(isNaN(nil)).to.equal(false)
+		jestExpect(isNaN(nil)).toEqual(false)
 	end)
 
 	it("returns false when given {}", function()
-		expect(isNaN({})).to.equal(false)
+		jestExpect(isNaN({})).toEqual(false)
 	end)
 
 	it("returns false when given \"blabla\"", function()
-		expect(isNaN("blabla")).to.equal(false)
+		jestExpect(isNaN("blabla")).toEqual(false)
 	end)
 
 	it("returns false when given true", function()
-		expect(isNaN(true)).to.equal(false)
+		jestExpect(isNaN(true)).toEqual(false)
 	end)
 
 	it("returns false when given 37", function()
-		expect(isNaN(37)).to.equal(false)
+		jestExpect(isNaN(37)).toEqual(false)
 	end)
 
 	it("returns false when given an empty string", function()
-		expect(isNaN("")).to.equal(false)
+		jestExpect(isNaN("")).toEqual(false)
 	end)
 end

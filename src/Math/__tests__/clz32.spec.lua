@@ -1,11 +1,17 @@
 return function()
-	local clz32 = require(script.Parent.Parent.clz32)
+	local Math = script.Parent.Parent
+	local clz32 = require(Math.clz32)
+
+	local LuauPolyfill = Math.Parent
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	it("gives the number of leading zero of powers of 2", function()
 		for i = 1, 32 do
 			local value = 2^(i - 1)
 			local expected = 32 - i
-			expect(clz32(value)).to.equal(expected)
+			jestExpect(clz32(value)).toEqual(expected)
 		end
 	end)
 
@@ -15,7 +21,7 @@ return function()
 			local powerValue = 2^power
 			local value = powerValue + math.random(1, powerValue - 1)
 
-			expect(clz32(value)).to.equal(31 - power)
+			jestExpect(clz32(value)).toEqual(31 - power)
 		end
 	end)
 end

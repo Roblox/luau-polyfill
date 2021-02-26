@@ -1,6 +1,11 @@
 --!nocheck
 return function()
-	local instanceof = require(script.Parent.Parent).instanceof
+	local LuauPolyfillModule = script.Parent.Parent
+	local instanceof = require(LuauPolyfillModule).instanceof
+
+	local Packages = LuauPolyfillModule.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	-- https://roblox.github.io/lua-style-guide/#prototype-based-classes
 	it("tests the example from the Lua style guide", function()
@@ -19,12 +24,12 @@ return function()
 
 		local myClassObj = MyClass.new()
 
-		expect(instanceof(myClassObj, MyClass)).to.equal(true)
+		jestExpect(instanceof(myClassObj, MyClass)).toEqual(true)
 
 		local MyClass2 = {}
 		MyClass2.__index = MyClass2
 
-		expect(instanceof(myClassObj, MyClass2)).to.equal(false)
+		jestExpect(instanceof(myClassObj, MyClass2)).toEqual(false)
 	end)
 
 	it("tests inheritance from a grandparent class", function()
@@ -47,7 +52,7 @@ return function()
 
 		local foo2Object = Foo2.new()
 
-		expect(instanceof(foo2Object, Foo)).to.equal(true)
+		jestExpect(instanceof(foo2Object, Foo)).toEqual(true)
 	end)
 
 	it("tests inheritance of a __call metatable class", function()
@@ -92,10 +97,10 @@ return function()
 		local subClassObj = SubClass()
 
 		-- expect call as a sanity check that we actually inherit classField
-		expect(subClassObj.classField).to.equal(10)
+		jestExpect(subClassObj.classField).toEqual(10)
 
-		expect(instanceof(subClassObj, SubClass)).to.equal(true)
-		expect(instanceof(subClassObj, Class)).to.equal(true)
+		jestExpect(instanceof(subClassObj, SubClass)).toEqual(true)
+		jestExpect(instanceof(subClassObj, Class)).toEqual(true)
 	end)
 
 	it("does not consider metatable relationships without __index to be inheritance", function()
@@ -110,7 +115,7 @@ return function()
 
 		local pseudoClassObj = PseudoClass.new()
 
-		expect(instanceof(pseudoClassObj, PseudoClass)).to.equal(false)
+		jestExpect(instanceof(pseudoClassObj, PseudoClass)).toEqual(false)
 	end)
 
 	it("returns false when checking instanceof primitive argument", function()
@@ -119,9 +124,9 @@ return function()
 		function Class.new()
 		end
 
-		expect(instanceof(nil, Class)).to.equal(false)
+		jestExpect(instanceof(nil, Class)).toEqual(false)
 
-		expect(instanceof(function() end, Class)).to.equal(false)
+		jestExpect(instanceof(function() end, Class)).toEqual(false)
 	end)
 
 	it("keeps track of seen metatables to prevent infinite loops", function()

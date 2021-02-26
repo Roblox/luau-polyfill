@@ -1,6 +1,11 @@
---!nocheck
 return function()
-	local preventExtensions = require(script.Parent.Parent.preventExtensions)
+	local Object = script.Parent.Parent
+	local preventExtensions = require(Object.preventExtensions)
+
+	local LuauPolyfill = Object.Parent
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	it("should return the same table", function()
 		local base = {
@@ -8,7 +13,7 @@ return function()
 		}
 		local modified = preventExtensions(base)
 
-		expect(modified).to.equal(base)
+		jestExpect(modified).toEqual(base)
 	end)
 
 	it("should allow access to any keys that were defined before it's called", function()
@@ -16,7 +21,7 @@ return function()
 			a = 1,
 		})
 
-		expect(t.a).to.equal(1)
+		jestExpect(t.a).toEqual(1)
 	end)
 
 	it("should allow mutation of existing values", function()
@@ -25,7 +30,7 @@ return function()
 		})
 
 		t.a = 2
-		expect(t.a).to.equal(2)
+		jestExpect(t.a).toEqual(2)
 	end)
 
 	it("should preserve iteration functionality", function()
@@ -39,7 +44,7 @@ return function()
 			tPairsCopy[k] = v
 		end
 
-		expect(tPairsCopy).toEqual(t)
+		jestExpect(tPairsCopy).toEqual(t)
 
 		local a = preventExtensions({ "hello", "world" })
 
@@ -48,7 +53,7 @@ return function()
 			aIpairsCopy[i] = v
 		end
 
-		expect(aIpairsCopy).toEqual(a)
+		jestExpect(aIpairsCopy).toEqual(a)
 	end)
 
 	it("should error when setting a nonexistent key", function()
@@ -57,8 +62,8 @@ return function()
 			b = 2,
 		})
 
-		expect(function()
+		jestExpect(function()
 			t.c = 3
-		end).to.throw()
+		end).toThrow()
 	end)
 end

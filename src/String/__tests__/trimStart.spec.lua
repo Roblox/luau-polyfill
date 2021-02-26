@@ -1,27 +1,33 @@
 return function()
-	local trimStart = require(script.Parent.Parent.trimStart)
+	local String = script.Parent.Parent
+	local trimStart = require(String.trimStart)
+
+	local LuauPolyfill = String.Parent
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	it("removes spaces at beginning", function()
-		expect(trimStart("  abc")).to.equal("abc")
+		jestExpect(trimStart("  abc")).toEqual("abc")
 	end)
 
 	it("does not remove spaces at end", function()
-		expect(trimStart("abc   ")).to.equal("abc   ")
+		jestExpect(trimStart("abc   ")).toEqual("abc   ")
 	end)
 
 	it("removes spaces at only at beginning", function()
-		expect(trimStart("  abc   ")).to.equal("abc   ")
+		jestExpect(trimStart("  abc   ")).toEqual("abc   ")
 	end)
 
 	it("does not remove spaces in the middle", function()
-		expect(trimStart("a b c")).to.equal("a b c")
+		jestExpect(trimStart("a b c")).toEqual("a b c")
 	end)
 
 	it("removes all types of spaces", function()
-		expect(trimStart("\r\n\t\f\vabc")).to.equal("abc")
+		jestExpect(trimStart("\r\n\t\f\vabc")).toEqual("abc")
 	end)
 
 	it("returns an empty string if there are only spaces", function()
-		expect(trimStart("    ")).to.equal("")
+		jestExpect(trimStart("    ")).toEqual("")
 	end)
 end

@@ -1,11 +1,17 @@
 return function()
-	local Number = require(script.Parent)
+	local NumberModule = script.Parent
+	local Number = require(NumberModule)
+
+	local LuauPolyfill = NumberModule.Parent
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	it("has MAX_SAFE_INTEGER constant", function()
-		expect(Number.MAX_SAFE_INTEGER).to.be.a("number")
+		jestExpect(Number.MAX_SAFE_INTEGER).toEqual(jestExpect.any("number"))
 	end)
 
 	it("has MIN_SAFE_INTEGER constant", function()
-		expect(Number.MIN_SAFE_INTEGER).to.be.a("number")
+		jestExpect(Number.MIN_SAFE_INTEGER).toEqual(jestExpect.any("number"))
 	end)
 end

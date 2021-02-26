@@ -1,10 +1,14 @@
 --!nocheck
 return function()
-	local Workspace = require(script.Parent.Parent)
-	local extends = Workspace.extends
-	local instanceof = Workspace.instanceof
+	local LuauPolyfillModule = script.Parent.Parent
+	local LuauPolyfill = require(LuauPolyfillModule)
+	local extends = LuauPolyfill.extends
+	local instanceof = LuauPolyfill.instanceof
+	local Error = LuauPolyfill.Error
 
-	local Error = Workspace.Error
+	local Packages = LuauPolyfillModule.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	-- https://roblox.github.io/lua-style-guide/#prototype-based-classes
 	it("extends the example from the Lua style guide", function()
@@ -26,9 +30,9 @@ return function()
 		end)
 
 		local inst = MySubClass.new("meow")
-		expect(inst.phrase).to.equal("meow")
-		expect(instanceof(inst), MySubClass)
-		expect(instanceof(inst), MyClass)
+		jestExpect(inst.phrase).toEqual("meow")
+		jestExpect(instanceof(inst, MySubClass)).toEqual(true)
+		jestExpect(instanceof(inst, MyClass)).toEqual(true)
 	end)
 
 	-- More generally, this test checks inheritance for a class with a __call method defined
@@ -39,10 +43,10 @@ return function()
 		end)
 
 		local inst = SubError("test2")
-		expect(inst.message).to.equal("test2")
-		expect(inst.name).to.equal("SubError")
-		expect(instanceof(inst, SubError))
-		expect(instanceof(inst, Error))
+		jestExpect(inst.message).toEqual("test2")
+		jestExpect(inst.name).toEqual("SubError")
+		jestExpect(instanceof(inst, SubError))
+		jestExpect(instanceof(inst, Error))
 	end)
 
 	it("tests multiple extensions of error and their tostring methods", function()
@@ -50,9 +54,9 @@ return function()
 		end)
 
 		local inst = SubError()
-		expect(tostring(SubError)).to.equal("SubError")
+		jestExpect(tostring(SubError)).toEqual("SubError")
 		-- since there is no message or name, it defaults to just Error
-		expect(tostring(inst)).to.equal("Error")
+		jestExpect(tostring(inst)).toEqual("Error")
 
 		local SubSubError = extends(SubError, "SubSubError", function(self, message)
 			self.message = message
@@ -60,9 +64,9 @@ return function()
 		end)
 
 		inst = SubSubError()
-		expect(tostring(inst)).to.equal("SubSubError")
+		jestExpect(tostring(inst)).toEqual("SubSubError")
 
 		inst = SubSubError("msg")
-		expect(tostring(inst)).to.equal("SubSubError: msg")
+		jestExpect(tostring(inst)).toEqual("SubSubError: msg")
 	end)
 end

@@ -1,4 +1,3 @@
---!nocheck
 -- tests based on the examples provided on MDN web docs:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
 return function()
@@ -31,7 +30,7 @@ return function()
 	end)
 
 	it("throws when given nil", function()
-		expect(function()
+		jestExpect(function()
 			from(nil)
 		end).toThrow("cannot create array from a nil value")
 	end)
