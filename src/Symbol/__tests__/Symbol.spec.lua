@@ -6,33 +6,39 @@ return function()
 		and from interpretation of this spec:
 		https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
 	]]
-	local Symbol = require(script.Parent.Parent)
-	local GlobalRegistry = require(script.Parent.Parent.GlobalRegistry)
+	local SymbolModule = script.Parent.Parent
+	local Symbol = require(SymbolModule)
+	local GlobalRegistry = require(SymbolModule.GlobalRegistry)
+
+	local LuauPolyfill = SymbolModule.Parent
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	describe("New symbols", function()
 		it("should give an opaque object", function()
 			local symbol = Symbol("foo")
 
-			expect(symbol).to.be.a("userdata")
+			jestExpect(typeof(symbol)).toEqual("userdata")
 		end)
 
 		it("should coerce to a default name if none is given", function()
 			local symbol = Symbol()
 
-			expect(tostring(symbol)).to.equal("Symbol()")
+			jestExpect(tostring(symbol)).toEqual("Symbol()")
 		end)
 
 		it("should coerce to the given name", function()
 			local symbol = Symbol("foo")
 
-			expect(tostring(symbol)).to.equal("Symbol(foo)")
+			jestExpect(tostring(symbol)).toEqual("Symbol(foo)")
 		end)
 
 		it("should be unique when constructed", function()
 			local symbolA = Symbol("abc")
 			local symbolB = Symbol("abc")
 
-			expect(symbolA).never.to.equal(symbolB)
+			jestExpect(symbolA).never.toEqual(symbolB)
 		end)
 	end)
 
@@ -45,17 +51,17 @@ return function()
 			local fooSymbol = Symbol.for_("foo")
 			local barSymbol = Symbol.for_("bar")
 
-			expect(typeof(fooSymbol)).to.equal(typeof(Symbol()))
-			expect(tostring(fooSymbol)).to.equal("Symbol(foo)")
-			expect(typeof(barSymbol)).to.equal(typeof(Symbol()))
-			expect(tostring(barSymbol)).to.equal("Symbol(bar)")
+			jestExpect(typeof(fooSymbol)).toEqual(typeof(Symbol()))
+			jestExpect(tostring(fooSymbol)).toEqual("Symbol(foo)")
+			jestExpect(typeof(barSymbol)).toEqual(typeof(Symbol()))
+			jestExpect(tostring(barSymbol)).toEqual("Symbol(bar)")
 		end)
 
 		it("should return the same symbol object for the same string", function()
 			local fooSymbol1 = Symbol.for_("foo")
 			local fooSymbol2 = Symbol.for_("foo")
 
-			expect(fooSymbol1).to.equal(fooSymbol2)
+			jestExpect(fooSymbol1).toEqual(fooSymbol2)
 		end)
 	end)
 end

@@ -1,9 +1,15 @@
 --!nonstrict
 return function()
-	local Error = require(script.Parent.Parent)
-	local RegExp = require(script.Parent.Parent.Parent).RegExp
-	local extends = require(script.Parent.Parent.Parent).extends
-	local instanceof = require(script.Parent.Parent.Parent).instanceof
+	local ErrorModule = script.Parent.Parent
+	local Error = require(ErrorModule)
+	local LuauPolyfill = ErrorModule.Parent
+	local RegExp = require(LuauPolyfill).RegExp
+	local extends = require(LuauPolyfill).extends
+	local instanceof = require(LuauPolyfill).instanceof
+
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	local MyError = extends(Error, "MyError", function(self, message)
 		self.message = message
@@ -18,13 +24,13 @@ return function()
 	it("accepts a message value as an argument", function()
 		local err = Error("Some message")
 
-		expect(err.message).to.equal("Some message")
+		jestExpect(err.message).toEqual("Some message")
 	end)
 
 	it("defaults the `name` field to 'Error'", function()
 		local err = Error("")
 
-		expect(err.name).to.equal("Error")
+		jestExpect(err.name).toEqual("Error")
 	end)
 
 	it("gets passed through the `error` builtin properly", function()
@@ -33,44 +39,44 @@ return function()
 			error(err)
 		end)
 
-		expect(ok).to.equal(false)
-		expect(result).to.equal(err)
+		jestExpect(ok).toEqual(false)
+		jestExpect(result).toEqual(err)
 	end)
 
 	it("checks that Error is a class according to our inheritance standard", function()
 		local err = Error("Test")
-		expect(instanceof(err, Error)).to.equal(true)
+		jestExpect(instanceof(err, Error)).toEqual(true)
 	end)
 
 	it("checks the inheritance of Error", function()
 		local inst = MyError("my error message")
 
-		expect(inst.message).to.equal("my error message")
-		expect(inst.name).to.equal("MyError")
+		jestExpect(inst.message).toEqual("my error message")
+		jestExpect(inst.name).toEqual("MyError")
 
 		-- inheritance checks
-		expect(instanceof(inst, MyError)).to.equal(true)
-		expect(instanceof(inst, Error)).to.equal(true)
+		jestExpect(instanceof(inst, MyError)).toEqual(true)
+		jestExpect(instanceof(inst, Error)).toEqual(true)
 	end)
 
 	it("checks the inheritance of a sub error", function()
 		local inst = YourError("your error message")
 
-		expect(inst.message).to.equal("your error message")
-		expect(inst.name).to.equal("YourError")
+		jestExpect(inst.message).toEqual("your error message")
+		jestExpect(inst.name).toEqual("YourError")
 
 		-- inheritance checks
-		expect(instanceof(inst, YourError))
-		expect(instanceof(inst, MyError)).to.equal(true)
-		expect(instanceof(inst, Error)).to.equal(true)
+		jestExpect(instanceof(inst, YourError))
+		jestExpect(instanceof(inst, MyError)).toEqual(true)
+		jestExpect(instanceof(inst, Error)).toEqual(true)
 	end)
 
 	it("evaluates both toString methods", function()
-		expect(tostring(MyError)).to.equal("MyError")
-		expect(tostring(MyError("my test"))).to.equal("MyError: my test")
+		jestExpect(tostring(MyError)).toEqual("MyError")
+		jestExpect(tostring(MyError("my test"))).toEqual("MyError: my test")
 
-		expect(tostring(YourError)).to.equal("YourError")
-		expect(tostring(YourError("your test"))).to.equal("YourError: your test")
+		jestExpect(tostring(YourError)).toEqual("YourError")
+		jestExpect(tostring(YourError("your test"))).toEqual("YourError: your test")
 	end)
 
 	it("checks Error stack field", function()
@@ -79,7 +85,7 @@ return function()
 
 		local topLineRegExp = RegExp("^.*Error.__tests__\\.Error\\.spec:\\d+")
 
-		expect(topLineRegExp:test(err.stack)).to.equal(true)
-		expect(topLineRegExp:test(err2.stack)).to.equal(true)
+		jestExpect(topLineRegExp:test(err.stack)).toEqual(true)
+		jestExpect(topLineRegExp:test(err2.stack)).toEqual(true)
 	end)
 end

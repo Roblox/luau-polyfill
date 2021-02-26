@@ -1,7 +1,13 @@
 --!nonstrict
 return function()
-	local makeTimerImpl = require(script.Parent.Parent.makeTimerImpl)
-	local createSpy = require(script.Parent.Parent.Parent.createSpy)
+	local Timers = script.Parent.Parent
+	local makeTimerImpl = require(Timers.makeTimerImpl)
+	local LuauPolyfill = Timers.Parent
+	local createSpy = require(Timers.Parent.createSpy)
+
+	local Packages = LuauPolyfill.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
 
 	local Timeout
 	local mockTime, timeouts
@@ -36,19 +42,19 @@ return function()
 			local callbackSpy = createSpy()
 			Timeout.setTimeout(callbackSpy.value, 50)
 
-			expect(callbackSpy.callCount).to.equal(0)
+			jestExpect(callbackSpy.callCount).toEqual(0)
 		end)
 
 		it("should run callbacks after timers have been advanced sufficiently", function()
 			local callbackSpy = createSpy()
 			Timeout.setTimeout(callbackSpy.value, 100)
 
-			expect(callbackSpy.callCount).to.equal(0)
+			jestExpect(callbackSpy.callCount).toEqual(0)
 
 			advanceTime(50)
-			expect(callbackSpy.callCount).to.equal(0)
+			jestExpect(callbackSpy.callCount).toEqual(0)
 			advanceTime(50)
-			expect(callbackSpy.callCount).to.equal(1)
+			jestExpect(callbackSpy.callCount).toEqual(1)
 		end)
 	end)
 
@@ -57,15 +63,15 @@ return function()
 			local callbackSpy = createSpy()
 			Timeout.setTimeout(callbackSpy.value, 100)
 
-			expect(callbackSpy.callCount).to.equal(0)
+			jestExpect(callbackSpy.callCount).toEqual(0)
 
 			advanceTime(100)
-			expect(callbackSpy.callCount).to.equal(1)
+			jestExpect(callbackSpy.callCount).toEqual(1)
 
 			advanceTime(100)
-			expect(callbackSpy.callCount).to.equal(1)
+			jestExpect(callbackSpy.callCount).toEqual(1)
 			advanceTime(1)
-			expect(callbackSpy.callCount).to.equal(1)
+			jestExpect(callbackSpy.callCount).toEqual(1)
 		end)
 
 		it("should be called with the given args", function()
@@ -73,7 +79,7 @@ return function()
 			Timeout.setTimeout(callbackSpy.value, 100, "hello", "world")
 
 			advanceTime(100)
-			expect(callbackSpy.callCount).to.equal(1)
+			jestExpect(callbackSpy.callCount).toEqual(1)
 			callbackSpy:assertCalledWith("hello", "world")
 		end)
 
@@ -81,11 +87,11 @@ return function()
 			local callbackSpy = createSpy()
 			local task = Timeout.setTimeout(callbackSpy.value, 100)
 
-			expect(callbackSpy.callCount).to.equal(0)
+			jestExpect(callbackSpy.callCount).toEqual(0)
 
 			Timeout.clearTimeout(task)
 			advanceTime(100)
-			expect(callbackSpy.callCount).to.equal(0)
+			jestExpect(callbackSpy.callCount).toEqual(0)
 		end)
 	end)
 end
