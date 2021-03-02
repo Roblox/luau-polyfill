@@ -1,5 +1,10 @@
 # LuauPolyfills Changelog
 
+## 0.1.4
+
+### Fixes
+* Remove `--!nonstrict` shebangs
+
 ## 0.1.3
 
 ### Fixes
