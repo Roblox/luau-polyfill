@@ -7,7 +7,7 @@ Set.__index = Set
 export type Set<T> = {
 	size: number,
 	-- method definitions
-	add: (T) -> Set,
+	add: (T) -> Set<T>,
 	clear: () -> (),
 	delete: (T) -> boolean,
 	has: (T) -> boolean,
