@@ -1,4 +1,3 @@
---!nonstrict
 return function()
 	local ErrorModule = script.Parent.Parent
 	local Error = require(ErrorModule)
