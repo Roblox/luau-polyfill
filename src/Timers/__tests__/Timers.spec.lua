@@ -1,4 +1,3 @@
---!nonstrict
 return function()
 	local Timers = script.Parent.Parent
 	local makeTimerImpl = require(Timers.makeTimerImpl)

@@ -1,4 +1,3 @@
---!nonstrict
 -- polyfill for https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof
 return function(tbl, class)
 	if typeof(tbl) ~= "table" then

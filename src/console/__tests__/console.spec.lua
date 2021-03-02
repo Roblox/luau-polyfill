@@ -1,4 +1,3 @@
---!nonstrict
 return function()
 	local consoleModule = script.Parent.Parent
 	local makeConsoleImpl = require(consoleModule.makeConsoleImpl)

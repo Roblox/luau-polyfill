@@ -1,4 +1,3 @@
---!nonstrict
 return function()
 	local Array = script.Parent.Parent
 	local LuauPolyfill = Array.Parent
