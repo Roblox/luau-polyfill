@@ -1,5 +1,12 @@
 # LuauPolyfills Changelog
 
+## 0.1.3
+
+### Fixes
+* Add stacktrace to `Error` object
+* Fix infinite loop case for `instanceOf`
+* Fix `Set` typing error for newest `roblox-cli`
+
 ## 0.1.2
 
 ### Added Polyfills
@@ -9,7 +16,7 @@
 * `Array.join`
 
 ### Fixes
-* `Error:extend()` removed, changd how inheritance is handled
+* `Error:extend()` removed, changed how inheritance is handled
 
 ## 0.1.1
 
