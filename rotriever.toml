@@ -6,4 +6,4 @@ content_root = "src"
 default_alias = "LuauPolyfill"
 
 [dev_dependencies]
-JestRoblox = "github.com/roblox/jest-roblox@0.6.0"
+JestRoblox = "github.com/roblox/jest-roblox@0.7.0"
