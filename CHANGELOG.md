@@ -1,5 +1,11 @@
 # LuauPolyfills Changelog
 
+## Unreleased
+
+### Added Polyfills
+* `String.startsWith`
+* `String.endsWith`
+
 ## 0.1.4
 
 ### Fixes
