@@ -1,4 +1,6 @@
 return {
+	endsWith = require(script.endsWith),
+	startsWith = require(script.startsWith),
 	trim = require(script.trim),
 	trimEnd = require(script.trimEnd),
 	trimStart = require(script.trimStart),
