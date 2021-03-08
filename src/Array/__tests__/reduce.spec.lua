@@ -9,6 +9,39 @@ return function()
 	local JestRoblox = require(Packages.Dev.JestRoblox)
 	local jestExpect = JestRoblox.Globals.expect
 
+	it("calls the reducer function with the indexes", function()
+		jestExpect(
+			reduce(
+				{true , false, {}, "foo"},
+				function(accumulator, _currentValue, index)
+					table.insert(accumulator, index)
+					return accumulator
+				end,
+				{}
+			)
+		).toEqual({1, 2, 3, 4})
+	end)
+
+	it("calls the reducer function with the given array", function()
+		local originalArray = {true}
+		jestExpect(
+			reduce(
+				originalArray,
+				function(_acc, currentValue, _index, array)
+					jestExpect(array).toBe(originalArray)
+					return currentValue
+				end,
+				{}
+			)
+		).toEqual(true)
+	end)
+
+	it("throws if no initial value is provided and the array is empty", function()
+		jestExpect(function()
+			reduce({}, function() end)
+		end).toThrow("reduce of empty array with no initial value")
+	end)
+
 	it("Invalid argument", function()
 		-- roblox-cli analyze fails because map is called with an
 		-- invalid argument, so it needs to be cast to any
