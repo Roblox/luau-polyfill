@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Fixes
+* Fix Array.reduce to use 1-based indexing (instead of starting from 0)
+
 ### Added Polyfills
 * `String.startsWith`
 * `String.endsWith`

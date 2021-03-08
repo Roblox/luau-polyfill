@@ -1,44 +1,41 @@
 --!strict
 
 type Array = { [number]: any };
-type Function = (any, any, any, any) -> any;
+type Function = (any, any, number, any) -> any;
 
 -- Implements Javascript's `Array.prototype.reduce` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
-return function(t: Array, callback: Function, initialValue: any?): any
-	if typeof(t) ~= "table" then
-		error(string.format("Array.reduce called on %s", typeof(t)))
+local function reduce(array: Array, callback: Function, initialValue: any?): any
+	if typeof(array) ~= "table" then
+		error(string.format("Array.reduce called on %s", typeof(array)))
 	end
 	if typeof(callback) ~= "function" then
 		error("callback is not a function")
 	end
 
-	local len = #t
+	local length = #array
 
 	local k = 0
 	local value
+	local initial = 1
 
 	if initialValue ~= nil then
 		value = initialValue
 	else
-		-- lua has undefined behavior on non-sequences
-		-- while k < len and t[k + 1] == nil do
-		-- 	k = k + 1
-		-- end
-
-		-- if k >= len and initialValue == nil then
-		-- 	error("Reduce of empty array with no initial value")
-		-- end
-		value = t[k + 1]
-		k = k + 1
+		initial = 2
+		if length == 0 then
+			error("reduce of empty array with no initial value")
+		end
+		value = array[1]
 	end
 
-	while k < len do
-		if t[k + 1] ~= nil then
-			value = callback(value, t[k + 1], k, t)
+	for i = initial, length do
+		if array[k + 1] ~= nil then
+			value = callback(value, array[i], i, array)
 		end
-		k = k + 1
 	end
 
 	return value
 end
+
+return reduce
