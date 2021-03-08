@@ -11,7 +11,7 @@ local result = JestRoblox.TestBootstrap:run(
 	JestRoblox.Reporters.TextReporter
 )
 
-if result.failureCount == 0 then
+if result.failureCount == 0 and #result.errors == 0 then
 	ProcessService:ExitAsync(0)
 else
 	ProcessService:ExitAsync(1)
