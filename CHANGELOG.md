@@ -8,6 +8,10 @@
 ### Added Polyfills
 * `String.startsWith`
 * `String.endsWith`
+* `util.inspect` from nodejs/luvit.io
+
+### Fixes
+* all `console` methods will now accept non-strings and print them using `util.inspect`
 
 ## 0.1.4
 
