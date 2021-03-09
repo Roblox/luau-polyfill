@@ -1,4 +1,5 @@
 local INDENT = "  "
+local inspect = require(script.Parent.Parent.util).inspect
 
 return function()
 	local console = {}
@@ -8,32 +9,68 @@ return function()
 		return string.rep(INDENT, indentDepth)
 	end
 
-	function console.log(message, ...)
-		print(indent() .. string.format(message, ...))
+	function console.log(content, ...)
+		local message
+		if typeof(content) == "string" then
+			message = string.format(content, ...)
+		else
+			message = inspect(content)
+		end
+		print(indent() .. message)
 	end
 
-	function console.info(message, ...)
-		print(indent() .. string.format(message, ...))
+	function console.info(content, ...)
+		local message
+		if typeof(content) == "string" then
+			message = string.format(content, ...)
+		else
+			message = inspect(content)
+		end
+		print(indent() .. message)
 	end
 
-	function console.warn(message, ...)
-		warn(indent() .. string.format(message, ...))
+	function console.warn(content, ...)
+		local message
+		if typeof(content) == "string" then
+			message = string.format(content, ...)
+		else
+			message = inspect(content)
+		end
+		warn(indent() .. message)
 	end
 
-	function console.error(message, ...)
+	function console.error(content, ...)
 		-- JS' `console.error` doesn't interrupt execution like Lua's `error`,
 		-- which is more similar to throwing an exception in JS.
-		warn(indent() .. string.format(message, ...))
+		local message
+		if typeof(content) == "string" then
+			message = string.format(content, ...)
+		else
+			message = inspect(content)
+		end
+		warn(indent() .. message)
 	end
 
-	function console.group(message, ...)
-		print(indent() .. string.format(message, ...))
+	function console.group(content, ...)
+		local message
+		if typeof(content) == "string" then
+			message = string.format(content, ...)
+		else
+			message = inspect(content)
+		end
+		print(indent() .. message)
 		indentDepth = indentDepth + 1
 	end
 
-	function console.groupCollapsed(message, ...)
+	function console.groupCollapsed(content, ...)
 		-- There's no smart console, so this is equivalent to `console.group`
-		print(indent() .. string.format(message, ...))
+		local message
+		if typeof(content) == "string" then
+			message = string.format(content, ...)
+		else
+			message = inspect(content)
+		end
+		print(indent() .. message)
 		indentDepth = indentDepth + 1
 	end
 

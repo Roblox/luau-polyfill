@@ -20,4 +20,5 @@ return {
 	Symbol = require(script.Symbol),
 	setTimeout = Timers.setTimeout,
 	clearTimeout = Timers.clearTimeout,
+	util = require(script.util),
 }
