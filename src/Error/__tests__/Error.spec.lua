@@ -71,6 +71,9 @@ return function()
 	end)
 
 	it("evaluates both toString methods", function()
+		jestExpect(tostring(Error)).toEqual("Error")
+		jestExpect(tostring(Error("test"))).toEqual("Error: test")
+
 		jestExpect(tostring(MyError)).toEqual("MyError")
 		jestExpect(tostring(MyError("my test"))).toEqual("MyError: my test")
 
@@ -86,5 +89,9 @@ return function()
 
 		jestExpect(topLineRegExp:test(err.stack)).toEqual(true)
 		jestExpect(topLineRegExp:test(err2.stack)).toEqual(true)
+	end)
+
+	it("checks default Error message field", function()
+		jestExpect(Error().message).toEqual("")
 	end)
 end
