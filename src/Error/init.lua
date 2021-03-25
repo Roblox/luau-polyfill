@@ -3,11 +3,14 @@ local Error = {}
 
 local DEFAULT_NAME = "Error"
 Error.__index = Error
+Error.__tostring = function(self)
+ 	return getmetatable(Error).__tostring(self)
+end
 
 function Error.new(message)
 	return setmetatable({
 		name = DEFAULT_NAME,
-		message = message,
+		message = message or "",
 		stack = debug.traceback(nil, 2)
 	}, Error)
 end
