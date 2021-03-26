@@ -1,9 +1,6 @@
 # LuauPolyfills Changelog
 
-## Unreleased
-
-### Fixes
-* Fix Array.reduce to use 1-based indexing (instead of starting from 0)
+## 0.1.5
 
 ### Added Polyfills
 * `String.startsWith`
@@ -11,7 +8,9 @@
 * `util.inspect` from nodejs/luvit.io
 
 ### Fixes
-* all `console` methods will now accept non-strings and print them using `util.inspect`
+* All `console` methods will now accept non-strings and print them using `util.inspect`
+* Fix Array.reduce to use 1-based indexing (instead of starting from 0)
+* `Error` object initializes with an empty string by default
 
 ## 0.1.4
 
