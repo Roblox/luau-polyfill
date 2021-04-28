@@ -1,9 +1,10 @@
 [package]
 name = "roblox/roblox-luau-polyfill"
-version = "0.1.5"
+version = "0.2.0"
 author = "Paul Doyle <pdoyle@roblox.com>"
 content_root = "src"
 default_alias = "LuauPolyfill"
 
 [dev_dependencies]
 JestRoblox = "github.com/roblox/jest-roblox@0.7.1"
+RegExp = "github.com/roblox/luau-regexp@0.1.0"

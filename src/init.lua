@@ -15,7 +15,6 @@ return {
 	Number = require(script.Number),
 	Object = require(script.Object),
 	Set = Set,
-	RegExp = require(script.RegExp),
 	String = require(script.String),
 	Symbol = require(script.Symbol),
 	setTimeout = Timers.setTimeout,

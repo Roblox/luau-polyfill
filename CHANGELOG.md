@@ -1,5 +1,10 @@
 # LuauPolyfills Changelog
 
+# 0.2.0
+
+### Changes
+Removes `LuauPolyfill.RegExp` so that it can be selectively included as a separate dependency via https://github.com/roblox/luau-regexp.
+
 ## 0.1.5
 
 ### Added Polyfills
