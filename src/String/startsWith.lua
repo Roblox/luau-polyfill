@@ -12,7 +12,9 @@ local function startsWith(
 	if position > value:len() then
 		return false
 	end
-	return value:find(substring, position, true) == position
+	-- FIXME: workaround for Luau issue https://jira.rbx.com/browse/CLI-40887
+	local _position: number = position or 1
+	return value:find(substring, _position, true) == _position
 end
 
 return startsWith

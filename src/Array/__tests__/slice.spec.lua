@@ -1,3 +1,5 @@
+--!nocheck
+-- nocheck here since a test here purposefully violates the type check to test argument validation
 -- Tests adapted directly from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
 return function()
@@ -10,6 +12,7 @@ return function()
 	local jestExpect = JestRoblox.Globals.expect
 
 	it("Invalid argument", function()
+		-- Luau analysis correctly warns and prevents this abuse case!
 		jestExpect(function()
 			slice(nil, 1)
 		end).toThrow()
