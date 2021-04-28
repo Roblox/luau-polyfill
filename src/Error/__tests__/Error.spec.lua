@@ -4,11 +4,11 @@ return function()
 	local ErrorModule = script.Parent.Parent
 	local Error = require(ErrorModule)
 	local LuauPolyfill = ErrorModule.Parent
-	local RegExp = require(LuauPolyfill).RegExp
+	local Packages = LuauPolyfill.Parent
+	local RegExp = require(Packages.Dev.RegExp)
 	local extends = require(LuauPolyfill).extends
 	local instanceof = require(LuauPolyfill).instanceof
 
-	local Packages = LuauPolyfill.Parent
 	local JestRoblox = require(Packages.Dev.JestRoblox)
 	local jestExpect = JestRoblox.Globals.expect
 
