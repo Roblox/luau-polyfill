@@ -1,3 +1,5 @@
+--!nocheck
+-- FIXME: Luau detects __call metamethod, but still things said object isn't callable: https://jira.rbx.com/browse/CLI-40294
 return function()
 	local RegExpModule = script.Parent.Parent
 	local RegExp = require(RegExpModule)
