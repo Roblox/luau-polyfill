@@ -4,6 +4,7 @@ return function()
 	local Array = script.Parent.Parent
 	local LuauPolyfill = Array.Parent
 	local from = require(Array.from)
+	local Set = require(LuauPolyfill.Set)
 
 	local Packages = LuauPolyfill.Parent
 	local JestRoblox = require(Packages.Dev.JestRoblox)
@@ -35,6 +36,14 @@ return function()
 		end).toThrow("cannot create array from a nil value")
 	end)
 
+	it("returns an array from a Set", function()
+		jestExpect(from(Set.new({1, 3}))).toEqual({1, 3})
+	end)
+
+	it("returns an empty array from an empty Set", function()
+		jestExpect(from(Set.new())).toEqual({})
+	end)
+
 	describe("with mapping function", function()
 		it("maps each character", function()
 			jestExpect(
@@ -50,6 +59,14 @@ return function()
 					return element + index
 				end)
 			).toEqual({11, 22})
+		end)
+
+		it("maps each element of the array from a Set", function()
+			jestExpect(
+				from(Set.new({1, 3}), function(element, index)
+					return element + index
+				end)
+			).toEqual({2, 5})
 		end)
 	end)
 end

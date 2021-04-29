@@ -1,7 +1,14 @@
 local Array = script.Parent
 local isArray = require(Array.isArray)
+local LuauPolyfill = Array.Parent
+local instanceof = require(LuauPolyfill.instanceof)
+local Set
 
 return function(value, mapFn)
+	if not Set then
+		Set = require(LuauPolyfill.Set :: any)
+	end
+
 	if value == nil then
 		error("cannot create array from a nil value")
 	end
@@ -17,6 +24,16 @@ return function(value, mapFn)
 		else
 			for i = 1, #value do
 				array[i] = value[i]
+			end
+		end
+	elseif instanceof(value, Set) then
+		if mapFn then
+			for i, v in value:ipairs() do
+				array[i] = mapFn(v, i)
+			end
+		else
+			for i, v in value:ipairs() do
+				array[i] = v
 			end
 		end
 	elseif valueType == "string" then

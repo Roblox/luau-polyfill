@@ -133,6 +133,10 @@ return function()
 		local breakingTable = {}
 		breakingTable.__index = breakingTable
 		setmetatable(breakingTable, breakingTable)
-		instanceof(breakingTable, {})
+		jestExpect(instanceof(breakingTable, {})).toEqual(false)
 	end)
+
+	it("errors when checking instanceof nil", function()
+ 		jestExpect(function() instanceof(setmetatable({}, {}), nil) end).toThrow("Received a non-table as the second argument for instanceof")
+ 	end)
 end
