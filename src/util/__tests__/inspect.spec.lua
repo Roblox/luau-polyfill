@@ -1,34 +1,38 @@
 -- upstream: https://github.com/graphql/graphql-js/blob/1951bce42092123e844763b6a8e985a8a3327511/src/jsutils/__tests__/inspect-test.js
 return function()
-	local srcWorkspace = script.Parent.Parent
-	local inspect = require(srcWorkspace.inspect)
+	local srcWorkspace = script.Parent.Parent.Parent
+	local Packages = srcWorkspace.Parent
+	local JestRoblox = require(Packages.Dev.JestRoblox)
+	local jestExpect = JestRoblox.Globals.expect
+	local Promise = require(Packages.Dev.Promise)
+	local inspect = require(srcWorkspace).util.inspect
 
 	describe("inspect", function()
 		-- it("undefined", function()
-		-- 	expect(inspect(nil)).to.equal("undefined")
+		-- 	jestExpect(inspect(nil)).toBe("undefined")
 		-- end)
 
 		it("null", function()
-			expect(inspect(nil)).to.equal("nil")
+			jestExpect(inspect(nil)).toBe("nil")
 		end)
 
 		it("boolean", function()
-			expect(inspect(true)).to.equal("true")
-			expect(inspect(false)).to.equal("false")
+			jestExpect(inspect(true)).toBe("true")
+			jestExpect(inspect(false)).toBe("false")
 		end)
 
 		it("string", function()
-			expect(inspect("")).to.equal('""')
-			expect(inspect("abc")).to.equal('"abc"')
-			expect(inspect('"')).to.equal('"\\""')
+			jestExpect(inspect("")).toBe('""')
+			jestExpect(inspect("abc")).toBe('"abc"')
+			jestExpect(inspect('"')).toBe('"\\""')
 		end)
 
 		it("number", function()
-			expect(inspect(0)).to.equal("0")
-			expect(inspect(3.14)).to.equal("3.14")
-			expect(inspect(0/0)).to.equal("NaN")
-			expect(inspect(math.huge)).to.equal("Infinity")
-			expect(inspect(-math.huge)).to.equal("-Infinity")
+			jestExpect(inspect(0)).toBe("0")
+			jestExpect(inspect(3.14)).toBe("3.14")
+			jestExpect(inspect(0 / 0)).toBe("NaN")
+			jestExpect(inspect(math.huge)).toBe("Infinity")
+			jestExpect(inspect(-math.huge)).toBe("-Infinity")
 		end)
 
 		it("function", function()
@@ -36,54 +40,51 @@ return function()
 				error("set us up the b0mb")
 			end)
 
-			expect(unnamedFuncStr).to.equal("[function]")
+			jestExpect(unnamedFuncStr).toBe("[function]")
 
-			-- deviation: cannot get a function's name in Lua
-			-- local function namedFunc()
-			-- 	invariant(false)
-			-- end
+			local function namedFunc()
+				error(false)
+			end
 
-			-- expect(inspect(namedFunc)).to.equal("[function namedFunc]")
+			jestExpect(inspect(namedFunc)).toBe("[function namedFunc]")
 		end)
 
 		it("array", function()
-			expect(inspect({})).to.equal("[]")
+			jestExpect(inspect({})).toBe("[]")
 			-- deviation: Lua does not handle nil elements
-			expect(inspect({true})).to.equal("[true]")
-			expect(inspect({1, 0/0})).to.equal("[1, NaN]")
-			expect(inspect({{"a", "b"}, "c"})).to.equal('[["a", "b"], "c"]')
+			jestExpect(inspect({ true })).toBe("[true]")
+			jestExpect(inspect({ 1, 0 / 0 })).toBe("[1, NaN]")
+			jestExpect(inspect({ { "a", "b" }, "c" })).toBe('[["a", "b"], "c"]')
 
-			expect(inspect({{{}}})).to.equal("[[[]]]")
-			expect(inspect({{{"a"}}})).to.equal("[[[Array]]]")
-			expect(inspect({0, 1, 2, 3, 4, 5, 6, 7, 8, 9})).to.equal(
-				"[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"
-			)
+			jestExpect(inspect({ { {} } })).toBe("[[[]]]")
+			jestExpect(inspect({ { { "a" } } })).toBe("[[[Array]]]")
+			jestExpect(inspect({ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 })).toBe("[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]")
 
-			expect(inspect({0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10})).to.equal(
+			jestExpect(inspect({ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 })).toBe(
 				"[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ... 1 more item]"
 			)
 
-			expect(inspect({0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,})).to.equal(
+			jestExpect(inspect({ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 })).toBe(
 				"[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ... 2 more items]"
 			)
 		end)
 
 		it("object", function()
-			-- deviation: an empty table is considered an empty array
-			-- expect(inspect({})).to.equal("{}")
-			expect(inspect({ a = 1 })).to.equal("{ a: 1 }")
-			expect(inspect({ a = 1, b = 2 })).to.equal("{ a: 1, b: 2 }")
-			-- deviation: avoid sparse array
-			expect(inspect({ array = {false, 0} })).to.equal("{ array: [false, 0] }")
+			-- ROBLOX deviation: an empty table is considered an empty array
+			-- jestExpect(inspect({})).toBe("{}")
+			jestExpect(inspect({ a = 1 })).toBe("{ a: 1 }")
+			jestExpect(inspect({ a = 1, b = 2 })).toBe("{ a: 1, b: 2 }")
+			-- ROBLOX deviation: avoid sparse array
+			jestExpect(inspect({ array = { false, 0 } })).toBe("{ array: [false, 0] }")
 
-			expect(inspect({ a = { b = {} } })).to.equal("{ a: { b: [] } }")
-			expect(inspect({ a = { b = { c = 1 } } })).to.equal("{ a: { b: [Object] } }")
+			jestExpect(inspect({ a = { b = {} } })).toBe("{ a: { b: [] } }")
+			jestExpect(inspect({ a = { b = { c = 1 } } })).toBe("{ a: { b: [Object] } }")
 
-			-- deviation:
+			-- ROBLOX deviation:
 			-- local map = Object.create(nil)
 			-- map.a = true
 			-- map.b = nil
-			-- expect(inspect(map)).to.equal("{ a: true, b: null }")
+			-- jestExpect(inspect(map)).toBe("{ a: true, b: null }")
 		end)
 
 		it("use toJSON if provided", function()
@@ -93,7 +94,7 @@ return function()
 				end,
 			}
 
-			expect(inspect(object)).to.equal("<json value>")
+			jestExpect(inspect(object)).toBe("<json value>")
 		end)
 
 		it("handles toJSON that return `this` should work", function()
@@ -102,17 +103,17 @@ return function()
 				return object
 			end
 
-			expect(inspect(object)).to.equal("{ toJSON: [function] }")
+			jestExpect(inspect(object)).toBe("{ toJSON: [function] }")
 		end)
 
 		it("handles toJSON returning object values", function()
 			local object = {
 				toJSON = function()
 					return { json = "value" }
-				end
+				end,
 			}
 
-			expect(inspect(object)).to.equal('{ json: "value" }')
+			jestExpect(inspect(object)).toBe('{ json: "value" }')
 		end)
 
 		it("handles toJSON function that uses this", function()
@@ -123,29 +124,29 @@ return function()
 				return object.str
 			end
 
-			expect(inspect(object)).to.equal("Hello World!")
+			jestExpect(inspect(object)).toBe("Hello World!")
 		end)
 
 		it("detect circular objects", function()
 			local obj = {}
 
 			obj.self = obj
-			obj.deepSelf = {self = obj}
+			obj.deepSelf = { self = obj }
 
-			expect(inspect(obj)).to.equal("{ self: [Circular], deepSelf: { self: [Circular] } }")
+			jestExpect(inspect(obj)).toBe("{ self: [Circular], deepSelf: { self: [Circular] } }")
 
 			local array = {}
 
 			array[1] = array
-			array[2] = {array}
+			array[2] = { array }
 
-			expect(inspect(array)).to.equal("[[Circular], [[Circular]]]")
+			jestExpect(inspect(array)).toBe("[[Circular], [[Circular]]]")
 
-			local mixed = {array = {}}
+			local mixed = { array = {} }
 
 			mixed.array[1] = mixed
 
-			expect(inspect(mixed)).to.equal("{ array: [[Circular]] }")
+			jestExpect(inspect(mixed)).toBe("{ array: [[Circular]] }")
 
 			local customB
 			local customA = {
@@ -159,7 +160,7 @@ return function()
 				end,
 			}
 
-			expect(inspect(customA)).to.equal("[Circular]")
+			jestExpect(inspect(customA)).toBe("[Circular]")
 		end)
 
 		-- it("Use class names for the short form of an object", () => {
@@ -171,15 +172,24 @@ return function()
 		-- 		}
 		-- 	}
 
-		-- 	expect(inspect({{new Foo()}})).to.equal("[[[Foo]]]")
+		-- 	jestExpect(inspect({{new Foo()}})).toBe("[[[Foo]]]")
 
 		-- 	(Foo.prototype: any)[Symbol.toStringTag] = "Bar"
-		-- 	expect(inspect({{new Foo()}})).to.equal("[[[Bar]]]")
+		-- 	jestExpect(inspect({{new Foo()}})).toBe("[[[Bar]]]")
 
 		-- 	local objectWithoutClassName = new (function () {
 		-- 	this.foo = 1
 		-- 	})()
-		-- 	expect(inspect({{objectWithoutClassName}})).to.equal("[[[Object]]]")
+		-- 	jestExpect(inspect({{objectWithoutClassName}})).toBe("[[[Object]]]")
 		-- end)
+
+		it("uses __tostring when available", function()
+			jestExpect(inspect(Promise.new(function() end))).toBe("Promise(Started)")
+			local function abc()
+				return true
+			end
+			-- ROBLOX TODO: This will need updating when Promise library shows original named funtions
+			jestExpect(inspect(Promise.new(abc))).toBe("Promise(Started)")
+		end)
 	end)
 end

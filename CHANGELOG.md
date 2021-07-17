@@ -1,5 +1,10 @@
 # LuauPolyfills Changelog
 
+# Unreleased
+
+### Fixes
+* `util.inspect` will now emit function names, and use the __tostring metamethod, when printing values, if either are available
+
 # 0.2.0
 
 ### Changes

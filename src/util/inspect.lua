@@ -27,7 +27,7 @@ function formatValue(value, seenValues)
 	local valueType = typeof(value)
 	if valueType == "string" then
 		return HttpService:JSONEncode(value)
-	-- deviation: format numbers like in JS
+		-- deviation: format numbers like in JS
 	elseif valueType == "number" then
 		if value ~= value then
 			return "NaN"
@@ -39,8 +39,12 @@ function formatValue(value, seenValues)
 			return tostring(value)
 		end
 	elseif valueType == "function" then
-		-- deviation: functions don't have names in Lua
-		return "[function]"
+		local result = "[function"
+		local functionName = debug.info(value :: (any) -> any, "n")
+		if functionName ~= nil and functionName ~= "" then
+			result ..= " " .. functionName
+		end
+		return result .. "]"
 	elseif valueType == "table" then
 		-- ROBLOX TODO: parameterize inspect with the library-specific NULL sentinel. maybe function generics?
 		-- if value == NULL then
@@ -85,6 +89,11 @@ function formatObject(object, seenValues)
 	end
 	if #seenValues > MAX_RECURSIVE_DEPTH then
 		return "[" .. getObjectTag(object) .. "]"
+	end
+
+	local mt = getmetatable(object)
+	if mt and rawget(mt, "__tostring") then
+		return tostring(object)
 	end
 
 	local properties = {}
@@ -143,4 +152,3 @@ function getObjectTag(_object): string
 end
 
 return inspect
-

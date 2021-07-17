@@ -1,9 +1,23 @@
-# Rbxm model files
-/*.rbxmx
+# Libraries don't commit lockfiles, apps do
+rotriever.lock
 
 # Dependencies
 Packages/*
 !Packages/.robloxrc
+!Packages/_Workspace/
+Packages/_Workspace/*
+!Packages/_Workspace/.robloxrc
 
-# Rotriever lockfile
-rotriever.lock
+# Rbxm model files
+**/*.rbx[lm]*
+
+# Misc OS files
+.DS_Store
+
+# Local IDE settings
+.vscode
+.idea/
+
+# Code coverage data files
+**/luacov.*
+**/lcov*.info
