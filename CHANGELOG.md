@@ -2,6 +2,10 @@
 
 # Unreleased
 
+### Added Polyfills
+* `String.split`
+* `String.slice`
+
 ### Fixes
 * `util.inspect` will now emit function names, and use the __tostring metamethod, when printing values, if either are available
 
