@@ -22,6 +22,13 @@ return function()
 			jestExpect(foo:has(ANOTHER_ITEM)).toEqual(true)
 		end)
 
+		it("creates a set from an Set", function()
+			local foo = Set.new(Set.new({ AN_ITEM, ANOTHER_ITEM }))
+			jestExpect(foo.size).toEqual(2)
+			jestExpect(foo:has(AN_ITEM)).toEqual(true)
+			jestExpect(foo:has(ANOTHER_ITEM)).toEqual(true)
+		end)
+
 		it("creates a set from a string", function()
 			local foo = Set.new("abc")
 			jestExpect(foo.size).toEqual(3)
@@ -39,10 +46,10 @@ return function()
 
 		it("throws when trying to create a set from a non-iterable", function()
 			jestExpect(function()
-				return Set.new(true)
+				return Set.new(true :: any)
 			end).toThrow("cannot create array from value of type `boolean`")
 			jestExpect(function()
-				return Set.new(1)
+				return Set.new(1 :: any)
 			end).toThrow("cannot create array from value of type `number`")
 		end)
 
@@ -150,6 +157,9 @@ return function()
 		it("iterates on an empty set", function()
 			local foo = Set.new()
 			jestExpect(makeArray(foo:ipairs())).toEqual({})
+			for _, __ in foo:ipairs() do
+				error("should never be called")
+			end
 		end)
 
 		it("iterates on the elements by their insertion order", function()

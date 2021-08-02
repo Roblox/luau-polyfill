@@ -1,5 +1,6 @@
 local LuauPolyfill = script.Parent
 local Array = require(LuauPolyfill.Array)
+type Array<T> = Array.Array<T>
 
 local Set = {}
 Set.__index = Set
@@ -14,29 +15,41 @@ export type Set<T> = {
 	ipairs: () -> any,
 }
 
-function Set.new(iterable)
+function Set.new(
+	iterable: Array<any> | Set<any> | { ipairs: (any) -> any } | string | nil
+)
 	local array = {}
 	local map = {}
 	if iterable ~= nil then
-		local arrayFromIterable
+		local arrayIterable
 		local iterableType = typeof(iterable)
 		if iterableType == "table" then
-			if _G.__DEV__ then
-				if not Array.isArray(iterable) then
-					error("cannot create array from an object-like table")
-				end
+			if Array.isArray(iterable) then
+				arrayIterable = Array.from(iterable)
+			elseif typeof(iterable.ipairs) == "function" then
+				-- handle in loop below
+			elseif _G.__DEV__ then
+				error("cannot create array from an object-like table")
 			end
-			arrayFromIterable = Array.from(iterable)
 		elseif iterableType == "string" then
-			arrayFromIterable = Array.from(iterable)
+			arrayIterable = Array.from(iterable)
 		else
 			error(("cannot create array from value of type `%s`"):format(iterableType))
 		end
 
-		for _, element in ipairs(arrayFromIterable) do
-			if not map[element] then
-				map[element] = true
-				table.insert(array, element)
+		if arrayIterable then
+			for _, element in ipairs(arrayIterable) do
+				if not map[element] then
+					map[element] = true
+					table.insert(array, element)
+				end
+			end
+		elseif typeof(iterable.ipairs) == "function" then
+			for _, element in (iterable :: any):ipairs() do
+				if not map[element] then
+					map[element] = true
+					table.insert(array, element)
+				end
 			end
 		end
 	end
