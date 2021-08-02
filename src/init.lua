@@ -1,11 +1,12 @@
 local Timers = require(script.Timers)
+local Array = require(script.Array)
 local Set = require(script.Set)
 
-export type Array<T> = { [number]: T }
+export type Array<T> = Array.Array<T>
 export type Set<T> = Set.Set<T>
 
 return {
-	Array = require(script.Array),
+	Array = Array,
 	Boolean = require(script.Boolean),
 	console = require(script.console),
 	Error = require(script.Error),

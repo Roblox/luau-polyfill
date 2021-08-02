@@ -8,6 +8,7 @@
 
 ### Fixes
 * `util.inspect` will now emit function names, and use the __tostring metamethod, when printing values, if either are available
+* `Set.new` can now take another Set, and is now strongly typed to prevent abuse cases
 
 # 0.2.0
 
