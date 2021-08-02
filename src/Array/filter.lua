@@ -5,7 +5,7 @@ type Function = (any, any?, any?, any?) -> any;
 
 -- Implements Javascript's `Array.prototype.filter` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
-return function(t: Array, callback: Function, thisArg: any): Array
+return function(t: Array, callback: Function, thisArg: any?): Array
 	if typeof(t) ~= "table" then
 		error(string.format("Array.filter called on %s", typeof(t)))
 	end
