@@ -3,18 +3,18 @@ local slice = require(script.Parent.slice)
 
 type Array<T> = { [number]: T }
 
-type Pattern = string|Array<string>
+type Pattern = string | Array<string>
 
 local function split(str: string, _patterns: Pattern?)
-	local patterns
-    if _patterns == nil then
-        return { str }
-    end
+	local patterns: (string | { string })?
+	if _patterns == nil then
+		return { str }
+	end
 	if typeof(_patterns) == "string" then
-        if _patterns == "" then
-            --[[ ROBLOX deviation: JS would return an array of characters ]]
-            return { str }
-        end
+		if _patterns == "" then
+			--[[ ROBLOX deviation: JS would return an array of characters ]]
+			return { str }
+		end
 		patterns = { _patterns }
 	else
 		patterns = _patterns
@@ -28,7 +28,7 @@ local function split(str: string, _patterns: Pattern?)
 			table.insert(result, slice(str, init, match.index))
 			init = match.index + utf8.len(match.match)
 		else
-			table.insert(result, slice(str, init))
+			table.insert(result, slice(str, init, nil))
 		end
 		if match ~= nil then
 			lastMatch = match
