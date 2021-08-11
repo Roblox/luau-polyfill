@@ -5,9 +5,10 @@ local function findOr(str, patternTable, initIndex)
 	local matches = {}
 	for _, value in ipairs(patternTable) do
 		local iStart, iEnd = string.find(str, value, init)
-		if iStart ~= nil then -- confirm truthy
+		if type(iStart) == "number" then -- confirm number
 			local prefix = string.sub(str, 1, iStart - 1)
 			local prefixEnd = utf8.len(prefix)
+			assert(type(prefixEnd) == "number", "prefixEnd must be a number")
 			local iStartIndex = prefixEnd + 1
 			local match = {
 				index = iStartIndex,
