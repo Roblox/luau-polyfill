@@ -6,6 +6,10 @@ return function(tbl, class)
 		return false
 	end
 
+	if class.new ~= nil and tbl.new == class.new then
+		return true
+	end
+
 	local seen = { tbl = true }
 
 	while tbl and typeof(tbl) == "table" do

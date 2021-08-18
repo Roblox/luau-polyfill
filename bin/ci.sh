@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -x
 
 echo "Build project"
 rojo build test-model.project.json --output model.rbxmx
