@@ -4,11 +4,16 @@ return function()
 
 	local LuauPolyfill = Object.Parent
 	local Packages = LuauPolyfill.Parent
+	local Set = require(LuauPolyfill.Set)
 	local JestRoblox = require(Packages.Dev.JestRoblox)
 	local jestExpect = JestRoblox.Globals.expect
 
 	it("returns an empty array for an empty table", function()
 		jestExpect(#keys({})).toEqual(0)
+	end)
+
+	it("returns an empty array for Sets", function()
+		jestExpect(keys(Set.new({1, 2, 3}))).toEqual({})
 	end)
 
 	it("returns an array with the table keys", function()
