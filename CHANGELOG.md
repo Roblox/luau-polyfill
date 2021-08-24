@@ -1,6 +1,11 @@
 # LuauPolyfills Changelog
 
-# 0.2.1
+## Unreleased Changes
+
+### Fixes
+* `Object.keys` should return an empty array for sets
+
+## 0.2.1
 
 ### Added Polyfills
 * `String.split`
@@ -10,7 +15,7 @@
 * `util.inspect` will now emit function names, and use the __tostring metamethod, when printing values, if either are available
 * `Set.new` can now take another Set, and is now strongly typed to prevent abuse cases
 
-# 0.2.0
+## 0.2.0
 
 ### Changes
 Removes `LuauPolyfill.RegExp` so that it can be selectively included as a separate dependency via https://github.com/roblox/luau-regexp.
