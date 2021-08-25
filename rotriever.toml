@@ -3,6 +3,7 @@ name = "LuauPolyfill"
 version = "0.2.1"
 author = "Paul Doyle <pdoyle@roblox.com>"
 content_root = "src"
+files = ["*", "!**/__tests__/**"]
 
 [dev_dependencies]
 JestRoblox = "github.com/roblox/jest-roblox@2.0.0-pre.1"
