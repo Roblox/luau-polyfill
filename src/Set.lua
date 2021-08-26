@@ -22,19 +22,19 @@ function Set.new(
 	local map = {}
 	if iterable ~= nil then
 		local arrayIterable
-		local iterableType = typeof(iterable)
-		if iterableType == "table" then
+		-- ROBLOX TODO: remove type casting from (iterable :: any).ipairs in next release
+		if typeof(iterable) == "table" then
 			if Array.isArray(iterable) then
 				arrayIterable = Array.from(iterable)
-			elseif typeof(iterable.ipairs) == "function" then
+			elseif typeof((iterable :: any).ipairs) == "function" then
 				-- handle in loop below
 			elseif _G.__DEV__ then
 				error("cannot create array from an object-like table")
 			end
-		elseif iterableType == "string" then
+		elseif typeof(iterable) == "string" then
 			arrayIterable = Array.from(iterable)
 		else
-			error(("cannot create array from value of type `%s`"):format(iterableType))
+			error(("cannot create array from value of type `%s`"):format(typeof(iterable)))
 		end
 
 		if arrayIterable then
@@ -44,7 +44,7 @@ function Set.new(
 					table.insert(array, element)
 				end
 			end
-		elseif typeof(iterable.ipairs) == "function" then
+		elseif typeof((iterable :: any).ipairs) == "function" then
 			for _, element in (iterable :: any):ipairs() do
 				if not map[element] then
 					map[element] = true
