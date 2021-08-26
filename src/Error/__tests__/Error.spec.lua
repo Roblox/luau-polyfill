@@ -96,4 +96,8 @@ return function()
 	it("checks default Error message field", function()
 		jestExpect(Error().message).toEqual("")
 	end)
+
+	it("prints 'Error' for an empty Error", function()
+		jestExpect(tostring(Error())).toEqual("Error")
+	end)
 end

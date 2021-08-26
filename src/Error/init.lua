@@ -23,7 +23,7 @@ return setmetatable(Error, {
 	end,
 	__tostring = function(self)
 		if self.name ~= nil then
-			if self.message ~= nil then
+			if self.message and self.message ~= "" then
 				return string.format("%s: %s", tostring(self.name), tostring(self.message))
 			end
 			return tostring(self.name)
