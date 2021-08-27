@@ -1,9 +1,18 @@
 local LuauPolyfill = script.Parent
 local Array = require(LuauPolyfill.Array)
 type Array<T> = Array.Array<T>
+local inspect = require(LuauPolyfill.util.inspect)
 
 local Set = {}
 Set.__index = Set
+Set.__tostring = function(self)
+	local result = "Set "
+	if #self._array > 0 then
+		result ..= "(" .. tostring(#self._array) .. ") "
+	end
+	result ..= inspect(self._array)
+	return result
+end
 
 export type Set<T> = {
 	size: number,

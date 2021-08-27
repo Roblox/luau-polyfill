@@ -1,9 +1,10 @@
--- upstream: https://github.com/graphql/graphql-js/blob/1951bce42092123e844763b6a8e985a8a3327511/src/jsutils/inspect.js
+-- derived from these upstream sources:
+-- https://github.com/graphql/graphql-js/blob/1951bce42092123e844763b6a8e985a8a3327511/src/jsutils/inspect.js
+
 type Array<T> = { [number]: T }
 local HttpService = game:GetService("HttpService")
 
 local Array = require(script.Parent.Parent.Array)
-local Object = require(script.Parent.Parent.Object)
 -- local NULL = require(srcWorkspace.luaUtils.null)
 
 local MAX_ARRAY_LENGTH = 10
@@ -21,6 +22,56 @@ local getObjectTag
  ]]
 local function inspect(value): string
 	return formatValue(value, {})
+end
+
+local function isIndexKey(k, contiguousLength)
+	return type(k) == "number"
+		and k <= contiguousLength  -- nothing out of bounds
+		and 1 <= k -- nothing illegal for array indices
+		and math.floor(k) == k -- no float keys
+end
+
+local function getTableLength(tbl)
+	local length = 1
+	local value = rawget(tbl, length)
+	while value ~= nil do
+		length += 1
+		value = rawget(tbl, length)
+	end
+	return length - 1
+end
+
+local function sortKeysForPrinting(a, b)
+	local typeofA = type(a)
+	local typeofB = type(b)
+
+	-- strings and numbers are sorted numerically/alphabetically
+	if typeofA == typeofB 
+		and (typeofA == "number" or typeofA == "string")
+	then
+		return a < b
+	end
+
+	-- sort the rest by type name
+	return typeofA < typeofB
+end
+
+local function rawpairs(t)
+	return next, t, nil
+end
+
+local function getFragmentedKeys(tbl)
+	local keys = {}
+	local keysLength = 0
+	local tableLength = getTableLength(tbl)
+	for key, _ in rawpairs(tbl) do
+		if not isIndexKey(key, tableLength) then
+			keysLength = keysLength + 1
+			keys[keysLength] = key
+		end
+	end
+	table.sort(keys, sortKeysForPrinting)
+	return keys, keysLength, tableLength
 end
 
 function formatValue(value, seenValues)
@@ -82,29 +133,39 @@ function formatObjectValue(value, previouslySeenValues)
 end
 
 function formatObject(object, seenValues)
-	local keys = Object.keys(object)
-
-	if #keys == 0 then
-		return "{}"
-	end
-	if #seenValues > MAX_RECURSIVE_DEPTH then
-		return "[" .. getObjectTag(object) .. "]"
-	end
-
+	local result = ""
 	local mt = getmetatable(object)
 	if mt and rawget(mt, "__tostring") then
 		return tostring(object)
 	end
 
-	local properties = {}
-	for i = 1, #keys do
-		local key = keys[i]
-		local value = formatValue(object[key], seenValues)
+	local fragmentedKeys, fragmentedKeysLength, keysLength = getFragmentedKeys(object)
 
-		properties[i] = key .. ": " .. value
+	if keysLength == 0 and fragmentedKeysLength == 0 then
+		result ..= "{}"
+		return result
+	end
+	if #seenValues > MAX_RECURSIVE_DEPTH then
+		result ..= "[" .. getObjectTag(object) .. "]"
+		return result
 	end
 
-	return "{ " .. table.concat(properties, ", ") .. " }"
+	local properties = {}
+	for i = 1, keysLength do
+		local value = formatValue(object[i], seenValues)
+
+		table.insert(properties, value)
+	end
+
+	for i = 1, fragmentedKeysLength do
+		local key = fragmentedKeys[i]
+		local value = formatValue(object[key], seenValues)
+
+		table.insert(properties, key .. ": " .. value)
+	end
+
+	result ..= "{ " .. table.concat(properties, ", ") .. " }"
+	return result
 end
 
 function formatArray(array: Array<any>, seenValues: Array<any>): string
