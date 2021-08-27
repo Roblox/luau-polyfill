@@ -1,4 +1,6 @@
--- upstream: https://github.com/graphql/graphql-js/blob/1951bce42092123e844763b6a8e985a8a3327511/src/jsutils/__tests__/inspect-test.js
+-- inspired by:
+-- https://github.com/graphql/graphql-js/blob/1951bce42092123e844763b6a8e985a8a3327511/src/jsutils/__tests__/inspect-test.js
+-- https://github.com/edam/inspect.lua/blob/master/spec/inspect_spec.lua
 return function()
 	local srcWorkspace = script.Parent.Parent.Parent
 	local Packages = srcWorkspace.Parent
@@ -6,6 +8,7 @@ return function()
 	local jestExpect = JestRoblox.Globals.expect
 	local Promise = require(Packages.Dev.Promise)
 	local inspect = require(srcWorkspace).util.inspect
+	local Set = require(srcWorkspace).Set
 
 	describe("inspect", function()
 		-- it("undefined", function()
@@ -25,6 +28,14 @@ return function()
 			jestExpect(inspect("")).toBe('""')
 			jestExpect(inspect("abc")).toBe('"abc"')
 			jestExpect(inspect('"')).toBe('"\\""')
+			jestExpect(inspect("\t\n")).toBe('"\\t\\n"')
+			jestExpect(inspect("\1")).toBe('"\\u0001"')
+			jestExpect(inspect("\\")).toBe('"\\\\"')
+			jestExpect(
+				inspect("string with both 'apostrophe' and \"quote\" characters")
+			).toBe(
+				'"string with both \'apostrophe\' and \\"quote\\" characters"'
+			)
 		end)
 
 		it("number", function()
@@ -74,17 +85,25 @@ return function()
 			-- jestExpect(inspect({})).toBe("{}")
 			jestExpect(inspect({ a = 1 })).toBe("{ a: 1 }")
 			jestExpect(inspect({ a = 1, b = 2 })).toBe("{ a: 1, b: 2 }")
-			-- ROBLOX deviation: avoid sparse array
 			jestExpect(inspect({ array = { false, 0 } })).toBe("{ array: [false, 0] }")
 
 			jestExpect(inspect({ a = { b = {} } })).toBe("{ a: { b: [] } }")
 			jestExpect(inspect({ a = { b = { c = 1 } } })).toBe("{ a: { b: [Object] } }")
+
+			jestExpect(inspect({[3.14159] = true, 1, 2})).toBe("{ 1, 2, 3.14159: true }")
+			jestExpect(inspect({1, 2, [-3] = 3})).toBe("{ 1, 2, -3: 3 }")
 
 			-- ROBLOX deviation:
 			-- local map = Object.create(nil)
 			-- map.a = true
 			-- map.b = nil
 			-- jestExpect(inspect(map)).toBe("{ a: true, b: null }")
+		end)
+
+		it("Set", function()
+			jestExpect(inspect(Set.new({ 31337, "foo"}))).toBe('Set (2) [31337, "foo"]')
+			jestExpect(inspect(Set.new({ Set.new({90210, "baz"}) }))).toBe('Set (1) [Set (2) [90210, "baz"]]')
+			jestExpect(inspect(Set.new({}))).toBe("Set []")
 		end)
 
 		it("use toJSON if provided", function()
@@ -133,7 +152,7 @@ return function()
 			obj.self = obj
 			obj.deepSelf = { self = obj }
 
-			jestExpect(inspect(obj)).toBe("{ self: [Circular], deepSelf: { self: [Circular] } }")
+			jestExpect(inspect(obj)).toBe("{ deepSelf: { self: [Circular] }, self: [Circular] }")
 
 			local array = {}
 
