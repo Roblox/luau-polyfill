@@ -5,6 +5,13 @@
 ### Fixes
 * `Object.keys` should return an empty array for sets
 
+* improvements to `util.inspect`
+  * Print fragmented keys in addition to regular sequential indexes.
+  * We now explicitly sort the keys based on alpha-sort, for more stable string comparison in tests/snapshots.
+  * If a table overrides tostring, don't append all the raw keys/values.
+  * Override `__tostring` on `Set` so that it prints the contents, more closely matching nodejs inspect() behavior.
+  * Mixed-index tables now inspect correctly.
+
 ## 0.2.1
 
 ### Added Polyfills
