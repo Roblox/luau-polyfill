@@ -4,6 +4,7 @@
 
 ### Fixes
 * `Object.keys` should return an empty array for sets
+* Make third argument of `Array.map(array, callback, this)` optional
 
 * improvements to `util.inspect`
   * Print fragmented keys in addition to regular sequential indexes.
