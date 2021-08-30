@@ -17,11 +17,11 @@ end
 export type Set<T> = {
 	size: number,
 	-- method definitions
-	add: (T) -> Set<T>,
-	clear: () -> (),
-	delete: (T) -> boolean,
-	has: (T) -> boolean,
-	ipairs: () -> any,
+	add: (self: Set<T>, T) -> Set<T>,
+	clear: (self: Set<T>) -> (),
+	delete: (self: Set<T>, T) -> boolean,
+	has: (self: Set<T>, T) -> boolean,
+	ipairs: (self: Set<T>) -> any,
 }
 
 function Set.new(
