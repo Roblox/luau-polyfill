@@ -5,25 +5,25 @@ type Array<T> = { [number]: T }
 
 type Pattern = string | Array<string>
 
-local function split(str: string, _patterns: Pattern?)
-	local patterns: (string | { string })?
-	if _patterns == nil then
+local function split(str: string, pattern: Pattern?): Array<string>
+	if pattern == nil then
 		return { str }
 	end
-	if typeof(_patterns) == "string" then
-		if _patterns == "" then
+	local patternList: Array<string>
+	if typeof(pattern) == "string" then
+		if pattern == "" then
 			--[[ ROBLOX deviation: JS would return an array of characters ]]
 			return { str }
 		end
-		patterns = { _patterns }
+		patternList = { pattern }
 	else
-		patterns = _patterns
+		patternList = pattern :: any
 	end
 	local init = 1
 	local result = {}
 	local lastMatch
 	repeat
-		local match = findOr(str, patterns, init)
+		local match = findOr(str, patternList, init)
 		if match ~= nil then
 			table.insert(result, slice(str, init, match.index))
 			init = match.index + utf8.len(match.match)
