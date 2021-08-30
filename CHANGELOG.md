@@ -2,6 +2,9 @@
 
 ## Unreleased Changes
 
+### Added Polyfills
+* `Number.NaN`
+
 ### Fixes
 * `Object.keys` should return an empty array for sets ([#71](https://github.com/Roblox/luau-polyfill/pull/71))
 * Make third argument of `Array.map(array, callback, this)` optional ([#77](https://github.com/Roblox/luau-polyfill/pull/77))
