@@ -3,16 +3,17 @@
 ## Unreleased Changes
 
 ### Fixes
-* `Object.keys` should return an empty array for sets
-* Make third argument of `Array.map(array, callback, this)` optional
-* `Set` type - add self as first param to Set methods
+* `Object.keys` should return an empty array for sets ([#71](https://github.com/Roblox/luau-polyfill/pull/71))
+* Make third argument of `Array.map(array, callback, this)` optional ([#77](https://github.com/Roblox/luau-polyfill/pull/77))
+* `Set` type - add self as first param to Set methods ([#76](https://github.com/Roblox/luau-polyfill/pull/76))
 
-* improvements to `util.inspect`
+* improvements to `util.inspect` ([#68](https://github.com/Roblox/luau-polyfill/pull/68))
   * Print fragmented keys in addition to regular sequential indexes.
   * We now explicitly sort the keys based on alpha-sort, for more stable string comparison in tests/snapshots.
   * If a table overrides tostring, don't append all the raw keys/values.
   * Override `__tostring` on `Set` so that it prints the contents, more closely matching nodejs inspect() behavior.
   * Mixed-index tables now inspect correctly.
+* Refine typechecking for `String.split` ([#69](https://github.com/Roblox/luau-polyfill/pull/69) and [#78](https://github.com/Roblox/luau-polyfill/pull/78))
 
 ## 0.2.1
 

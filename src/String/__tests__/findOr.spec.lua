@@ -96,5 +96,4 @@ return function()
 		jestExpect(actual.index).toEqual(expected.index)
 		jestExpect(actual.match).toEqual(expected.match)
 	end)
-
 end

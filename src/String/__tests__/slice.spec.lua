@@ -53,7 +53,6 @@ return function()
 	end)
 
 	it("handle chars above 7-bit ascii", function()
-
 		-- two bytes
 		-- first byte (81)  - has high bit set
 		-- second byte (23) - must have second byte
@@ -66,8 +65,5 @@ return function()
 
 		jestExpect(slice(body, 1, 6)).toEqual("123 \u{0A0A}")
 		jestExpect(slice(body, 5, 10)).toEqual("\u{0A0A} 456")
-
 	end)
-
-
 end

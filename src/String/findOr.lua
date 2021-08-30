@@ -1,14 +1,16 @@
-local function findOr(str, patternTable, initIndex)
+local function findOr(str: string, patternTable: { string }, initIndex: number?)
 	-- loop through all options in patern patternTable
 
 	local init = utf8.offset(str, initIndex or 1)
 	local matches = {}
 	for _, value in ipairs(patternTable) do
 		local iStart, iEnd = string.find(str, value, init)
-		if type(iStart) == "number" then -- confirm number
+		if iStart then
 			local prefix = string.sub(str, 1, iStart - 1)
-			local prefixEnd = utf8.len(prefix)
-			assert(type(prefixEnd) == "number", "prefixEnd must be a number")
+			local prefixEnd, invalidBytePosition = utf8.len(prefix)
+			if not prefixEnd then
+				error(("string `%s` has an invalid byte at position %d"):format(prefix, invalidBytePosition))
+			end
 			local iStartIndex = prefixEnd + 1
 			local match = {
 				index = iStartIndex,
