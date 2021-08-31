@@ -6,7 +6,10 @@ return function(tbl, class)
 		return false
 	end
 
-	if class.new ~= nil and tbl.new == class.new then
+	local ok, hasNew = pcall(function()
+		return class.new ~= nil and tbl.new == class.new
+	end)
+	if ok and hasNew then
 		return true
 	end
 
