@@ -14,7 +14,7 @@ return function()
 		jestExpect(toJSBoolean(-0)).toEqual(false)
 		jestExpect(toJSBoolean("")).toEqual(false)
 		jestExpect(toJSBoolean(nil)).toEqual(false)
-		jestExpect(toJSBoolean(0/0)).toEqual(false)
+		jestExpect(toJSBoolean(0 / 0)).toEqual(false)
 	end)
 
 	-- https://developer.mozilla.org/en-US/docs/Glossary/Truthy
@@ -28,7 +28,7 @@ return function()
 		jestExpect(toJSBoolean(-42)).toEqual(true)
 		jestExpect(toJSBoolean(3.14)).toEqual(true)
 		jestExpect(toJSBoolean(-3.14)).toEqual(true)
-		jestExpect(toJSBoolean(1/0)).toEqual(true)
-		jestExpect(toJSBoolean(-1/0)).toEqual(true)
+		jestExpect(toJSBoolean(math.huge)).toEqual(true)
+		jestExpect(toJSBoolean(-1 / 0)).toEqual(true)
 	end)
 end

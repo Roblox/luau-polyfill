@@ -28,7 +28,7 @@ return function()
 	end)
 
 	it("returns false when given inf", function()
-		jestExpect(isSafeInteger(1 / 0)).toEqual(false)
+		jestExpect(isSafeInteger(math.huge)).toEqual(false)
 	end)
 
 	it("returns false when given '3'", function()

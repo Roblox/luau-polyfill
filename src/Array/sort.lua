@@ -15,11 +15,7 @@ local function sort(array, compare)
 				-- it's not clearly defined what is
 				-- the behavior when the compare function
 				-- does not return a number
-				error(
-					("invalid result from compare function, expected number but got %s"):format(
-						typeof(result)
-					)
-				)
+				error(("invalid result from compare function, expected number but got %s"):format(typeof(result)))
 			end
 			return result < 0
 		end

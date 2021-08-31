@@ -5,7 +5,7 @@ return function()
 	local JestRoblox = require(Packages.Dev.JestRoblox)
 	local jestExpect = JestRoblox.Globals.expect
 
-    local Array = require(LuauPolyfill.Array)
+	local Array = require(LuauPolyfill.Array)
 
 	local MapModule = require(LuauPolyfill.Map)
 	local Map = MapModule.Map
@@ -58,7 +58,10 @@ return function()
 
 				jestExpect(foo:keys()).toEqual({ AN_ITEM, ANOTHER_ITEM })
 				jestExpect(foo:values()).toEqual({ "foo2", "bar" })
-				jestExpect(foo:entries()).toEqual({ { AN_ITEM, "foo2" }, { ANOTHER_ITEM, "bar" } })
+				jestExpect(foo:entries()).toEqual({
+					{ AN_ITEM, "foo2" },
+					{ ANOTHER_ITEM, "bar" },
+				})
 			end)
 
 			it("throws when trying to create a set from a non-iterable", function()
@@ -287,7 +290,9 @@ return function()
 				foo:set(AN_ITEM, "foo")
 				foo:set(ANOTHER_ITEM, "val")
 				foo:delete(AN_ITEM)
-				jestExpect(makeArray(foo:ipairs())).toEqual({ { ANOTHER_ITEM, "val" } })
+				jestExpect(makeArray(foo:ipairs())).toEqual({
+					{ ANOTHER_ITEM, "val" },
+				})
 			end)
 
 			it("iterates on elements if the added back to the Map", function()
@@ -384,15 +389,15 @@ return function()
 
 			jestExpect(Array.sort(map:keys())).toEqual(Array.sort({ AN_ITEM, ANOTHER_ITEM }))
 			jestExpect(Array.sort(map:values())).toEqual({ "foo", "val" })
-			jestExpect(Array.sort(map:entries(), function (a, b)
-                if tostring(a[1]) < tostring(b[1]) then
-                    return -1
-                elseif tostring(a[1]) > tostring(b[1]) then
-                    return 1
-                else
-                    return 0
-                end
-            end)).toEqual({
+			jestExpect(Array.sort(map:entries(), function(a, b)
+				if tostring(a[1]) < tostring(b[1]) then
+					return -1
+				elseif tostring(a[1]) > tostring(b[1]) then
+					return 1
+				else
+					return 0
+				end
+			end)).toEqual({
 				{ AN_ITEM, "foo" },
 				{ ANOTHER_ITEM, "val" },
 			})

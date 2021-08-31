@@ -12,7 +12,7 @@ return function()
 	local trueValues = { 0, 2e64 }
 	local falseValues = {
 		math.huge,
-		0/0,
+		0 / 0,
 		-math.huge,
 		"0",
 	}

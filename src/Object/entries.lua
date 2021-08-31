@@ -7,11 +7,11 @@ return function(value)
 	local entries = {}
 	if valueType == "table" then
 		for key, keyValue in pairs(value) do
-			table.insert(entries, {key, keyValue})
+			table.insert(entries, { key, keyValue })
 		end
 	elseif valueType == "string" then
 		for i = 1, value:len() do
-			entries[i] = {tostring(i), value:sub(i, i)}
+			entries[i] = { tostring(i), value:sub(i, i) }
 		end
 	end
 

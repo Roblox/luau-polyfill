@@ -6,11 +6,7 @@ local function preventExtensions(t)
 
 	return setmetatable(t, {
 		__newindex = function(self, key, value)
-			local message = ("%q (%s) is not a valid member of %s"):format(
-				tostring(key),
-				typeof(key),
-				name
-			)
+			local message = ("%q (%s) is not a valid member of %s"):format(tostring(key), typeof(key), name)
 
 			error(message, 2)
 		end,

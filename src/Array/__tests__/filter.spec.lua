@@ -16,8 +16,8 @@ return function()
 			return value >= 10
 		end
 
-		local filtered = filter({12, 5, 8, 130, 44}, isBigEnough)
-		jestExpect(filtered).toEqual({12, 130, 44})
+		local filtered = filter({ 12, 5, 8, 130, 44 }, isBigEnough)
+		jestExpect(filtered).toEqual({ 12, 130, 44 })
 	end)
 
 	it("Find all prime numbers in an array", function()
@@ -32,11 +32,8 @@ return function()
 			return num > 1
 		end
 
-		local filtered = filter(
-			{-3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13},
-			isPrime
-		)
-		jestExpect(filtered).toEqual({2, 3, 5, 7, 11, 13})
+		local filtered = filter({ -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 }, isPrime)
+		jestExpect(filtered).toEqual({ 2, 3, 5, 7, 11, 13 })
 	end)
 
 	it("Filtering invalid entries from JSON", function()
@@ -46,10 +43,10 @@ return function()
 			{ id = 0 },
 			{ id = 3 },
 			{ id = 12.2 },
-			{ },
+			{},
 			{ id = nil },
-			{ id = 0/0 },
-			{ id = "undefined" }
+			{ id = 0 / 0 },
+			{ id = "undefined" },
 		}
 
 		local invalidEntries = 0
@@ -63,68 +60,87 @@ return function()
 		end
 
 		local arrByID = filter(arr, filterByID)
-		jestExpect(arrByID).toEqual(
-			{{ id = 15 }, { id = -1 }, { id = 3 }, { id = 12.2 }}
-		)
+		jestExpect(arrByID).toEqual({
+			{ id = 15 },
+			{ id = -1 },
+			{ id = 3 },
+			{ id = 12.2 },
+		})
 		jestExpect(invalidEntries).toEqual(5)
 	end)
 
 	it("Searching in array", function()
-		local fruits = {"apple", "banana", "grapes", "mango", "orange"}
+		local fruits = { "apple", "banana", "grapes", "mango", "orange" }
 		local filterItems = function(arr, query)
 			return filter(arr, function(el)
 				return string.find(el, query) ~= nil
 			end)
 		end
 
-		jestExpect(filterItems(fruits, "ap")).toEqual({"apple", "grapes"})
-		jestExpect(filterItems(fruits, "an")).toEqual({"banana", "mango", "orange"})
+		jestExpect(filterItems(fruits, "ap")).toEqual({ "apple", "grapes" })
+		jestExpect(filterItems(fruits, "an")).toEqual({
+			"banana",
+			"mango",
+			"orange",
+		})
 	end)
 
 	describe("Affecting Initial Array", function()
 		it("Modifying initial array", function()
-			local words = {'spray', 'limit', 'exuberant', 'destruction', 'elite', 'present'}
+			local words = {
+				"spray",
+				"limit",
+				"exuberant",
+				"destruction",
+				"elite",
+				"present",
+			}
 
-			local modifiedWords = filter(
-				words,
-				function(word, index, arr)
-					if arr[index + 1] == nil then
-						arr[index + 1] = "undefined"
-					end
-					arr[index + 1] = arr[index + 1] .. " extra"
-					return #word < 6
+			local modifiedWords = filter(words, function(word, index, arr)
+				if arr[index + 1] == nil then
+					arr[index + 1] = "undefined"
 				end
-			)
+				arr[index + 1] = arr[index + 1] .. " extra"
+				return #word < 6
+			end)
 
-			jestExpect(modifiedWords).toEqual({"spray"})
+			jestExpect(modifiedWords).toEqual({ "spray" })
 		end)
 
 		it("Appending to initial array", function()
-			local words = {'spray', 'limit', 'exuberant', 'destruction', 'elite', 'present'}
+			local words = {
+				"spray",
+				"limit",
+				"exuberant",
+				"destruction",
+				"elite",
+				"present",
+			}
 
-			local modifiedWords = filter(
-				words,
-				function(word, index, arr)
-					table.insert(arr, "new")
-					return #word < 6
-				end
-			)
+			local modifiedWords = filter(words, function(word, index, arr)
+				table.insert(arr, "new")
+				return #word < 6
+			end)
 
-			jestExpect(modifiedWords).toEqual({"spray", "limit", "elite"})
+			jestExpect(modifiedWords).toEqual({ "spray", "limit", "elite" })
 		end)
 
 		it("Deleting from initial array", function()
-			local words = {'spray', 'limit', 'exuberant', 'destruction', 'elite', 'present'}
+			local words = {
+				"spray",
+				"limit",
+				"exuberant",
+				"destruction",
+				"elite",
+				"present",
+			}
 
-			local modifiedWords = filter(
-				words,
-				function(word, index, arr)
-					table.remove(arr)
-					return #word < 6
-				end
-			)
+			local modifiedWords = filter(words, function(word, index, arr)
+				table.remove(arr)
+				return #word < 6
+			end)
 
-			jestExpect(modifiedWords).toEqual({"spray", "limit"})
+			jestExpect(modifiedWords).toEqual({ "spray", "limit" })
 		end)
 	end)
 end

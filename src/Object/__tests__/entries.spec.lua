@@ -22,8 +22,8 @@ return function()
 			return a[1] < b[1]
 		end)
 		jestExpect(result).toEqual({
-			{"baz", 42},
-			{"foo", "bar"},
+			{ "baz", 42 },
+			{ "foo", "bar" },
 		})
 	end)
 
@@ -31,18 +31,18 @@ return function()
 	-- To not risk making the function significantly slower, this behavior is
 	-- not implemented
 	itSKIP("returns an array with the stringified indexes given an array", function()
-		jestExpect(entries({true, false, "foo"})).toEqual({
-			{"1", true},
-			{"2", false},
-			{"3", "foo"},
+		jestExpect(entries({ true, false, "foo" })).toEqual({
+			{ "1", true },
+			{ "2", false },
+			{ "3", "foo" },
 		})
 	end)
 
 	it("coerces a string into an object and returns the list of pairs", function()
 		jestExpect(entries("bar")).toEqual({
-			{"1", "b"},
-			{"2", "a"},
-			{"3", "r"},
+			{ "1", "b" },
+			{ "2", "a" },
+			{ "3", "r" },
 		})
 	end)
 

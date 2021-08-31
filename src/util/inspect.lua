@@ -26,7 +26,7 @@ end
 
 local function isIndexKey(k, contiguousLength)
 	return type(k) == "number"
-		and k <= contiguousLength  -- nothing out of bounds
+		and k <= contiguousLength -- nothing out of bounds
 		and 1 <= k -- nothing illegal for array indices
 		and math.floor(k) == k -- no float keys
 end
@@ -46,9 +46,7 @@ local function sortKeysForPrinting(a, b)
 	local typeofB = type(b)
 
 	-- strings and numbers are sorted numerically/alphabetically
-	if typeofA == typeofB 
-		and (typeofA == "number" or typeofA == "string")
-	then
+	if typeofA == typeofB and (typeofA == "number" or typeofA == "string") then
 		return a < b
 	end
 

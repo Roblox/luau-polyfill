@@ -11,7 +11,7 @@ return function()
 
 	local function capturePrint(...)
 		-- mimic `print`'s concatenation of var-args
-		table.insert(capturedPrints, table.concat({...}, " "))
+		table.insert(capturedPrints, table.concat({ ... }, " "))
 	end
 
 	local function overridePrint(fn, ...)
@@ -23,7 +23,7 @@ return function()
 
 	local function captureWarn(...)
 		-- mimic `print`'s concatenation of var-args
-		table.insert(capturedWarns, table.concat({...}, " "))
+		table.insert(capturedWarns, table.concat({ ... }, " "))
 	end
 
 	local function overrideWarn(fn, ...)

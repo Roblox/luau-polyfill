@@ -1,8 +1,4 @@
-local function startsWith(
-	value: string,
-	substring: string,
-	position: number?
-):boolean
+local function startsWith(value: string, substring: string, position: number?): boolean
 	if substring:len() == 0 then
 		return true
 	end

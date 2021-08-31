@@ -21,7 +21,7 @@ export type Map<T, V> = {
 	keys: (Map<T, V>) -> Array<T>,
 	values: (Map<T, V>) -> Array<V>,
 	entries: (Map<T, V>) -> Array<Tuple<T, V>>,
-	ipairs: (Map<T, V>) -> any
+	ipairs: (Map<T, V>) -> any,
 }
 
 function Map.new(iterable): Map<any, any>
@@ -128,8 +128,7 @@ function Map.__newindex(table_, key, value)
 end
 
 local function coerceToMap(mapLike: Map<any, any> | Table<any, any>): Map<any, any>
-	return instanceOf(mapLike, Map)
-		and mapLike :: Map<any, any> -- ROBLOX: order is preservered
+	return instanceOf(mapLike, Map) and mapLike :: Map<any, any> -- ROBLOX: order is preservered
 		or Map.new(Object.entries(mapLike)) -- ROBLOX: order is not preserved
 end
 
@@ -148,5 +147,5 @@ end
 return {
 	Map = Map,
 	coerceToMap = coerceToMap,
-	coerceToTable = coerceToTable
+	coerceToTable = coerceToTable,
 }

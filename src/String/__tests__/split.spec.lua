@@ -37,7 +37,12 @@ return function()
 
 	it("should split with table with multiple split pattern", function()
 		local str = "one\ntwo\rthree\r\nfour"
-		jestExpect(split(str, { "\r\n", "\r", "\n" })).toEqual({ "one", "two", "three", "four" })
+		jestExpect(split(str, { "\r\n", "\r", "\n" })).toEqual({
+			"one",
+			"two",
+			"three",
+			"four",
+		})
 	end)
 
 	it("should include empty string in the beginning", function()
@@ -65,11 +70,12 @@ return function()
 		jestExpect(split(str)).toEqual({ "abc" })
 	end)
 
-	it('should split the string containing multi-byte character', function()
+	it("should split the string containing multi-byte character", function()
 		local str = '\u{FEFF}|# "Comment" string\n,|'
 		local spl = split(str, { "\r\n", "\n", "\r" })
 		jestExpect(spl).toEqual({
-			'\u{FEFF}|# "Comment" string', ',|'
+			'\u{FEFF}|# "Comment" string',
+			",|",
 		})
 	end)
 end

@@ -21,3 +21,7 @@ Packages/_Workspace/*
 # Code coverage data files
 **/luacov.*
 **/lcov*.info
+
+# selene default roblox.toml
+roblox.toml
+

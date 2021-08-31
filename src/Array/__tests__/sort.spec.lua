@@ -54,24 +54,24 @@ return function()
 			-- deviation: table.sort is not stable, so
 			-- equal items does not stay in the same order.
 			local items = {
-				{ name = 'Edward', value = 21 },
-				{ name = 'Sharpe', value = 36 },
-				{ name = 'And', value = 45 },
-				{ name = 'The', value = -12 },
-				{ name = 'Magnetic', value = 13 },
-				{ name = 'Zeros', value = 37 },
+				{ name = "Edward", value = 21 },
+				{ name = "Sharpe", value = 36 },
+				{ name = "And", value = 45 },
+				{ name = "The", value = -12 },
+				{ name = "Magnetic", value = 13 },
+				{ name = "Zeros", value = 37 },
 			}
 
 			sort(items, function(a, b)
 				return a.value - b.value
 			end)
 			jestExpect(items).toEqual({
-				{ name = 'The', value = -12 },
-				{ name = 'Magnetic', value = 13 },
-				{ name = 'Edward', value = 21 },
-				{ name = 'Sharpe', value = 36 },
-				{ name = 'Zeros', value = 37 },
-				{ name = 'And', value = 45 },
+				{ name = "The", value = -12 },
+				{ name = "Magnetic", value = 13 },
+				{ name = "Edward", value = 21 },
+				{ name = "Sharpe", value = 36 },
+				{ name = "Zeros", value = 37 },
+				{ name = "And", value = 45 },
 			})
 
 			sort(items, function(a, b)
@@ -88,12 +88,12 @@ return function()
 				return 0
 			end)
 			jestExpect(items).toEqual({
-				{ name = 'And', value = 45 },
-				{ name = 'Edward', value = 21 },
-				{ name = 'Magnetic', value = 13 },
-				{ name = 'Sharpe', value = 36 },
-				{ name = 'The', value = -12 },
-				{ name = 'Zeros', value = 37 },
+				{ name = "And", value = 45 },
+				{ name = "Edward", value = 21 },
+				{ name = "Magnetic", value = 13 },
+				{ name = "Sharpe", value = 36 },
+				{ name = "The", value = -12 },
+				{ name = "Zeros", value = 37 },
 			})
 		end)
 	end)
