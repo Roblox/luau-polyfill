@@ -1,5 +1,5 @@
 return function()
-	local NumberModule = script.Parent
+	local NumberModule = script.Parent.Parent
 	local Number = require(NumberModule)
 
 	local LuauPolyfill = NumberModule.Parent
