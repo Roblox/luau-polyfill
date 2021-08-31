@@ -1,22 +1,24 @@
 # LuauPolyfills Changelog
 
-## Unreleased Changes
+# 0.2.2
 
 ### Added Polyfills
-* `Number.NaN`
+* `Map` ([#70](https://github.com/Roblox/luau-polyfill/pull/70))
+* `WeakMap` ([#70](https://github.com/Roblox/luau-polyfill/pull/70))
+* `Number.NaN` ([#82](https://github.com/Roblox/luau-polyfill/pull/82))
 
 ### Fixes
 * `Object.keys` should return an empty array for sets ([#71](https://github.com/Roblox/luau-polyfill/pull/71))
 * Make third argument of `Array.map(array, callback, this)` optional ([#77](https://github.com/Roblox/luau-polyfill/pull/77))
 * `Set` type - add self as first param to Set methods ([#76](https://github.com/Roblox/luau-polyfill/pull/76))
+* Override `__tostring` on `Set` so that it prints the contents in a way that matches JS  ([#68](https://github.com/Roblox/luau-polyfill/pull/68))
+* Refine typechecking for `String.split` ([#69](https://github.com/Roblox/luau-polyfill/pull/69) and [#78](https://github.com/Roblox/luau-polyfill/pull/78))
 
 * improvements to `util.inspect` ([#68](https://github.com/Roblox/luau-polyfill/pull/68))
   * Print fragmented keys in addition to regular sequential indexes.
   * We now explicitly sort the keys based on alpha-sort, for more stable string comparison in tests/snapshots.
   * If a table overrides tostring, don't append all the raw keys/values.
-  * Override `__tostring` on `Set` so that it prints the contents, more closely matching nodejs inspect() behavior.
   * Mixed-index tables now inspect correctly.
-* Refine typechecking for `String.split` ([#69](https://github.com/Roblox/luau-polyfill/pull/69) and [#78](https://github.com/Roblox/luau-polyfill/pull/78))
 
 ## 0.2.1
 
