@@ -1,6 +1,12 @@
 # LuauPolyfills Changelog
 
-# 0.2.2
+## 0.2.3
+
+### Fixes
+* Fix for `instanceof` with objects that have a throwing `__index` metamethod ([#86](https://github.com/Roblox/luau-polyfill/pull/86))
+* Move spec file under `__tests__` to fix static analysis error ([#85](https://github.com/Roblox/luau-polyfill/pull/85))
+
+## 0.2.2
 
 ### Added Polyfills
 * `Map` ([#70](https://github.com/Roblox/luau-polyfill/pull/70))
