@@ -28,9 +28,9 @@ return function()
 		end)
 
 		it("should not add separator for array with single element", function()
-			jestExpect(join({"foo"}, ", ")).toEqual("foo")
-			jestExpect(join({"foo"}, " + ")).toEqual("foo")
-			jestExpect(join({"foo"}, "")).toEqual("foo")
+			jestExpect(join({ "foo" }, ", ")).toEqual("foo")
+			jestExpect(join({ "foo" }, " + ")).toEqual("foo")
+			jestExpect(join({ "foo" }, "")).toEqual("foo")
 		end)
 	end)
 end

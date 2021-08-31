@@ -50,8 +50,7 @@ return function()
 	end)
 
 	it("tests multiple extensions of error and their tostring methods", function()
-		local SubError = extends(Error, "SubError", function(self)
-		end)
+		local SubError = extends(Error, "SubError", function(self) end)
 
 		local inst = SubError()
 		jestExpect(tostring(SubError)).toEqual("SubError")

@@ -26,5 +26,5 @@ return function(value: any): boolean
 		sum += key
 	end
 
-    return sum == (count * (count + 1) / 2)
+	return sum == (count * (count + 1) / 2)
 end

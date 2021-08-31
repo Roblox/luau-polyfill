@@ -13,16 +13,16 @@ export type Symbol = typeof(newproxy(true))
 return {
 	new = function(name: string?): Symbol
 		local self = newproxy(true)
-		
+
 		local wrappedName = "Symbol()"
 		if name then
 			wrappedName = ("Symbol(%s)"):format(name)
 		end
-		
+
 		getmetatable(self).__tostring = function()
 			return wrappedName
 		end
-		
+
 		return self
-	end
+	end,
 }

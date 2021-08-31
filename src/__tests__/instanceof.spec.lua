@@ -77,9 +77,8 @@ return function()
 		end
 
 		setmetatable(Class, {
-			__call = Class.new
+			__call = Class.new,
 		})
-
 
 		local SubClass = {}
 		SubClass.__index = SubClass
@@ -91,7 +90,7 @@ return function()
 
 		setmetatable(SubClass, {
 			__call = SubClass.new,
-			__index = Class
+			__index = Class,
 		})
 
 		local subClassObj = SubClass()
@@ -121,8 +120,7 @@ return function()
 	it("returns false when checking instanceof primitive argument", function()
 		local Class = {}
 
-		function Class.new()
-		end
+		function Class.new() end
 
 		jestExpect(instanceof(nil, Class)).toEqual(false)
 
@@ -137,6 +135,8 @@ return function()
 	end)
 
 	it("errors when checking instanceof nil", function()
- 		jestExpect(function() instanceof(setmetatable({}, {}), nil) end).toThrow("Received a non-table as the second argument for instanceof")
- 	end)
+		jestExpect(function()
+			instanceof(setmetatable({}, {}), nil)
+		end).toThrow("Received a non-table as the second argument for instanceof")
+	end)
 end

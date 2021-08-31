@@ -10,30 +10,18 @@ return function()
 	local jestExpect = JestRoblox.Globals.expect
 
 	it("calls the reducer function with the indexes", function()
-		jestExpect(
-			reduce(
-				{true , false, {}, "foo"},
-				function(accumulator, _currentValue, index)
-					table.insert(accumulator, index)
-					return accumulator
-				end,
-				{}
-			)
-		).toEqual({1, 2, 3, 4})
+		jestExpect(reduce({ true, false, {}, "foo" }, function(accumulator, _currentValue, index)
+			table.insert(accumulator, index)
+			return accumulator
+		end, {})).toEqual({ 1, 2, 3, 4 })
 	end)
 
 	it("calls the reducer function with the given array", function()
-		local originalArray = {true}
-		jestExpect(
-			reduce(
-				originalArray,
-				function(_acc, currentValue, _index, array)
-					jestExpect(array).toBe(originalArray)
-					return currentValue
-				end,
-				{}
-			)
-		).toEqual(true)
+		local originalArray = { true }
+		jestExpect(reduce(originalArray, function(_acc, currentValue, _index, array)
+			jestExpect(array).toBe(originalArray)
+			return currentValue
+		end, {})).toEqual(true)
 	end)
 
 	it("throws if no initial value is provided and the array is empty", function()
@@ -50,47 +38,32 @@ return function()
 			reduceAny(nil, function() end)
 		end).toThrow()
 		jestExpect(function()
-			reduceAny({0, 1}, nil)
+			reduceAny({ 0, 1 }, nil)
 		end).toThrow()
 	end)
 
 	it("Sum all the values of an array", function()
-		jestExpect(
-			reduce(
-				{1, 2, 3, 4},
-				function(accumulator, currentValue)
-					return accumulator + currentValue
-				end
-			)
-		).toEqual(10)
+		jestExpect(reduce({ 1, 2, 3, 4 }, function(accumulator, currentValue)
+			return accumulator + currentValue
+		end)).toEqual(10)
 	end)
 
 	it("Sum of values in an object array", function()
-		jestExpect(
-			reduce(
-				{ { x = 1 }, { x = 2 }, { x = 3 } },
-				function(accumulator, currentValue)
-					return accumulator + currentValue.x
-				end,
-				0
-			)
-		).toEqual(6)
+		jestExpect(reduce({ { x = 1 }, { x = 2 }, { x = 3 } }, function(accumulator, currentValue)
+			return accumulator + currentValue.x
+		end, 0)).toEqual(6)
 	end)
 
 	it("Counting instances of values in an object", function()
-		local names = {"Alice", "Bob", "Tiff", "Bruce", "Alice"}
-		local reduced = reduce(
-			names,
-			function(allNames, name)
-				if allNames[name] ~= nil then
-					allNames[name] = allNames[name] + 1
-				else
-					allNames[name] = 1
-				end
-				return allNames
-			end,
-			{}
-		)
+		local names = { "Alice", "Bob", "Tiff", "Bruce", "Alice" }
+		local reduced = reduce(names, function(allNames, name)
+			if allNames[name] ~= nil then
+				allNames[name] = allNames[name] + 1
+			else
+				allNames[name] = 1
+			end
+			return allNames
+		end, {})
 		jestExpect(reduced).toEqual({
 			Alice = 2,
 			Bob = 1,
@@ -103,20 +76,16 @@ return function()
 		local people = {
 			{ name = "Alice", age = 21 },
 			{ name = "Max", age = 20 },
-			{ name = "Jane", age = 20 }
+			{ name = "Jane", age = 20 },
 		}
-		local reduced = reduce(
-			people,
-			function(acc, obj)
-				local key = obj["age"]
-				if acc[key] == nil then
-					acc[key] = {}
-				end
-				table.insert(acc[key], obj)
-				return acc
-			end,
-			{}
-		)
+		local reduced = reduce(people, function(acc, obj)
+			local key = obj["age"]
+			if acc[key] == nil then
+				acc[key] = {}
+			end
+			table.insert(acc[key], obj)
+			return acc
+		end, {})
 		jestExpect(reduced).toEqual({
 			[20] = {
 				{ name = "Max", age = 20 },
@@ -124,7 +93,7 @@ return function()
 			},
 			[21] = {
 				{ name = "Alice", age = 21 },
-			}
+			},
 		})
 	end)
 end

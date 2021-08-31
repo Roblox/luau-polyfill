@@ -13,7 +13,7 @@ return function()
 	end)
 
 	it("returns an empty array for Sets", function()
-		jestExpect(keys(Set.new({1, 2, 3}))).toEqual({})
+		jestExpect(keys(Set.new({ 1, 2, 3 }))).toEqual({})
 	end)
 
 	it("returns an array with the table keys", function()
@@ -21,7 +21,7 @@ return function()
 		local result = keys(t)
 		jestExpect(#result).toEqual(2)
 		table.sort(result)
-		jestExpect(result).toEqual({"bar", "foo"})
+		jestExpect(result).toEqual({ "bar", "foo" })
 	end)
 
 	it("returns an empty array given a number", function()
@@ -43,6 +43,6 @@ return function()
 	-- To not risk making the function significantly slower, this behavior is
 	-- not implemented
 	itSKIP("returns an array of stringified index given an array", function()
-		jestExpect(keys({true, false, true})).toEqual({"1", "2", "3"})
+		jestExpect(keys({ true, false, true })).toEqual({ "1", "2", "3" })
 	end)
 end

@@ -17,7 +17,7 @@ return function()
 			someAny(nil, function() end)
 		end).toThrow()
 		jestExpect(function()
-			someAny({0, 1}, nil)
+			someAny({ 0, 1 }, nil)
 		end).toThrow()
 	end)
 
@@ -25,12 +25,12 @@ return function()
 		local isBiggerthan10 = function(element, index, array)
 			return element > 10
 		end
-		jestExpect(some({2, 5, 8, 1, 4}, isBiggerthan10)).toEqual(false)
-		jestExpect(some({12, 5, 8, 1, 4}, isBiggerthan10)).toEqual(true)
+		jestExpect(some({ 2, 5, 8, 1, 4 }, isBiggerthan10)).toEqual(false)
+		jestExpect(some({ 12, 5, 8, 1, 4 }, isBiggerthan10)).toEqual(true)
 	end)
 
 	it("Checking whether a value exists in an array", function()
-		local fruits = {"apple", "banana", "mango", "guava"}
+		local fruits = { "apple", "banana", "mango", "guava" }
 		local checkAvailability = function(arr, val)
 			return some(arr, function(arrVal)
 				return val == arrVal
@@ -41,7 +41,7 @@ return function()
 	end)
 
 	it("Converting any value to Boolean", function()
-		local truthy_values = {true, "true", 1}
+		local truthy_values = { true, "true", 1 }
 		local getBoolean = function(value)
 			return some(truthy_values, function(t)
 				return t == value

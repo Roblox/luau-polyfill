@@ -1,3 +1,3 @@
 return {
-	toJSBoolean = require(script.toJSBoolean)
+	toJSBoolean = require(script.toJSBoolean),
 }

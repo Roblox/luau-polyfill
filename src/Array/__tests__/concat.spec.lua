@@ -19,7 +19,14 @@ return function()
 		jestExpect(concat({ 1 }, { 2, 3 })).toEqual({ 1, 2, 3 })
 		jestExpect(concat({ 1, 2 }, { 3 })).toEqual({ 1, 2, 3 })
 		jestExpect(concat({ 1, 2 }, { 3, 4 })).toEqual({ 1, 2, 3, 4 })
-		jestExpect(concat({ 1, 2 }, { 3, 4 }, { 5, 6 })).toEqual({ 1, 2, 3, 4, 5, 6 })
+		jestExpect(concat({ 1, 2 }, { 3, 4 }, { 5, 6 })).toEqual({
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+		})
 	end)
 
 	it("concatenate values", function()
@@ -52,7 +59,7 @@ return function()
 	if _G.__DEV__ then
 		it("throws when an object-like table value is passed", function()
 			jestExpect(function()
-				concat({1, 2}, { a = true })
+				concat({ 1, 2 }, { a = true })
 			end).toThrow("Array.concat(...) only works with array-like tables but it received an object-like table")
 		end)
 	end

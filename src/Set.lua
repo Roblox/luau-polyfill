@@ -24,9 +24,7 @@ export type Set<T> = {
 	ipairs: (self: Set<T>) -> any,
 }
 
-function Set.new(
-	iterable: Array<any> | Set<any> | { ipairs: (any) -> any } | string | nil
-)
+function Set.new(iterable: Array<any> | Set<any> | { ipairs: (any) -> any } | string | nil)
 	local array = {}
 	local map = {}
 	if iterable ~= nil then

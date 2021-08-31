@@ -40,7 +40,7 @@ return function()
 	end)
 
 	it("returns false when given inf", function()
-		jestExpect(isInteger(1 / 0)).toEqual(false)
+		jestExpect(isInteger(math.huge)).toEqual(false)
 	end)
 
 	it("returns false when given '10'", function()

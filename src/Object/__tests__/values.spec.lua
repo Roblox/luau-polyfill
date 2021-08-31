@@ -13,17 +13,17 @@ return function()
 			baz = "zoo",
 		})
 		table.sort(result)
-		jestExpect(result).toEqual({"bar", "zoo"})
+		jestExpect(result).toEqual({ "bar", "zoo" })
 	end)
 
 	it("returns the values of an array-like table", function()
-		local result = values({"bar", "foo"})
+		local result = values({ "bar", "foo" })
 		table.sort(result)
-		jestExpect(result).toEqual({"bar", "foo"})
+		jestExpect(result).toEqual({ "bar", "foo" })
 	end)
 
 	it("returns an array of character given a string", function()
-		jestExpect(values("bar")).toEqual({"b", "a", "r"})
+		jestExpect(values("bar")).toEqual({ "b", "a", "r" })
 	end)
 
 	it("throws given nil", function()

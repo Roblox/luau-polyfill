@@ -20,11 +20,11 @@ return function()
 	end)
 
 	it("returns nil if the predicate is always false", function()
-		jestExpect(find({1, 2, 3}, returnFalse)).toEqual(nil)
+		jestExpect(find({ 1, 2, 3 }, returnFalse)).toEqual(nil)
 	end)
 
 	it("returns the first element where the predicate is true", function()
-		local result = find({3, 4, 5, 6}, function(element)
+		local result = find({ 3, 4, 5, 6 }, function(element)
 			return element % 2 == 0
 		end)
 		jestExpect(result).toEqual(4)
@@ -32,10 +32,10 @@ return function()
 
 	it("passes the element, its index and the array to the predicate", function()
 		local arguments = nil
-		local array = {"foo"}
+		local array = { "foo" }
 		find(array, function(...)
-			arguments = {...}
+			arguments = { ... }
 		end)
-		jestExpect(arguments).toEqual({"foo", 1, array})
+		jestExpect(arguments).toEqual({ "foo", 1, array })
 	end)
 end

@@ -12,7 +12,7 @@ local SymbolObject = setmetatable({}, {
 	]]
 	__call = function(_, name: string?): Symbol.Symbol
 		return Symbol.new(name)
-	end
+	end,
 })
 
 SymbolObject.for_ = GlobalRegistry.getOrInit

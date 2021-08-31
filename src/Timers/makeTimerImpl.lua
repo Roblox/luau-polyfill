@@ -1,9 +1,7 @@
 local Status = newproxy(false)
 
 type TaskStatus = number
-type Task = {
-	[Status]: TaskStatus
-}
+type Task = { [Status]: TaskStatus }
 
 local SCHEDULED = 1
 local DONE = 2
@@ -11,11 +9,11 @@ local CANCELLED = 3
 
 return function(delayImpl)
 	local function setTimeout(callback, delayTime: number, ...): Task
-		local args = {...}
+		local args = { ... }
 		local task = {
-			[Status] = SCHEDULED
+			[Status] = SCHEDULED,
 		}
-		
+
 		-- delayTime is an optional parameter
 		if delayTime == nil then
 			delayTime = 0

@@ -31,9 +31,7 @@ return function()
 			jestExpect(inspect("\t\n")).toBe('"\\t\\n"')
 			jestExpect(inspect("\1")).toBe('"\\u0001"')
 			jestExpect(inspect("\\")).toBe('"\\\\"')
-			jestExpect(
-				inspect("string with both 'apostrophe' and \"quote\" characters")
-			).toBe(
+			jestExpect(inspect("string with both 'apostrophe' and \"quote\" characters")).toBe(
 				'"string with both \'apostrophe\' and \\"quote\\" characters"'
 			)
 		end)
@@ -90,8 +88,8 @@ return function()
 			jestExpect(inspect({ a = { b = {} } })).toBe("{ a: { b: [] } }")
 			jestExpect(inspect({ a = { b = { c = 1 } } })).toBe("{ a: { b: [Object] } }")
 
-			jestExpect(inspect({[3.14159] = true, 1, 2})).toBe("{ 1, 2, 3.14159: true }")
-			jestExpect(inspect({1, 2, [-3] = 3})).toBe("{ 1, 2, -3: 3 }")
+			jestExpect(inspect({ [3.14159] = true, 1, 2 })).toBe("{ 1, 2, 3.14159: true }")
+			jestExpect(inspect({ 1, 2, [-3] = 3 })).toBe("{ 1, 2, -3: 3 }")
 
 			-- ROBLOX deviation:
 			-- local map = Object.create(nil)
@@ -101,8 +99,8 @@ return function()
 		end)
 
 		it("Set", function()
-			jestExpect(inspect(Set.new({ 31337, "foo"}))).toBe('Set (2) [31337, "foo"]')
-			jestExpect(inspect(Set.new({ Set.new({90210, "baz"}) }))).toBe('Set (1) [Set (2) [90210, "baz"]]')
+			jestExpect(inspect(Set.new({ 31337, "foo" }))).toBe('Set (2) [31337, "foo"]')
+			jestExpect(inspect(Set.new({ Set.new({ 90210, "baz" }) }))).toBe('Set (1) [Set (2) [90210, "baz"]]')
 			jestExpect(inspect(Set.new({}))).toBe("Set []")
 		end)
 

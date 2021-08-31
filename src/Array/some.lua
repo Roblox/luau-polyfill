@@ -1,7 +1,7 @@
 --!strict
 
-type Array = { [number]: any };
-type Function = (any, any?, any?, any?) -> any;
+type Array = { [number]: any }
+type Function = (any, any?, any?, any?) -> any
 
 -- Implements Javascript's `Array.prototype.map` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some

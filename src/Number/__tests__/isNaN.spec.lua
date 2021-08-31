@@ -8,10 +8,10 @@ return function()
 	local jestExpect = JestRoblox.Globals.expect
 
 	it("returns true when given 0/0", function()
-		jestExpect(isNaN(0/0)).toEqual(true)
+		jestExpect(isNaN(0 / 0)).toEqual(true)
 	end)
 
-	it("returns false when given \"nan\"", function()
+	it('returns false when given "nan"', function()
 		jestExpect(isNaN("nan")).toEqual(false)
 	end)
 
@@ -23,7 +23,7 @@ return function()
 		jestExpect(isNaN({})).toEqual(false)
 	end)
 
-	it("returns false when given \"blabla\"", function()
+	it('returns false when given "blabla"', function()
 		jestExpect(isNaN("blabla")).toEqual(false)
 	end)
 
