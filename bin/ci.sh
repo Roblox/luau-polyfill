@@ -9,11 +9,9 @@ find Packages/Dev -name "*.robloxrc" | xargs rm -f
 find Packages/_Index -name "*.robloxrc" | xargs rm -f
 echo "Run static analysis"
 roblox-cli analyze test-model.project.json
-selene src/util
-stylua -c src/util
+selene src
+stylua -c src
 echo "Run tests in DEV"
 roblox-cli run --load.model model.rbxmx --run bin/spec.lua --fastFlags.overrides "UseDateTimeType3=true" --lua.globals=__DEV__=true
 echo "Run tests in release"
 roblox-cli run --load.model model.rbxmx --run bin/spec.lua --fastFlags.overrides "UseDateTimeType3=true"
-
-
