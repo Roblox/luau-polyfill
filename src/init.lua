@@ -6,6 +6,23 @@ local WeakMap = require(script.WeakMap)
 
 export type Array<T> = Array.Array<T>
 export type Map<T, V> = mapModule.Map<T, V>
+export type PromiseLike<T> = {
+	andThen: (
+		((T) -> T)? | (PromiseLike<T>)?, -- resolve
+		((any) -> () | PromiseLike<T>)? -- reject
+	) -> PromiseLike<T>,
+}
+
+export type Promise<T> = {
+	andThen: ((
+		((T) -> T | PromiseLike<T>)?, -- resolve
+		((any) -> () | PromiseLike<nil>)? -- reject
+	) -> Promise<T>)?,
+
+	catch: ((((any) -> () | PromiseLike<nil>)) -> Promise<T>)?,
+
+	onCancel: ((() -> ()?) -> boolean)?,
+}
 export type Set<T> = Set.Set<T>
 export type WeakMap<T, V> = WeakMap.WeakMap<T, V>
 
