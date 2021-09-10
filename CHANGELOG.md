@@ -1,5 +1,10 @@
 # LuauPolyfills Changelog
 
+## Unreleased
+
+### Added Polyfills
+* `Promise` *type-only*, translates relevant portion of Promise type from TypeScript and flowtype, and maps cleanly on top of community Promise libraries.
+
 ## 0.2.3
 
 ### Fixes
