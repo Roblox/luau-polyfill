@@ -4,8 +4,8 @@ return function()
 	local join = require(Array.join)
 
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	describe("Join", function()
 		local arr = { "Wind", "Water", "Fire" }

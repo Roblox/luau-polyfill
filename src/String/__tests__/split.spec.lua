@@ -2,8 +2,8 @@ return function()
 	local String = script.Parent.Parent
 	local Packages = String.Parent.Parent
 	local split = require(String.split)
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	it("should split with single split pattern", function()
 		local str = "The quick brown fox jumps over the lazy dog."

@@ -4,8 +4,8 @@ return function()
 
 	local LuauPolyfill = Number.Parent
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	it("is not equal to the next bigger integer", function()
 		jestExpect(MAX_SAFE_INTEGER).never.toEqual(MAX_SAFE_INTEGER + 1)

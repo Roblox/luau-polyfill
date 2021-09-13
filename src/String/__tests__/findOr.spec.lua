@@ -2,8 +2,8 @@ return function()
 	local String = script.Parent.Parent
 	local Packages = String.Parent.Parent
 	local findOr = require(String.findOr)
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	it("returns nil when not found", function()
 		local str = "abc"

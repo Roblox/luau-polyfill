@@ -7,8 +7,8 @@ return function()
 
 	local LuauPolyfill = Object.Parent
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	it("should accept zero additional tables", function()
 		local input = {}

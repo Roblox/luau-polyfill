@@ -12,6 +12,7 @@ return {
 	join = require(script.join),
 	map = require(script.map),
 	reduce = require(script.reduce),
+	reverse = require(script.reverse),
 	shift = require(script.shift),
 	slice = require(script.slice),
 	some = require(script.some),

@@ -7,8 +7,8 @@ return function()
 	local Error = LuauPolyfill.Error
 
 	local Packages = LuauPolyfillModule.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	-- https://roblox.github.io/lua-style-guide/#prototype-based-classes
 	it("extends the example from the Lua style guide", function()

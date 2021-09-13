@@ -6,8 +6,8 @@ return function()
 	local indexOf = require(Array.indexOf)
 
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	local beasts = { "ant", "bison", "camel", "duck", "bison" }
 

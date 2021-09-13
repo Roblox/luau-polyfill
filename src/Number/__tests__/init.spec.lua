@@ -4,8 +4,8 @@ return function()
 
 	local LuauPolyfill = NumberModule.Parent
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	it("has MAX_SAFE_INTEGER constant", function()
 		jestExpect(Number.MAX_SAFE_INTEGER).toEqual(jestExpect.any("number"))
