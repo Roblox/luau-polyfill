@@ -6,8 +6,8 @@ return function()
 	local splice = require(Array.splice)
 
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	it('Remove 0 (zero) elements before index 3, and insert "drum"', function()
 		local myFish = { "angel", "clown", "mandarin", "sturgeon" }

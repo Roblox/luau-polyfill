@@ -2,8 +2,8 @@ return function()
 	local LuauPolyfill = script.Parent.Parent
 
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	local Array = require(LuauPolyfill.Array)
 
@@ -272,6 +272,9 @@ return function()
 
 			it("iterates on an empty set", function()
 				local foo = Map.new()
+				for k, v in foo:ipairs() do
+					error("should not iterate on empty set")
+				end
 				jestExpect(makeArray(foo:ipairs())).toEqual({})
 			end)
 

@@ -2,8 +2,12 @@
 
 ## Unreleased
 
+### Fixes
+* Fix for `Array.from` to support `Map` objects
+
 ### Added Polyfills
 * `Promise` *type-only*, translates relevant portion of Promise type from TypeScript and flowtype, and maps cleanly on top of community Promise libraries.
+* `Array.reverse`
 
 ## 0.2.3
 

@@ -4,11 +4,12 @@ return function()
 	local Array = script.Parent.Parent
 	local LuauPolyfill = Array.Parent
 	local from = require(Array.from)
-	local Set = require(LuauPolyfill.Set)
+	local Set = require(LuauPolyfill).Set
+	local Map = require(LuauPolyfill).Map
 
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	it("creates a array of characters given a string", function()
 		jestExpect(from("bar")).toEqual({ "b", "a", "r" })
@@ -44,6 +45,17 @@ return function()
 		jestExpect(from(Set.new())).toEqual({})
 	end)
 
+	it("returns an array from a Map", function()
+		local map = Map.new()
+		map:set("key1", 31337)
+		map:set("key2", 90210)
+		jestExpect(from(map)).toEqual({ { "key1", 31337 }, { "key2", 90210 } })
+	end)
+
+	it("returns an empty array from an empty Map", function()
+		jestExpect(from(Map.new())).toEqual({})
+	end)
+
 	describe("with mapping function", function()
 		it("maps each character", function()
 			jestExpect(from("bar", function(character, index)
@@ -61,6 +73,14 @@ return function()
 			jestExpect(from(Set.new({ 1, 3 }), function(element, index)
 				return element + index
 			end)).toEqual({ 2, 5 })
+		end)
+
+		it("maps each element of the array from a Map", function()
+			local map = Map.new()
+			map:set(-90210, 90210)
+			jestExpect(from(map, function(element, index)
+				return element[1] + element[2] + index
+			end)).toEqual({ -90210 + 90210 + 1 })
 		end)
 	end)
 end

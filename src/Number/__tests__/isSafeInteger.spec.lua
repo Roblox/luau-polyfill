@@ -4,8 +4,8 @@ return function()
 
 	local LuauPolyfill = Number.Parent
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	it("returns true when given 3", function()
 		jestExpect(isSafeInteger(3)).toEqual(true)
