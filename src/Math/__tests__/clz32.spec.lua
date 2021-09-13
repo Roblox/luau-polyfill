@@ -4,8 +4,8 @@ return function()
 
 	local LuauPolyfill = Math.Parent
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	it("gives the number of leading zero of powers of 2", function()
 		for i = 1, 32 do

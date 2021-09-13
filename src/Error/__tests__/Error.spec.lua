@@ -9,8 +9,8 @@ return function()
 	local extends = require(LuauPolyfill).extends
 	local instanceof = require(LuauPolyfill).instanceof
 
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	local MyError = extends(Error, "MyError", function(self, message)
 		self.message = message

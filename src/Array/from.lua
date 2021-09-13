@@ -3,10 +3,15 @@ local isArray = require(Array.isArray)
 local LuauPolyfill = Array.Parent
 local instanceof = require(LuauPolyfill.instanceof)
 local Set
+local Map
 
 return function(value, mapFn)
 	if not Set then
 		Set = require(LuauPolyfill.Set :: any)
+	end
+
+	if not Map then
+		Map = require(LuauPolyfill.Map :: any)
 	end
 
 	if value == nil then
@@ -27,6 +32,17 @@ return function(value, mapFn)
 			end
 		end
 	elseif instanceof(value, Set) then
+		if mapFn then
+			for i, v in value:ipairs() do
+				array[i] = mapFn(v, i)
+			end
+		else
+			for i, v in value:ipairs() do
+				array[i] = v
+			end
+		end
+		-- FIXME: for some reason, instanceOf doesn't work with Map even within just the unit tests
+	elseif valueType == "table" and value._map and value._array and value.size then
 		if mapFn then
 			for i, v in value:ipairs() do
 				array[i] = mapFn(v, i)

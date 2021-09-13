@@ -7,8 +7,8 @@ return function()
 	local sort = require(Array.sort)
 
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	it("sorts string by default", function()
 		local months = { "March", "Jan", "Feb", "Dec" }

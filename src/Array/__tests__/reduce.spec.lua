@@ -6,8 +6,8 @@ return function()
 	local reduce = require(Array.reduce)
 
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	it("calls the reducer function with the indexes", function()
 		jestExpect(reduce({ true, false, {}, "foo" }, function(accumulator, _currentValue, index)

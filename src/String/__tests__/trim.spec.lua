@@ -4,8 +4,8 @@ return function()
 
 	local LuauPolyfill = String.Parent
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	it("removes spaces at beginning", function()
 		jestExpect(trim("  abc")).toEqual("abc")

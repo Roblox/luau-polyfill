@@ -4,8 +4,8 @@ return function()
 
 	local LuauPolyfill = Boolean.Parent
 	local Packages = LuauPolyfill.Parent
-	local JestRoblox = require(Packages.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	-- https://developer.mozilla.org/en-US/docs/Glossary/Falsy
 	it("tests javascript falsy values", function()
