@@ -1,11 +1,16 @@
 --!nocheck
 return function()
 	local LuauPolyfillModule = script.Parent.Parent
-	local instanceof = require(LuauPolyfillModule).instanceof
+	local LuauPolyfill = require(LuauPolyfillModule)
+
+	local instanceof = LuauPolyfill.instanceof
 
 	local Packages = LuauPolyfillModule.Parent
 	local JestGlobals = require(Packages.Dev.JestGlobals)
 	local jestExpect = JestGlobals.expect
+
+	local Set = LuauPolyfill.Set
+	local Map = LuauPolyfill.Map
 
 	-- https://roblox.github.io/lua-style-guide/#prototype-based-classes
 	it("tests the example from the Lua style guide", function()
@@ -138,5 +143,19 @@ return function()
 		jestExpect(function()
 			instanceof(setmetatable({}, {}), nil)
 		end).toThrow("Received a non-table as the second argument for instanceof")
+	end)
+
+	describe("works on LuauPolyfill types", function()
+		it("Set", function()
+			local instance = Set.new()
+			jestExpect(instanceof(instance, Set)).toEqual(true)
+		end)
+
+		it("Map", function()
+			local instance = Map.new()
+			instance:set("key1", 123)
+			instance:set("key2", 456)
+			jestExpect(instanceof(instance, Map)).toEqual(true)
+		end)
 	end)
 end
