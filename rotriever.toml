@@ -1,6 +1,6 @@
 [package]
 name = "LuauPolyfill"
-version = "0.2.3"
+version = "0.2.4"
 author = "Paul Doyle <pdoyle@roblox.com>"
 content_root = "src"
 files = ["*", "!**/__tests__/**"]
