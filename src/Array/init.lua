@@ -6,6 +6,7 @@ return {
 	filter = require(script.filter),
 	find = require(script.find),
 	findIndex = require(script.findIndex),
+	forEach = require(script.forEach),
 	from = require(script.from),
 	indexOf = require(script.indexOf),
 	isArray = require(script.isArray),
