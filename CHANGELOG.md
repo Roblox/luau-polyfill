@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.2.4
+
+To be cached to the proxy with a Rotriever RC 4, which will properly filter tests when bundling the artifact.
+
 ### Fixes
 * Fix for `Array.from` to support `Map` objects
 
