@@ -3,6 +3,7 @@
 return function()
 	local ErrorModule = script.Parent.Parent
 	local Error = require(ErrorModule)
+	type Error = Error.Error
 	local LuauPolyfill = ErrorModule.Parent
 	local Packages = LuauPolyfill.Parent
 	local RegExp = require(Packages.Dev.RegExp)
@@ -23,19 +24,19 @@ return function()
 	end)
 
 	it("accepts a message value as an argument", function()
-		local err = Error("Some message")
+		local err: Error = Error("Some message")
 
 		jestExpect(err.message).toEqual("Some message")
 	end)
 
 	it("defaults the `name` field to 'Error'", function()
-		local err = Error("")
+		local err: Error = Error("")
 
 		jestExpect(err.name).toEqual("Error")
 	end)
 
 	it("gets passed through the `error` builtin properly", function()
-		local err = Error("Throwing an error")
+		local err: Error = Error("Throwing an error")
 		local ok, result = pcall(function()
 			error(err)
 		end)
@@ -45,12 +46,12 @@ return function()
 	end)
 
 	it("checks that Error is a class according to our inheritance standard", function()
-		local err = Error("Test")
+		local err: Error = Error("Test")
 		jestExpect(instanceof(err, Error)).toEqual(true)
 	end)
 
 	it("checks the inheritance of Error", function()
-		local inst = MyError("my error message")
+		local inst: Error = MyError("my error message")
 
 		jestExpect(inst.message).toEqual("my error message")
 		jestExpect(inst.name).toEqual("MyError")
@@ -61,7 +62,7 @@ return function()
 	end)
 
 	it("checks the inheritance of a sub error", function()
-		local inst = YourError("your error message")
+		local inst: Error = YourError("your error message")
 
 		jestExpect(inst.message).toEqual("your error message")
 		jestExpect(inst.name).toEqual("YourError")
@@ -84,8 +85,8 @@ return function()
 	end)
 
 	it("checks Error stack field", function()
-		local err = Error("test stack for Error()")
-		local err2 = Error.new("test stack for Error.new()")
+		local err: Error = Error("test stack for Error()")
+		local err2: Error = Error.new("test stack for Error.new()")
 
 		local topLineRegExp = RegExp("^.*Error.__tests__\\.Error\\.spec:\\d+")
 

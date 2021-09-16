@@ -19,8 +19,11 @@ return function()
 		jestExpect(from({ "foo", "bar" })).toEqual({ "foo", "bar" })
 	end)
 
+	-- not documented on MDN, but consistent across nodejs, Firefox, and Safari
 	it("returns an empty array given a number", function()
-		jestExpect(from(10)).toEqual({})
+		-- re-cast since typechecking would disallow this abuse case
+		local from_: any = from :: any
+		jestExpect(from_(10)).toEqual({})
 	end)
 
 	it("returns an empty array given an empty table", function()
@@ -33,7 +36,9 @@ return function()
 
 	it("throws when given nil", function()
 		jestExpect(function()
-			from(nil)
+			-- re-cast since typechecking would disallow this abuse case
+			local from_: any = from :: any
+			from_(nil)
 		end).toThrow("cannot create array from a nil value")
 	end)
 

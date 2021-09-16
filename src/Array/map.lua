@@ -1,11 +1,12 @@
 --!strict
 
 type Array = { [number]: any }
-type Function = (any, any?, any?, any?) -> any?
+type callbackFn = (element: any, index: number?, array: Array?) -> ()
+type callbackFnWithThisArg = (thisArg: any, element: any, index: number?, array: Array?) -> ()
 
 -- Implements Javascript's `Array.prototype.map` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
-return function(t: Array, callback: Function, thisArg: any?): Array
+return function(t: Array, callback: callbackFn | callbackFnWithThisArg, thisArg: any?): Array
 	if typeof(t) ~= "table" then
 		error(string.format("Array.map called on %s", typeof(t)))
 	end
@@ -24,9 +25,9 @@ return function(t: Array, callback: Function, thisArg: any?): Array
 			local mappedValue
 
 			if thisArg ~= nil then
-				mappedValue = callback(thisArg, kValue, k, t)
+				mappedValue = (callback :: callbackFnWithThisArg)(thisArg, kValue, k, t)
 			else
-				mappedValue = callback(kValue, k, t)
+				mappedValue = (callback :: callbackFn)(kValue, k, t)
 			end
 
 			A[k] = mappedValue

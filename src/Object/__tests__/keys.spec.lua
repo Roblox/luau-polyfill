@@ -24,18 +24,28 @@ return function()
 		jestExpect(result).toEqual({ "bar", "foo" })
 	end)
 
-	it("returns an empty array given a number", function()
-		jestExpect(keys(1)).toEqual({})
+	it("returns an array of indices when given a string", function()
+		local s = "Roblox"
+		local result = keys(s)
+		jestExpect(#result).toEqual(string.len(s))
+		jestExpect(result).toEqual({ "1", "2", "3", "4", "5", "6" })
 	end)
 
-	it("returns an empty array given boolean", function()
-		jestExpect(keys(true)).toEqual({})
-		jestExpect(keys(false)).toEqual({})
+	-- Luau types don't allow this to happen, figure out how to enable this test with type stripped
+	itSKIP("returns an empty array given a number", function()
+		-- jestExpect(keys(1)).toEqual({})
 	end)
 
-	it("throws when given nil", function()
+	-- Luau types don't allow this to happen, figure out how to enable this test with type stripped
+	itSKIP("returns an empty array given boolean", function()
+		-- jestExpect(keys(true)).toEqual({})
+		-- jestExpect(keys(false)).toEqual({})
+	end)
+
+	-- Luau types don't allow this to happen, figure out how to enable this test with type stripped
+	itSKIP("throws when given nil", function()
 		jestExpect(function()
-			keys(nil)
+			-- keys(nil)
 		end).toThrow("cannot extract keys from a nil value")
 	end)
 

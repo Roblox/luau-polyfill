@@ -8,6 +8,9 @@
 ### Added Polyfills
 * `Promise` *type-only*, translates relevant portion of Promise type from TypeScript and flowtype, and maps cleanly on top of community Promise libraries.
 * `Array.reverse`
+* `String.lastIndexOf`, `String.substr`
+* `Object` type
+* `Error` type
 
 ## 0.2.3
 

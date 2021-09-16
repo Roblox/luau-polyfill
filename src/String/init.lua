@@ -1,8 +1,10 @@
 return {
 	endsWith = require(script.endsWith),
+	lastIndexOf = require(script.lastIndexOf),
 	slice = require(script.slice),
 	split = require(script.split),
 	startsWith = require(script.startsWith),
+	substr = require(script.substr),
 	trim = require(script.trim),
 	trimEnd = require(script.trimEnd),
 	trimStart = require(script.trimStart),

@@ -1,4 +1,6 @@
 --!nocheck
+export type Error = { name: string, message: string, stack: string? }
+
 local Error = {}
 
 local DEFAULT_NAME = "Error"
@@ -7,7 +9,7 @@ Error.__tostring = function(self)
 	return getmetatable(Error).__tostring(self)
 end
 
-function Error.new(message)
+function Error.new(message: string?)
 	return setmetatable({
 		name = DEFAULT_NAME,
 		message = message or "",

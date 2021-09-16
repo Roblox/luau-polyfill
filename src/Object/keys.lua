@@ -1,8 +1,10 @@
 local LuauPolyfill = script.Parent.Parent
 local Set = require(LuauPolyfill.Set)
 local instanceOf = require(LuauPolyfill.instanceof)
+type Table = { [any]: any }
+type Array<T> = { [number]: T }
 
-return function(value)
+return function(value: Table | string): Array<string>
 	if value == nil then
 		error("cannot extract keys from a nil value")
 	end
@@ -15,11 +17,11 @@ return function(value)
 	end
 
 	if valueType == "table" then
-		for key in pairs(value) do
+		for key in pairs(value :: Table) do
 			table.insert(keys, key)
 		end
 	elseif valueType == "string" then
-		local length = value:len()
+		local length = (value :: string):len()
 		keys = table.create(length)
 		for i = 1, length do
 			keys[i] = tostring(i)
