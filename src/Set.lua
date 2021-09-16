@@ -24,7 +24,9 @@ export type Set<T> = {
 	ipairs: (self: Set<T>) -> any,
 }
 
-function Set.new(iterable: Array<any> | Set<any> | { ipairs: (any) -> any } | string | nil)
+type Iterable = { ipairs: (any) -> any }
+
+function Set.new(iterable: Array<any> | Set<any> | Iterable | string | nil)
 	local array = {}
 	local map = {}
 	if iterable ~= nil then
@@ -33,7 +35,7 @@ function Set.new(iterable: Array<any> | Set<any> | { ipairs: (any) -> any } | st
 		if typeof(iterable) == "table" then
 			if Array.isArray(iterable) then
 				arrayIterable = Array.from(iterable)
-			elseif typeof((iterable :: any).ipairs) == "function" then
+			elseif typeof(iterable.ipairs) == "function" then
 				-- handle in loop below
 			elseif _G.__DEV__ then
 				error("cannot create array from an object-like table")
@@ -51,8 +53,8 @@ function Set.new(iterable: Array<any> | Set<any> | { ipairs: (any) -> any } | st
 					table.insert(array, element)
 				end
 			end
-		elseif typeof((iterable :: any).ipairs) == "function" then
-			for _, element in (iterable :: any):ipairs() do
+		elseif typeof(iterable.ipairs) == "function" then
+			for _, element in (iterable :: Iterable):ipairs() do
 				if not map[element] then
 					map[element] = true
 					table.insert(array, element)
