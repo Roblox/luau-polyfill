@@ -6,7 +6,7 @@ local None = require(script.Parent.None)
 
 	This function is identical in functionality to JavaScript's Object.assign.
 ]]
-local function assign(target, ...)
+local function assign(target: { [any]: any }, ...)
 	for index = 1, select("#", ...) do
 		local source = select(index, ...)
 

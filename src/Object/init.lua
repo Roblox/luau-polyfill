@@ -1,3 +1,5 @@
+export type Object = { [string]: any? }
+
 return {
 	assign = require(script.assign),
 	entries = require(script.entries),

@@ -47,9 +47,11 @@ return function()
 	end)
 
 	it("returns an empty array for non-table and non-string values", function()
-		jestExpect(entries(10)).toEqual({})
-		jestExpect(entries(true)).toEqual({})
-		jestExpect(entries(function() end)).toEqual({})
+		-- re-cast since typechecking would disallow this abuse case
+		local entries_: any = entries :: any
+		jestExpect(entries_(10)).toEqual({})
+		jestExpect(entries_(true)).toEqual({})
+		jestExpect(entries_(function() end)).toEqual({})
 	end)
 
 	it("throws given a nil value", function()
