@@ -12,11 +12,11 @@ return function(value: Table | string): Array<string>
 	local valueType = typeof(value)
 
 	local keys = {}
-	if instanceOf(value, Set) then
-		return keys
-	end
-
 	if valueType == "table" then
+		if instanceOf(value, Set) then
+			return keys
+		end
+
 		for key in pairs(value :: Table) do
 			table.insert(keys, key)
 		end

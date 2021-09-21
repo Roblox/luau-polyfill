@@ -3,6 +3,8 @@
 ## Unreleased
 
 ### Fixes
+* Fix for `Array.sort` to make comparator argument optional
+* Tighten callback and predicate argument types for many Array methods: `every`, `filter`, `find`, `foreach`, ...
 * Internal-only fix to satisfy type checker variant used by the roblox-cli `convert` command
 
 ## 0.2.4

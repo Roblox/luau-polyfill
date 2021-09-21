@@ -1,5 +1,6 @@
 -- https://programming-idioms.org/idiom/19/reverse-a-list/1314/lua
-function reverse(t)
+type Array<T> = { [number]: any }
+function reverse(t: Array<any>): Array<any>
 	local n = #t
 	local i = 1
 	while i < n do

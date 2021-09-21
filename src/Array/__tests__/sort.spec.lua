@@ -29,14 +29,16 @@ return function()
 
 	describe("with comparator", function()
 		it("throws if comparator is not a function", function()
+			local sort_: any = sort :: any
 			jestExpect(function()
-				sort({}, "foo")
+				sort_({}, "foo")
 			end).toThrow("invalid argument to Array.sort: compareFunction must be a function")
 		end)
 
 		it("throws when the compare function does not return a number", function()
+			local sort_: any = sort :: any
 			jestExpect(function()
-				sort({ 2, 1 }, function()
+				sort_({ 2, 1 }, function()
 					return "foo"
 				end)
 			end).toThrow("invalid result from compare function, expected number but got string")

@@ -1,15 +1,16 @@
 --!strict
-
-type Array = { [number]: any }
-type Function = (any, any?, any?, any?) -> any
+type Array<T> = { [number]: T }
+type callbackFn = (element: any, index: number?, array: Array<any>?) -> boolean
+type callbackFnWithThisArg = (thisArg: any, element: any, index: number?, array: Array<any>?) -> boolean
+type Object = { [string]: any }
 
 -- Implements Javascript's `Array.prototype.every` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every
-return function(t: Array, callbackfn: Function, thisArg: any): boolean
+return function(t: Array<any>, callback: callbackFn | callbackFnWithThisArg, thisArg: Object?): boolean
 	if typeof(t) ~= "table" then
 		error(string.format("Array.every called on %s", typeof(t)))
 	end
-	if typeof(callbackfn) ~= "function" then
+	if typeof(callback) ~= "function" then
 		error("callback is not a function")
 	end
 
@@ -22,9 +23,9 @@ return function(t: Array, callbackfn: Function, thisArg: any): boolean
 
 		if kValue ~= nil then
 			if thisArg ~= nil then
-				testResult = callbackfn(thisArg, kValue, k, t)
+				testResult = (callback :: callbackFnWithThisArg)(thisArg, kValue, k, t)
 			else
-				testResult = callbackfn(kValue, k, t)
+				testResult = (callback :: callbackFn)(kValue, k, t)
 			end
 
 			if not testResult then

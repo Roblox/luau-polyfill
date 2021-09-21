@@ -8,7 +8,7 @@ type Array = { [number]: any }
 --
 -- This implementation is loosely based on the one described in the polyfill
 -- source in the above link
-return function(array: Array, searchElement: any, fromIndex: number?)
+return function(array: Array, searchElement: any, fromIndex: number?): number
 	local fromIndex: number = fromIndex or 1
 	local length = #array
 
