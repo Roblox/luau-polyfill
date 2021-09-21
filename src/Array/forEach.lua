@@ -1,12 +1,12 @@
 --!strict
 
-type Array = { [number]: any }
-type callbackFn = (element: any, index: number?, array: Array?) -> ()
-type callbackFnWithThisArg = (thisArg: any, element: any, index: number?, array: Array?) -> ()
-
+type Array<T> = { [number]: T }
+type callbackFn = (element: any, index: number?, array: Array<any>?) -> ()
+type callbackFnWithThisArg = (thisArg: any, element: any, index: number?, array: Array<any>?) -> ()
+type Object = { [string]: any }
 -- Implements Javascript's `Array.prototype.forEach` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
-return function(t: Array, callback: callbackFn | callbackFnWithThisArg, thisArg: any?): ()
+return function(t: Array<any>, callback: callbackFn | callbackFnWithThisArg, thisArg: Object?): ()
 	if typeof(t) ~= "table" then
 		error(string.format("Array.forEach called on %s", typeof(t)))
 	end

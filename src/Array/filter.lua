@@ -1,11 +1,12 @@
 --!strict
-
-type Array = { [number]: any }
-type Function = (any, any?, any?, any?) -> any
+type Array<T> = { [number]: T }
+type callbackFn = (element: any, index: number?, array: Array<any>?) -> boolean
+type callbackFnWithThisArg = (thisArg: any, element: any, index: number?, array: Array<any>?) -> boolean
+type Object = { [string]: any }
 
 -- Implements Javascript's `Array.prototype.filter` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
-return function(t: Array, callback: Function, thisArg: any?): Array
+return function(t: Array<any>, callback: callbackFn | callbackFnWithThisArg, thisArg: Object?): Array<any>
 	if typeof(t) ~= "table" then
 		error(string.format("Array.filter called on %s", typeof(t)))
 	end
@@ -21,7 +22,7 @@ return function(t: Array, callback: Function, thisArg: any?): Array
 		for i = 1, len do
 			local kValue = t[i]
 			if kValue ~= nil then
-				if callback(kValue, i, t) then
+				if (callback :: callbackFn)(kValue, i, t) then
 					res[index] = kValue
 					index += 1
 				end
@@ -31,7 +32,7 @@ return function(t: Array, callback: Function, thisArg: any?): Array
 		for i = 1, len do
 			local kValue = t[i]
 			if kValue ~= nil then
-				if callback(thisArg, kValue, i, t) then
+				if (callback :: callbackFnWithThisArg)(thisArg, kValue, i, t) then
 					res[index] = kValue
 					index += 1
 				end

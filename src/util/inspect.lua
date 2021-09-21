@@ -186,7 +186,7 @@ function formatArray(array: Array<any>, seenValues: Array<any>): string
 	if remaining == 1 then
 		table.insert(items, "... 1 more item")
 	elseif remaining > 1 then
-		table.insert(items, ("... %s more items"):format(remaining))
+		table.insert(items, ("... %s more items"):format(tostring(remaining)))
 	end
 
 	return "[" .. table.concat(items, ", ") .. "]"
