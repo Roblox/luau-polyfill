@@ -30,18 +30,18 @@ function Set.new(iterable: Array<any> | Set<any> | Iterable | string | nil)
 	local array = {}
 	local map = {}
 	if iterable ~= nil then
-		local arrayIterable
+		local arrayIterable: Array<any>
 		-- ROBLOX TODO: remove type casting from (iterable :: any).ipairs in next release
 		if typeof(iterable) == "table" then
 			if Array.isArray(iterable) then
-				arrayIterable = Array.from(iterable)
-			elseif typeof(iterable.ipairs) == "function" then
+				arrayIterable = Array.from(iterable :: Array<any>)
+			elseif typeof((iterable :: Iterable).ipairs) == "function" then
 				-- handle in loop below
 			elseif _G.__DEV__ then
 				error("cannot create array from an object-like table")
 			end
 		elseif typeof(iterable) == "string" then
-			arrayIterable = Array.from(iterable)
+			arrayIterable = Array.from(iterable :: string)
 		else
 			error(("cannot create array from value of type `%s`"):format(typeof(iterable)))
 		end
@@ -53,7 +53,7 @@ function Set.new(iterable: Array<any> | Set<any> | Iterable | string | nil)
 					table.insert(array, element)
 				end
 			end
-		elseif typeof(iterable.ipairs) == "function" then
+		elseif typeof(iterable) == "table" and typeof((iterable :: Iterable).ipairs) == "function" then
 			for _, element in (iterable :: Iterable):ipairs() do
 				if not map[element] then
 					map[element] = true

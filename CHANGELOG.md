@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+### Fixes
+* Internal-only fix to satisfy type checker variant used by the roblox-cli `convert` command
+
 ## 0.2.4
 
 To be cached to the proxy with a Rotriever RC 4, which will properly filter tests when bundling the artifact.
