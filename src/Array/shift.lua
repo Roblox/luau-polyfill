@@ -1,8 +1,9 @@
 --!strict
 local Array = script.Parent
 local isArray = require(Array.isArray)
+type Array<T> = { [number]: any }
 
-return function(value)
+return function(value: Array<any>): any?
 	if _G.__DEV__ then
 		if not isArray(value) then
 			error(string.format("Array.shift called on non-array %s", typeof(value)))
