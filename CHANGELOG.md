@@ -1,6 +1,6 @@
 # LuauPolyfills Changelog
 
-## Unreleased
+## 0.2.5
 
 ### Fixes
 * Fix for `Array.sort` to make comparator argument optional
