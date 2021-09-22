@@ -1,5 +1,7 @@
 return {
+	charCodeAt = require(script.charCodeAt),
 	endsWith = require(script.endsWith),
+	findOr = require(script.findOr),
 	lastIndexOf = require(script.lastIndexOf),
 	slice = require(script.slice),
 	split = require(script.split),

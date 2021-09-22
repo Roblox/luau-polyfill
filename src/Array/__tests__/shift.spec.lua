@@ -49,8 +49,10 @@ return function()
 	if _G.__DEV__ then
 		it("throws error on non-array", function()
 			local nonarr = "abc"
+			-- work around type checking on arguments
+			local shift_: any = shift :: any
 			jestExpect(function()
-				shift(nonarr)
+				shift_(nonarr)
 			end).toThrow("Array.shift called on non-array string")
 		end)
 	end
