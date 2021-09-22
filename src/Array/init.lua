@@ -8,6 +8,7 @@ return {
 	findIndex = require(script.findIndex),
 	forEach = require(script.forEach),
 	from = require(script.from),
+	includes = require(script.includes),
 	indexOf = require(script.indexOf),
 	isArray = require(script.isArray),
 	join = require(script.join),
@@ -19,4 +20,5 @@ return {
 	some = require(script.some),
 	sort = require(script.sort),
 	splice = require(script.splice),
+	unshift = require(script.unshift),
 }
