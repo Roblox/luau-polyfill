@@ -2,6 +2,7 @@ return function()
 	local Array = script.Parent.Parent
 	local LuauPolyfill = Array.Parent
 	local join = require(Array.join)
+	local Set = require(LuauPolyfill.Set)
 
 	local Packages = LuauPolyfill.Parent
 	local JestGlobals = require(Packages.Dev.JestGlobals)
@@ -31,6 +32,12 @@ return function()
 			jestExpect(join({ "foo" }, ", ")).toEqual("foo")
 			jestExpect(join({ "foo" }, " + ")).toEqual("foo")
 			jestExpect(join({ "foo" }, "")).toEqual("foo")
+		end)
+
+		it("should tostring() elements of non-string arrays", function()
+			jestExpect(join({ 1, 2, 3 })).toEqual("1,2,3")
+			jestExpect(join({ { foo = 90210 } })).toContain("table")
+			jestExpect(join({ Set.new(), Set.new() })).toEqual("Set [],Set []")
 		end)
 	end)
 end

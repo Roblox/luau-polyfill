@@ -1,7 +1,7 @@
 --!strict
 local Array = script.Parent
 local isArray = require(Array.isArray)
-type Array<T> = { [number]: any }
+type Array<T> = { [number]: T }
 
 return function(value: Array<any>): any?
 	if _G.__DEV__ then
