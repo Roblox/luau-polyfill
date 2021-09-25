@@ -2,6 +2,7 @@ export type WeakMap<T, V> = {
 	-- method definitions
 	get: (WeakMap<T, V>, T) -> V,
 	set: (WeakMap<T, V>, T, V) -> WeakMap<T, V>,
+	has: (WeakMap<T, V>, T) -> boolean,
 }
 
 local WeakMap = {}
@@ -19,6 +20,10 @@ end
 function WeakMap:set(key, value)
 	self._weakMap[key] = value
 	return self
+end
+
+function WeakMap:has(key): boolean
+	return self._weakMap[key] ~= nil
 end
 
 return WeakMap
