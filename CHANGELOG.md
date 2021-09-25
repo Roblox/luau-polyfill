@@ -1,5 +1,8 @@
 # LuauPolyfills Changelog
 
+## Unreleased
+* add `has` method to `WeakMap`
+
 ## 0.2.5
 
 ### Fixes
