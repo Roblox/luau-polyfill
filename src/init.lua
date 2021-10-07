@@ -2,6 +2,7 @@ local Array = require(script.Array)
 local Error = require(script.Error)
 local mapModule = require(script.Map)
 local Object = require(script.Object)
+local PromiseModule = require(script.Promise)
 local Set = require(script.Set)
 local Timers = require(script.Timers)
 local WeakMap = require(script.WeakMap)
@@ -11,24 +12,8 @@ export type Error = Error.Error
 export type Map<T, V> = mapModule.Map<T, V>
 export type Object = Object.Object
 
--- this maps onto community promise libraries which won't support Luau, so we inline
-export type PromiseLike<T> = {
-	andThen: (
-		((T) -> T)? | (PromiseLike<T>)?, -- resolve
-		((any) -> () | PromiseLike<T>)? -- reject
-	) -> PromiseLike<T>,
-}
-
-export type Promise<T> = {
-	andThen: ((
-		((T) -> T | PromiseLike<T>)?, -- resolve
-		((any) -> () | PromiseLike<nil>)? -- reject
-	) -> Promise<T>)?,
-
-	catch: ((((any) -> () | PromiseLike<nil>)) -> Promise<T>)?,
-
-	onCancel: ((() -> ()?) -> boolean)?,
-}
+export type PromiseLike<T> = PromiseModule.PromiseLike<T>
+export type Promise<T> = PromiseModule.Promise<T>
 
 export type Set<T> = Set.Set<T>
 export type WeakMap<T, V> = WeakMap.WeakMap<T, V>

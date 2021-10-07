@@ -2,6 +2,8 @@
 
 ## Unreleased
 * add `has` method to `WeakMap`
+* add `expect` method to `Promise`
+* add `self` param to `Promise`'s methods
 
 ## 0.2.5
 
