@@ -1,6 +1,6 @@
 # LuauPolyfills Changelog
 
-## Unreleased
+## 0.2.6
 * add `has` method to `WeakMap`
 * add `expect` method to `Promise`
 * add `self` param to `Promise`'s methods
