@@ -1,4 +1,3 @@
---!nocheck
 return function()
 	local Object = script.Parent.Parent
 	local None = require(Object.None)
@@ -34,9 +33,7 @@ return function()
 
 		assign(target, source1, source2)
 
-		jestExpect(target.a).toEqual(5)
-		jestExpect(target.b).toEqual(source2.b)
-		jestExpect(target.c).toEqual(source1.c)
+		jestExpect(target).toEqual({ a = 5, b = source2.b, c = source1.c })
 	end)
 
 	it("should remove keys if specified as None", function()
@@ -85,7 +82,6 @@ return function()
 
 		assign(target, nil, true, 1, source1)
 
-		jestExpect(target.foo).toEqual(2)
-		jestExpect(target.bar).toEqual(1)
+		jestExpect(target).toEqual({ foo = 2, bar = 1 })
 	end)
 end

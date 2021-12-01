@@ -1,17 +1,18 @@
+--!strict
 -- this maps onto community promise libraries which won't support Luau, so we inline
 export type PromiseLike<T> = {
 	andThen: (
-		PromiseLike<T>, -- self
-		((T) -> ...(nil | T | PromiseLike<T>))?, -- resolve
-		((any) -> ...(nil | T | PromiseLike<T>))? -- reject
+		self: PromiseLike<T>,
+		resolve: ((T) -> ...(nil | T | PromiseLike<T>))?,
+		reject: ((any) -> ...(nil | T | PromiseLike<T>))?
 	) -> PromiseLike<T>,
 }
 
 export type Promise<T> = {
 	andThen: (
-		Promise<T>, -- self
-		((T) -> ...(nil | T | PromiseLike<T>))?, -- resolve
-		((any) -> ...(nil | T | PromiseLike<T>))? -- reject
+		self: Promise<T>,
+		resolve: ((T) -> ...(nil | T | PromiseLike<T>))?,
+		reject: ((any) -> ...(nil | T | PromiseLike<T>))?
 	) -> Promise<T>,
 
 	catch: (Promise<T>, ((any) -> ...(nil | T | PromiseLike<nil>))) -> Promise<T>,

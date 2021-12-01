@@ -1,3 +1,4 @@
+--!strict
 export type Object = { [string]: any? }
 
 return {

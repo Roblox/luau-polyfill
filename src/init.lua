@@ -1,3 +1,4 @@
+--!strict
 local Array = require(script.Array)
 local Error = require(script.Error)
 local mapModule = require(script.Map)
@@ -16,6 +17,7 @@ export type PromiseLike<T> = PromiseModule.PromiseLike<T>
 export type Promise<T> = PromiseModule.Promise<T>
 
 export type Set<T> = Set.Set<T>
+export type Timeout = Timers.Timeout
 export type WeakMap<T, V> = WeakMap.WeakMap<T, V>
 
 return {

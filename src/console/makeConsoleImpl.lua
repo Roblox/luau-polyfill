@@ -1,3 +1,4 @@
+--!strict
 local INDENT = "  "
 local inspect = require(script.Parent.Parent.util).inspect
 

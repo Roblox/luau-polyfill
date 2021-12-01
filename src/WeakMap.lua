@@ -1,8 +1,9 @@
+--!strict
 export type WeakMap<T, V> = {
 	-- method definitions
-	get: (WeakMap<T, V>, T) -> V,
-	set: (WeakMap<T, V>, T, V) -> WeakMap<T, V>,
-	has: (WeakMap<T, V>, T) -> boolean,
+	get: (self: WeakMap<T, V>, T) -> V,
+	set: (self: WeakMap<T, V>, T, V) -> WeakMap<T, V>,
+	has: (self: WeakMap<T, V>, T) -> boolean,
 }
 
 local WeakMap = {}

@@ -1,4 +1,10 @@
-local function findOr(str: string, patternTable: { string }, initIndex: number?)
+--!strict
+type Match = {
+	index: number,
+	match: string,
+}
+
+local function findOr(str: string, patternTable: { string }, initIndex: number?): Match | nil
 	-- loop through all options in patern patternTable
 
 	local init = utf8.offset(str, initIndex or 1)
@@ -8,10 +14,10 @@ local function findOr(str: string, patternTable: { string }, initIndex: number?)
 		if iStart then
 			local prefix = string.sub(str, 1, iStart - 1)
 			local prefixEnd, invalidBytePosition = utf8.len(prefix)
-			if not prefixEnd then
-				error(("string `%s` has an invalid byte at position %d"):format(prefix, invalidBytePosition))
+			if prefixEnd == nil then
+				error(("string `%s` has an invalid byte at position %s"):format(prefix, tostring(invalidBytePosition)))
 			end
-			local iStartIndex = prefixEnd + 1
+			local iStartIndex = prefixEnd :: number + 1
 			local match = {
 				index = iStartIndex,
 				match = string.sub(str, iStart, iEnd),

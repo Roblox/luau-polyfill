@@ -1,6 +1,7 @@
 -- Some tests are adapted from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
 return function()
+	type Array<T> = { [number]: T }
 	local Array = script.Parent.Parent
 	local LuauPolyfill = Array.Parent
 	local concat = require(Array.concat)
@@ -44,16 +45,16 @@ return function()
 	end)
 
 	it("concatenates values to an array", function()
-		local letters = { "a", "b", "c" }
+		local letters: Array<any> = { "a", "b", "c" }
 		local alphaNumeric = concat(letters, 1, { 2, 3 })
-		jestExpect(alphaNumeric).toEqual({ "a", "b", "c", 1, 2, 3 })
+		jestExpect(alphaNumeric).toEqual({ "a", "b", "c", 1, 2, 3 } :: Array<any>)
 	end)
 
 	it("concatenates nested arrays", function()
 		local num1 = { { 1 } }
-		local num2 = { 2, { 3 } }
+		local num2: Array<any> = { 2, { 3 } }
 		local numbers = concat(num1, num2)
-		jestExpect(numbers).toEqual({ { 1 }, 2, { 3 } })
+		jestExpect(numbers).toEqual({ { 1 }, 2, { 3 } } :: Array<any>)
 	end)
 
 	if _G.__DEV__ then

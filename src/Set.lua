@@ -1,3 +1,4 @@
+--!nonstrict
 local LuauPolyfill = script.Parent
 local Array = require(LuauPolyfill.Array)
 type Array<T> = Array.Array<T>
@@ -72,7 +73,8 @@ end
 
 function Set:add(value)
 	if not self._map[value] then
-		self.size += 1
+		-- Luau FIXME: analyze should know self is Map<K, V> which includes size as a number
+		self.size = self.size :: number + 1
 		self._map[value] = true
 		table.insert(self._array, value)
 	end
@@ -89,7 +91,8 @@ function Set:delete(value): boolean
 	if not self._map[value] then
 		return false
 	end
-	self.size -= 1
+	-- Luau FIXME: analyze should know self is Map<K, V> which includes size as a number
+	self.size = self.size :: number - 1
 	self._map[value] = nil
 	local index = table.find(self._array, value)
 	if index then

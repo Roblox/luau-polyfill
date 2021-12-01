@@ -1,5 +1,6 @@
+--!strict
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toExponential
-return function(value, fractionDigits): string | nil
+return function(value: string | number, fractionDigits: number?): string | nil
 	local num = value
 	if typeof(value) == "string" then
 		num = tonumber(value)

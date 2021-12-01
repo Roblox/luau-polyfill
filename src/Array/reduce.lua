@@ -1,5 +1,4 @@
 --!strict
-
 type Array = { [number]: any }
 type Function = (any, any, number, any) -> any
 

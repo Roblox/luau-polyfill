@@ -1,6 +1,9 @@
+--!nonstrict
 -- tests based on the examples provided on MDN web docs:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
 return function()
+	type Object = { [string]: any }
+	type Array<T> = { [number]: T }
 	local Object = script.Parent.Parent
 	local entries = require(Object.entries)
 
@@ -14,13 +17,14 @@ return function()
 	end)
 
 	it("returns an array of key-value pairs", function()
-		local result = entries({
+		local result: Array<Array<any>> = entries({
 			foo = "bar",
 			baz = 42,
 		})
 		table.sort(result, function(a, b)
 			return a[1] < b[1]
 		end)
+		-- Luau FIXME: Luau should see result as  Array<Array<string>>, given object is [string]: any, but it sees it as Array<any> despite all the manual annotation
 		jestExpect(result).toEqual({
 			{ "baz", 42 },
 			{ "foo", "bar" },
@@ -31,9 +35,9 @@ return function()
 	-- To not risk making the function significantly slower, this behavior is
 	-- not implemented
 	itSKIP("returns an array with the stringified indexes given an array", function()
-		jestExpect(entries({ true, false, "foo" })).toEqual({
-			{ "1", true },
-			{ "2", false },
+		jestExpect(entries({ true, false, "foo" :: any })).toEqual({
+			{ "1", true :: any },
+			{ "2", false :: any },
 			{ "3", "foo" },
 		})
 	end)
@@ -56,7 +60,8 @@ return function()
 
 	it("throws given a nil value", function()
 		jestExpect(function()
-			entries(nil)
+			-- re-cast since typechecking would disallow this abuse case
+			entries((nil :: any) :: Object)
 		end).toThrow("cannot get entries from a nil value")
 	end)
 end

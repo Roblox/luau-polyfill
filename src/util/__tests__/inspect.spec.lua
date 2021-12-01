@@ -9,6 +9,8 @@ return function()
 	local Promise = require(Packages.Dev.Promise)
 	local inspect = require(srcWorkspace).util.inspect
 	local Set = require(srcWorkspace).Set
+	type Array<T> = { [number]: T }
+	type Object = { [string]: any }
 
 	describe("inspect", function()
 		-- it("undefined", function()
@@ -63,7 +65,7 @@ return function()
 			-- deviation: Lua does not handle nil elements
 			jestExpect(inspect({ true })).toBe("[true]")
 			jestExpect(inspect({ 1, 0 / 0 })).toBe("[1, NaN]")
-			jestExpect(inspect({ { "a", "b" }, "c" })).toBe('[["a", "b"], "c"]')
+			jestExpect(inspect({ { "a", "b" }, "c" } :: Array<any>)).toBe('[["a", "b"], "c"]')
 
 			jestExpect(inspect({ { {} } })).toBe("[[[]]]")
 			jestExpect(inspect({ { { "a" } } })).toBe("[[[Array]]]")
@@ -83,13 +85,13 @@ return function()
 			-- jestExpect(inspect({})).toBe("{}")
 			jestExpect(inspect({ a = 1 })).toBe("{ a: 1 }")
 			jestExpect(inspect({ a = 1, b = 2 })).toBe("{ a: 1, b: 2 }")
-			jestExpect(inspect({ array = { false, 0 } })).toBe("{ array: [false, 0] }")
+			jestExpect(inspect({ array = { false, 0 } :: Array<any> })).toBe("{ array: [false, 0] }")
 
 			jestExpect(inspect({ a = { b = {} } })).toBe("{ a: { b: [] } }")
 			jestExpect(inspect({ a = { b = { c = 1 } } })).toBe("{ a: { b: [Object] } }")
 
-			jestExpect(inspect({ [3.14159] = true, 1, 2 })).toBe("{ 1, 2, 3.14159: true }")
-			jestExpect(inspect({ 1, 2, [-3] = 3 })).toBe("{ 1, 2, -3: 3 }")
+			jestExpect(inspect({ [3.14159] = true :: any, 1, 2 } :: any)).toBe("{ 1, 2, 3.14159: true }")
+			jestExpect(inspect({ 1, 2, [-3] = 3 } :: any)).toBe("{ 1, 2, -3: 3 }")
 
 			-- ROBLOX deviation:
 			-- local map = Object.create(nil)
@@ -99,8 +101,10 @@ return function()
 		end)
 
 		it("Set", function()
-			jestExpect(inspect(Set.new({ 31337, "foo" }))).toBe('Set (2) [31337, "foo"]')
-			jestExpect(inspect(Set.new({ Set.new({ 90210, "baz" }) }))).toBe('Set (1) [Set (2) [90210, "baz"]]')
+			jestExpect(inspect(Set.new({ 31337, "foo" } :: Array<any>))).toBe('Set (2) [31337, "foo"]')
+			jestExpect(inspect(Set.new({ Set.new({ 90210, "baz" } :: Array<any>) }))).toBe(
+				'Set (1) [Set (2) [90210, "baz"]]'
+			)
 			jestExpect(inspect(Set.new({}))).toBe("Set []")
 		end)
 
@@ -136,10 +140,10 @@ return function()
 		it("handles toJSON function that uses this", function()
 			local object = {
 				str = "Hello World!",
+				toJSON = function(self)
+					return self.str
+				end,
 			}
-			function object.toJSON()
-				return object.str
-			end
 
 			jestExpect(inspect(object)).toBe("Hello World!")
 		end)

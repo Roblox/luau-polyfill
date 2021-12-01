@@ -1,9 +1,8 @@
---!nocheck
--- nocheck here since a test here purposefully violates the type check to test argument validation
 -- Tests adapted directly from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
 return function()
 	local Array = script.Parent.Parent
+	type Array<T> = { [number]: T }
 	local LuauPolyfill = Array.Parent
 	local slice = require(Array.slice)
 
@@ -12,9 +11,9 @@ return function()
 	local jestExpect = JestGlobals.expect
 
 	it("Invalid argument", function()
-		-- Luau analysis correctly warns and prevents this abuse case!
 		jestExpect(function()
-			slice(nil, 1)
+			-- Luau analysis correctly warns and prevents this abuse case, typecast to force it through
+			slice((nil :: any) :: Array<any>, 1)
 		end).toThrow()
 	end)
 

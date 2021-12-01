@@ -1,3 +1,4 @@
+--!strict
 return function(value: any): boolean
 	if typeof(value) ~= "table" then
 		return false

@@ -1,5 +1,7 @@
+--!strict
 local function slice(str: string, startIndexStr: string | number, lastIndexStr: (string | number)?): string
-	local strLen = utf8.len(str)
+	local strLen, invalidBytePosition = utf8.len(str)
+	assert(strLen ~= nil, ("string `%s` has an invalid byte at position %s"):format(str, tostring(invalidBytePosition)))
 	local startIndex = tonumber(startIndexStr)
 	assert(typeof(startIndex) == "number", "startIndexStr should be a number")
 

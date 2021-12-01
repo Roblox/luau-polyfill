@@ -51,7 +51,7 @@ return function()
 
 	it("Mapping an array of numbers using a function containing an argument", function()
 		local numbers = { 1, 4, 9 }
-		local doubles = map(numbers, function(num)
+		local doubles = map(numbers, function(num: number)
 			return num * 2
 		end)
 		jestExpect(doubles).toEqual({ 2, 8, 18 })

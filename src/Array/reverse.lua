@@ -1,3 +1,4 @@
+--!strict
 -- https://programming-idioms.org/idiom/19/reverse-a-list/1314/lua
 type Array<T> = { [number]: any }
 function reverse(t: Array<any>): Array<any>

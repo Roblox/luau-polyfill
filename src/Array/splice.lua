@@ -1,5 +1,4 @@
---!nolint LocalShadow
-
+--!strict
 type Array = { [number]: any }
 
 -- Implements equivalent functionality to JavaScript's `array.splice`, including
@@ -26,9 +25,9 @@ return function(array: Array, start: number, deleteCount: number?, ...): Array
 		local deletedItems = {}
 		-- If no deleteCount was provided, we want to delete the rest of the
 		-- array starting with `start`
-		local deleteCount: number = deleteCount or length
-		if deleteCount > 0 then
-			local lastIndex = math.min(length, start + math.max(0, deleteCount - 1))
+		local deleteCount_: number = deleteCount or length
+		if deleteCount_ > 0 then
+			local lastIndex = math.min(length, start + math.max(0, deleteCount_ - 1))
 
 			for i = start, lastIndex do
 				local deleted = table.remove(array, start)

@@ -1,4 +1,4 @@
---!nocheck
+--!strict
 export type Error = { name: string, message: string, stack: string? }
 
 local Error = {}
@@ -6,15 +6,18 @@ local Error = {}
 local DEFAULT_NAME = "Error"
 Error.__index = Error
 Error.__tostring = function(self)
-	return getmetatable(Error).__tostring(self)
+	-- Luau FIXME: I can't cast to Error or Object here: Type 'Object' could not be converted into '{ @metatable *unknown*, {|  |} }'
+	return getmetatable(Error :: any).__tostring(self)
 end
 
-function Error.new(message: string?)
-	return setmetatable({
-		name = DEFAULT_NAME,
-		message = message or "",
-		stack = debug.traceback(nil, 2),
-	}, Error)
+function Error.new(message: string?): Error
+	return (
+			setmetatable({
+				name = DEFAULT_NAME,
+				message = message or "",
+				stack = debug.traceback(nil, 2),
+			}, Error) :: any
+		) :: Error
 end
 
 return setmetatable(Error, {

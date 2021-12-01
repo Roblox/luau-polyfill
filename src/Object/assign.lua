@@ -1,3 +1,4 @@
+--!strict
 local None = require(script.Parent.None)
 
 --[[
@@ -6,7 +7,8 @@ local None = require(script.Parent.None)
 
 	This function is identical in functionality to JavaScript's Object.assign.
 ]]
-local function assign(target: { [any]: any }, ...)
+-- Luau TODO: no way to strongly type this, it can't do intersections of type packs: <T, ...U>(T, ...: ...U): T & ...U
+local function assign(target: { [any]: any }, ...): any
 	for index = 1, select("#", ...) do
 		local source = select(index, ...)
 

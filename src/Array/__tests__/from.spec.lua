@@ -2,6 +2,7 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
 return function()
 	local Array = script.Parent.Parent
+	type Array<T> = { [number]: T }
 	local LuauPolyfill = Array.Parent
 	local from = require(Array.from)
 	local Set = require(LuauPolyfill).Set
@@ -54,7 +55,8 @@ return function()
 		local map = Map.new()
 		map:set("key1", 31337)
 		map:set("key2", 90210)
-		jestExpect(from(map)).toEqual({ { "key1", 31337 }, { "key2", 90210 } })
+		-- Luau FIXME: Luau doesn't understand multi-typed arrays
+		jestExpect(from(map)).toEqual({ { "key1", 31337 :: any }, { "key2", 90210 :: any } })
 	end)
 
 	it("returns an empty array from an empty Map", function()
@@ -63,27 +65,37 @@ return function()
 
 	describe("with mapping function", function()
 		it("maps each character", function()
-			jestExpect(from("bar", function(character, index)
+			jestExpect(from("bar", function(character: string, index)
 				return character .. index
 			end)).toEqual({ "b1", "a2", "r3" })
 		end)
 
 		it("maps each element of the array", function()
 			jestExpect(from({ 10, 20 }, function(element, index)
-				return element + index
+				-- Luau FIXME: Luau should infer element type as number without annotation
+				return element :: number + index
 			end)).toEqual({ 11, 22 })
+		end)
+
+		it("maps each element of the array with this arg", function()
+			local this = { state = 7 }
+			jestExpect(from({ 10, 20 }, function(self, element)
+				-- Luau FIXME: Luau should infer element type as number without annotation
+				return element :: number + self.state
+			end, this)).toEqual({ 17, 27 })
 		end)
 
 		it("maps each element of the array from a Set", function()
 			jestExpect(from(Set.new({ 1, 3 }), function(element, index)
-				return element + index
+				-- Luau FIXME: Luau should infer element type as number without annotation
+				return element :: number + index
 			end)).toEqual({ 2, 5 })
 		end)
 
 		it("maps each element of the array from a Map", function()
 			local map = Map.new()
 			map:set(-90210, 90210)
-			jestExpect(from(map, function(element, index)
+			jestExpect(from(map, function(element: Array<number>, index)
 				return element[1] + element[2] + index
 			end)).toEqual({ -90210 + 90210 + 1 })
 		end)

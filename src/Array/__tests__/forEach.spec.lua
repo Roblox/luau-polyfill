@@ -49,7 +49,7 @@ return function()
 	it("forEach an array of numbers with a mixed field inserted", function()
 		local mock = jest.fn()
 		local numbers = { 1, 4, 9 }
-		numbers["NotANumber"] = "mixed"
+		numbers["NotANumber" :: any] = "mixed" :: any
 		forEach(numbers, function(num)
 			mock(num)
 		end)
@@ -104,7 +104,8 @@ return function()
 			return result
 		end
 
-		local nested = { 1, 2, 3, { 4, 5, { 6, 7 }, 8, 9 } }
+		-- Luau FIXME: Luau should realize this isn't an array in this single assingment: TypeError: Type '{number}' could not be converted into 'number'
+		local nested = { 1, 2, 3, { 4, 5, { 6, 7 } :: any, 8, 9 } :: any }
 		jestExpect(flatten(nested)).toEqual({ 1, 2, 3, 4, 5, 6, 7, 8, 9 })
 	end)
 end
