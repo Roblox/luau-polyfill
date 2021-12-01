@@ -1,5 +1,3 @@
---!nocheck
--- FIXME: Luau detects __call metamethod, but still things said object isn't callable: https://jira.rbx.com/browse/CLI-40294
 return function()
 	local ErrorModule = script.Parent.Parent
 	local Error = require(ErrorModule)
@@ -24,19 +22,19 @@ return function()
 	end)
 
 	it("accepts a message value as an argument", function()
-		local err: Error = Error("Some message")
+		local err = Error("Some message")
 
 		jestExpect(err.message).toEqual("Some message")
 	end)
 
 	it("defaults the `name` field to 'Error'", function()
-		local err: Error = Error("")
+		local err = Error("")
 
 		jestExpect(err.name).toEqual("Error")
 	end)
 
 	it("gets passed through the `error` builtin properly", function()
-		local err: Error = Error("Throwing an error")
+		local err = Error("Throwing an error")
 		local ok, result = pcall(function()
 			error(err)
 		end)
@@ -46,7 +44,7 @@ return function()
 	end)
 
 	it("checks that Error is a class according to our inheritance standard", function()
-		local err: Error = Error("Test")
+		local err = Error("Test")
 		jestExpect(instanceof(err, Error)).toEqual(true)
 	end)
 
@@ -85,8 +83,8 @@ return function()
 	end)
 
 	it("checks Error stack field", function()
-		local err: Error = Error("test stack for Error()")
-		local err2: Error = Error.new("test stack for Error.new()")
+		local err = Error("test stack for Error()")
+		local err2 = Error.new("test stack for Error.new()")
 
 		local topLineRegExp = RegExp("^.*Error.__tests__\\.Error\\.spec:\\d+")
 

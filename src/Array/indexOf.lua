@@ -1,6 +1,6 @@
---!nolint LocalShadow
+--!strict
 
-type Array = { [number]: any }
+type Array<T> = { [number]: T }
 
 -- Implements equivalent functionality to JavaScript's `array.indexOf`,
 -- implementing the interface and behaviors defined at:
@@ -8,18 +8,18 @@ type Array = { [number]: any }
 --
 -- This implementation is loosely based on the one described in the polyfill
 -- source in the above link
-return function(array: Array, searchElement: any, fromIndex: number?): number
-	local fromIndex: number = fromIndex or 1
+return function<T>(array: Array<T>, searchElement: any, fromIndex: number?): number
+	local fromIndex_ = fromIndex or 1
 	local length = #array
 
 	-- In the JS impl, a negative fromIndex means we should use length - index;
 	-- with Lua, of course, this means that 0 is still valid, but refers to the
 	-- end of the array the way that '-1' would in JS
-	if fromIndex < 1 then
-		fromIndex = math.max(length - math.abs(fromIndex), 1)
+	if fromIndex_ < 1 then
+		fromIndex_ = math.max(length - math.abs(fromIndex_), 1)
 	end
 
-	for i = fromIndex, length do
+	for i = fromIndex_, length do
 		if array[i] == searchElement then
 			return i
 		end

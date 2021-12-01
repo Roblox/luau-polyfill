@@ -1,3 +1,4 @@
+--!strict
 local LuauPolyfill = script.Parent
 
 local Array = require(LuauPolyfill.Array)
@@ -13,18 +14,20 @@ local Map = {}
 export type Map<T, V> = {
 	size: number,
 	-- method definitions
-	set: (Map<T, V>, T, V) -> Map<T, V>,
-	get: (Map<T, V>, T) -> V,
-	clear: (Map<T, V>) -> (),
-	delete: (Map<T, V>, T) -> boolean,
-	has: (Map<T, V>, T) -> boolean,
-	keys: (Map<T, V>) -> Array<T>,
-	values: (Map<T, V>) -> Array<V>,
-	entries: (Map<T, V>) -> Array<Tuple<T, V>>,
-	ipairs: (Map<T, V>) -> any,
+	set: (self: Map<T, V>, T, V) -> Map<T, V>,
+	get: (self: Map<T, V>, T) -> V,
+	clear: (self: Map<T, V>) -> (),
+	delete: (self: Map<T, V>, T) -> boolean,
+	has: (self: Map<T, V>, T) -> boolean,
+	keys: (self: Map<T, V>) -> Array<T>,
+	values: (self: Map<T, V>) -> Array<V>,
+	entries: (self: Map<T, V>) -> Array<Tuple<T, V>>,
+	ipairs: (self: Map<T, V>) -> any,
+	_map: { [T]: V },
+	_array: { [number]: T },
 }
 
-function Map.new(iterable): Map<any, any>
+function Map.new(iterable: Array<any>?): Map<any, any>
 	local array = {}
 	local map = {}
 	if iterable ~= nil then
@@ -58,7 +61,8 @@ end
 function Map:set(key, value)
 	-- preserve initial insertion order
 	if self._map[key] == nil then
-		self.size += 1
+		-- Luau FIXME: analyze should know self is Map<K, V> which includes size as a number
+		self.size = self.size :: number + 1
 		table.insert(self._array, key)
 	end
 	-- always update value
@@ -81,7 +85,8 @@ function Map:delete(key): boolean
 	if self._map[key] == nil then
 		return false
 	end
-	self.size -= 1
+	-- Luau FIXME: analyze should know self is Map<K, V> which includes size as a number
+	self.size = self.size :: number - 1
 	self._map[key] = nil
 	local index = table.find(self._array, key)
 	if index then

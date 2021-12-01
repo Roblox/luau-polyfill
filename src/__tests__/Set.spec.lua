@@ -1,3 +1,5 @@
+--!nonstrict
+-- Luau FIXME: Type '{ @metatable Set, {| _array: {any}, _map: { [any]: boolean }, size: number |} }' could not be converted into '(Array<any> | Iterable | Set<any> | string)?'; none of the union options are compatible
 return function()
 	local LuauPolyfill = script.Parent.Parent
 	local Set = require(LuauPolyfill.Set)

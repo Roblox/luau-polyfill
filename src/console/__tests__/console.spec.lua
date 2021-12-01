@@ -1,4 +1,5 @@
 return function()
+	type Function = (...any) -> ...any
 	local consoleModule = script.Parent.Parent
 	local makeConsoleImpl = require(consoleModule.makeConsoleImpl)
 
@@ -14,7 +15,7 @@ return function()
 		table.insert(capturedPrints, table.concat({ ... }, " "))
 	end
 
-	local function overridePrint(fn, ...)
+	local function overridePrint(fn: Function, ...)
 		local originalPrint = getfenv(fn).print
 		getfenv(fn).print = capturePrint
 		fn(...)
@@ -26,7 +27,7 @@ return function()
 		table.insert(capturedWarns, table.concat({ ... }, " "))
 	end
 
-	local function overrideWarn(fn, ...)
+	local function overrideWarn(fn: Function, ...)
 		local originalWarn = getfenv(fn).warn
 		getfenv(fn).warn = captureWarn
 		fn(...)

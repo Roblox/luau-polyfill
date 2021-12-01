@@ -1,5 +1,10 @@
 # LuauPolyfills Changelog
 
+## Unreleased
+
+* Strict luau type mode enabled on almost all polyfill files and tests. This may highlight latent type issues in code that consumes the polyfills, but was tested against apollo-client-lua (fixed merged), roact-alignment (no fixes needed), and jest-roblox (no fixes needed).
+* Fix for `Array.from` to respect the `thisArg` argument when it is supplied.
+
 ## 0.2.6
 * add `has` method to `WeakMap`
 * add `expect` method to `Promise`

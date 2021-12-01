@@ -3,6 +3,7 @@
 
 return function()
 	local Array = script.Parent.Parent
+	type Array<T> = { [number]: T }
 	local LuauPolyfill = Array.Parent
 	local filter = require(Array.filter)
 	local isFinite = require(LuauPolyfill.Number.isFinite)
@@ -43,10 +44,10 @@ return function()
 			{ id = 0 },
 			{ id = 3 },
 			{ id = 12.2 },
-			{},
-			{ id = nil },
+			{} :: any,
+			{ id = nil } :: any,
 			{ id = 0 / 0 },
-			{ id = "undefined" },
+			{ id = "undefined" :: any },
 		}
 
 		local invalidEntries = 0
@@ -97,10 +98,15 @@ return function()
 			}
 
 			local modifiedWords = filter(words, function(word, index, arr)
-				if arr[index + 1] == nil then
-					arr[index + 1] = "undefined"
+				-- Luau FIXME: I cannot get the narrowing to work here: TypeError: Value of type 'Array<any>?' could be nil
+				if arr == nil or index == nil then
+					return false
 				end
-				arr[index + 1] = arr[index + 1] .. " extra"
+
+				if (arr :: Array<any>)[index :: number + 1] == nil then
+					(arr :: Array<any>)[index :: number + 1] = "undefined"
+				end
+				(arr :: Array<any>)[index :: number + 1] = (arr :: Array<any>)[index :: number + 1] .. " extra"
 				return #word < 6
 			end)
 
@@ -118,7 +124,10 @@ return function()
 			}
 
 			local modifiedWords = filter(words, function(word, index, arr)
-				table.insert(arr, "new")
+				if arr == nil then
+					return false
+				end
+				table.insert(arr :: Array<any>, "new")
 				return #word < 6
 			end)
 
@@ -136,7 +145,10 @@ return function()
 			}
 
 			local modifiedWords = filter(words, function(word, index, arr)
-				table.remove(arr)
+				if arr == nil then
+					return false
+				end
+				table.remove(arr :: Array<any>)
 				return #word < 6
 			end)
 

@@ -9,11 +9,11 @@ return function()
 
 	describe("returns nil for invalid input", function()
 		it("toExponential(nil)", function()
-			jestExpect(toExponential(nil)).toEqual(nil)
+			jestExpect(toExponential(nil :: any)).toEqual(nil)
 		end)
 
 		it("toExponential('abcd')", function()
-			jestExpect(toExponential("abcd")).toEqual(nil)
+			jestExpect(toExponential("abcd" :: any)).toEqual(nil)
 		end)
 	end)
 
@@ -32,7 +32,7 @@ return function()
 
 		it("toExponential(77.1234, 'abcd')", function()
 			jestExpect(function()
-				toExponential(77.1234, "abcd")
+				toExponential(77.1234, "abcd" :: any)
 			end).toThrow()
 		end)
 	end)

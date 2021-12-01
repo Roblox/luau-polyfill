@@ -32,7 +32,7 @@ return function()
 	end)
 
 	it("returns false when given '3'", function()
-		jestExpect(isSafeInteger("3")).toEqual(false)
+		jestExpect(isSafeInteger("3" :: any)).toEqual(false)
 	end)
 
 	it("returns false when given 3.1", function()

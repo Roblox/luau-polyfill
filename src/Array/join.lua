@@ -1,3 +1,4 @@
+--!strict
 type Array<T> = { [number]: T }
 local map = require(script.Parent.map)
 

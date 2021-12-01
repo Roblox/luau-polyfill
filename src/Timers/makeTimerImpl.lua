@@ -1,14 +1,15 @@
+--!strict
 local Status = newproxy(false)
 
 type TaskStatus = number
-type Task = { [Status]: TaskStatus }
+export type Timeout = { [typeof(Status)]: TaskStatus }
 
 local SCHEDULED = 1
 local DONE = 2
 local CANCELLED = 3
 
 return function(delayImpl)
-	local function setTimeout(callback, delayTime: number, ...): Task
+	local function setTimeout(callback, delayTime: number?, ...): Timeout
 		local args = { ... }
 		local task = {
 			[Status] = SCHEDULED,
@@ -20,7 +21,7 @@ return function(delayImpl)
 		end
 
 		-- To mimic the JS interface, we're expecting delayTime to be in ms
-		local delayTimeMs = delayTime / 1000
+		local delayTimeMs = delayTime :: number / 1000
 		delayImpl(delayTimeMs, function()
 			if task[Status] == SCHEDULED then
 				callback(unpack(args))
@@ -31,7 +32,7 @@ return function(delayImpl)
 		return task
 	end
 
-	local function clearTimeout(task: Task)
+	local function clearTimeout(task: Timeout)
 		if task[Status] == SCHEDULED then
 			task[Status] = CANCELLED
 		end

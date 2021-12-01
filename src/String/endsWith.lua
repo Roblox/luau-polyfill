@@ -1,3 +1,4 @@
+--!strict
 local function endsWith(value: string, substring: string, optionalLength: number?): boolean
 	local substringLength = substring:len()
 	if substringLength == 0 then

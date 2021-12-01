@@ -1,3 +1,4 @@
+--!strict
 local preventExtensions = require(script.Parent.preventExtensions)
 
 local function freeze(t)

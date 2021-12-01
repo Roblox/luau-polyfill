@@ -2,6 +2,7 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
 return function()
 	local Array = script.Parent.Parent
+	type Array<T> = { [number]: T }
 	local LuauPolyfill = Array.Parent
 	local isArray = require(Array.isArray)
 
@@ -57,6 +58,6 @@ return function()
 	it("returns true for valid arrays", function()
 		jestExpect(isArray({ "a", "b", "c" })).toEqual(true)
 		jestExpect(isArray({ 1, 2, 3 })).toEqual(true)
-		jestExpect(isArray({ 1, "b", function() end })).toEqual(true)
+		jestExpect(isArray({ 1, "b", function() end } :: Array<any>)).toEqual(true)
 	end)
 end

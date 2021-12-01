@@ -41,7 +41,7 @@ local function getTableLength(tbl)
 	return length - 1
 end
 
-local function sortKeysForPrinting(a, b)
+local function sortKeysForPrinting(a: any, b)
 	local typeofA = type(a)
 	local typeofB = type(b)
 

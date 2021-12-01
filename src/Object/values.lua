@@ -1,3 +1,4 @@
+--!strict
 type Table = { [any]: any }
 type Array<T> = { [number]: T }
 

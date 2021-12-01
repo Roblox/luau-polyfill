@@ -14,7 +14,7 @@ return function()
 		math.huge,
 		0 / 0,
 		-math.huge,
-		"0",
+		"0" :: any,
 	}
 
 	for _, value in ipairs(trueValues) do

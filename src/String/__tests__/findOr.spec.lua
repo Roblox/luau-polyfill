@@ -21,8 +21,7 @@ return function()
 			index = 2,
 			match = "b",
 		}
-		jestExpect(actual.index).toEqual(expected.index)
-		jestExpect(actual.match).toEqual(expected.match)
+		jestExpect(actual).toEqual(expected)
 	end)
 
 	it("returns 2nd instance of matched element after start position", function()
@@ -33,8 +32,7 @@ return function()
 			index = 4,
 			match = "b",
 		}
-		jestExpect(actual.index).toEqual(expected.index)
-		jestExpect(actual.match).toEqual(expected.match)
+		jestExpect(actual).toEqual(expected)
 	end)
 
 	it("returns if any items match", function()
@@ -45,8 +43,7 @@ return function()
 			index = 2,
 			match = "rn",
 		}
-		jestExpect(actual.index).toEqual(expected.index)
-		jestExpect(actual.match).toEqual(expected.match)
+		jestExpect(actual).toEqual(expected)
 	end)
 
 	it("returns 2nd instance if any items match after start position", function()
@@ -57,8 +54,7 @@ return function()
 			index = 5,
 			match = "r",
 		}
-		jestExpect(actual.index).toEqual(expected.index)
-		jestExpect(actual.match).toEqual(expected.match)
+		jestExpect(actual).toEqual(expected)
 	end)
 
 	it("returns matched multiple characters", function()
@@ -69,8 +65,7 @@ return function()
 			index = 2,
 			match = "bbb",
 		}
-		jestExpect(actual.index).toEqual(expected.index)
-		jestExpect(actual.match).toEqual(expected.match)
+		jestExpect(actual).toEqual(expected)
 	end)
 
 	it("returns matched element when multi-byte character present in the source string", function()
@@ -81,8 +76,7 @@ return function()
 			index = 3,
 			match = "b",
 		}
-		jestExpect(actual.index).toEqual(expected.index)
-		jestExpect(actual.match).toEqual(expected.match)
+		jestExpect(actual).toEqual(expected)
 	end)
 
 	it("returns matched element after init index when multi-byte character present in the source string", function()
@@ -93,7 +87,6 @@ return function()
 			index = 5,
 			match = "b",
 		}
-		jestExpect(actual.index).toEqual(expected.index)
-		jestExpect(actual.match).toEqual(expected.match)
+		jestExpect(actual).toEqual(expected)
 	end)
 end

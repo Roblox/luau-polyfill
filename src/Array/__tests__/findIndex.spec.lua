@@ -1,5 +1,6 @@
 return function()
 	local Array = script.Parent.Parent
+	type Array<T> = { [number]: T }
 	local LuauPolyfill = Array.Parent
 	local findIndex = require(Array.findIndex)
 
@@ -35,8 +36,9 @@ return function()
 		local array = { "foo" }
 		findIndex(array, function(...)
 			arguments = { ... }
+			return false
 		end)
-		jestExpect(arguments).toEqual({ "foo", 1, array })
+		jestExpect(arguments).toEqual({ "foo", 1, array } :: Array<any>)
 	end)
 
 	-- the following tests were taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex
@@ -51,7 +53,7 @@ return function()
 	end)
 
 	it("returns first prime element", function()
-		local function isPrime(num)
+		local function isPrime(num: number)
 			for i = 2, num - 1 do
 				if num % i == 0 then
 					return false

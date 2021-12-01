@@ -1,3 +1,4 @@
+--!nonstrict
 --[[
 	deviation: Our constructors currently have no notion of 'super' so any
 	such behavior in upstream JS must be implemented manually by setting fields

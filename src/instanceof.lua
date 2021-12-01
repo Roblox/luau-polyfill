@@ -1,3 +1,4 @@
+--!nonstrict
 -- polyfill for https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof
 return function(tbl, class)
 	assert(typeof(class) == "table", "Received a non-table as the second argument for instanceof")

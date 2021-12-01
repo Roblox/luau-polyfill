@@ -1,3 +1,4 @@
+--!strict
 local rshift = bit32.rshift
 local log = math.log
 local floor = math.floor

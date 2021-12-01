@@ -1,16 +1,20 @@
+--!strict
 local function startsWith(value: string, substring: string, position: number?): boolean
-	if substring:len() == 0 then
+	if string.len(substring) == 0 then
 		return true
 	end
+	-- Luau FIXME: we have to use a tmp variable, as Luau doesn't understand the logic below narrow position to `number`
+	local position_
 	if position == nil or position < 1 then
-		position = 1
+		position_ = 1
+	else
+		position_ = position
 	end
-	if position > value:len() then
+
+	if position_ > string.len(value) then
 		return false
 	end
-	-- FIXME: workaround for Luau issue https://jira.rbx.com/browse/CLI-40887
-	local _position: number = position or 1
-	return value:find(substring, _position, true) == _position
+	return value:find(substring, position_, true) == position_
 end
 
 return startsWith

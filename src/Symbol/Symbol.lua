@@ -1,3 +1,4 @@
+--!nonstrict
 --[[
 	Symbols have the type 'userdata', but when printed or coerced to a string,
 	the symbol will turn into the string given as its name.

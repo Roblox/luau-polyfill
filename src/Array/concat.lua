@@ -1,3 +1,4 @@
+--!strict
 local Array = script.Parent
 local isArray = require(Array.isArray)
 

@@ -41,7 +41,7 @@ return function()
 	end)
 
 	it("Converting any value to Boolean", function()
-		local truthy_values = { true, "true", 1 }
+		local truthy_values = { true, "true" :: any, 1 :: any }
 		local getBoolean = function(value)
 			return some(truthy_values, function(t)
 				return t == value
