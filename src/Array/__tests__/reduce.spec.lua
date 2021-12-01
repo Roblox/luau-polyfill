@@ -26,7 +26,9 @@ return function()
 
 	it("throws if no initial value is provided and the array is empty", function()
 		jestExpect(function()
-			reduce({}, function() end)
+			reduce({}, function()
+				return false
+			end)
 		end).toThrow("reduce of empty array with no initial value")
 	end)
 
@@ -35,7 +37,9 @@ return function()
 		-- invalid argument, so it needs to be cast to any
 		local reduceAny: any = reduce
 		jestExpect(function()
-			reduceAny(nil, function() end)
+			reduceAny(nil, function()
+				return false
+			end)
 		end).toThrow()
 		jestExpect(function()
 			reduceAny({ 0, 1 }, nil)

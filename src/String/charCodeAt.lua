@@ -1,3 +1,4 @@
+--!strict
 local String = script.Parent
 local LuauPolyfill = String.Parent
 local Number = require(LuauPolyfill.Number)
@@ -11,7 +12,9 @@ return function(str: string, index: number): number
 		index = 1
 	end
 
-	if index > utf8.len(str) or index < 1 then
+	local strLen, invalidBytePosition = utf8.len(str)
+	assert(strLen ~= nil, ("string `%s` has an invalid byte at position %s"):format(str, tostring(invalidBytePosition)))
+	if index > strLen or index < 1 then
 		return NaN
 	end
 

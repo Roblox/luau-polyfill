@@ -1,5 +1,6 @@
 return function()
 	local Array = script.Parent.Parent
+	type Array<T> = { [number]: T }
 	local LuauPolyfill = Array.Parent
 	local find = require(Array.find)
 
@@ -35,7 +36,8 @@ return function()
 		local array = { "foo" }
 		find(array, function(...)
 			arguments = { ... }
+			return false
 		end)
-		jestExpect(arguments).toEqual({ "foo", 1, array })
+		jestExpect(arguments).toEqual({ "foo", 1, array } :: Array<any>)
 	end)
 end

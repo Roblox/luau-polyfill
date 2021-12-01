@@ -1,12 +1,12 @@
 --!strict
 type Array<T> = { [number]: T }
-type callbackFn = (element: any, index: number?, array: Array<any>?) -> boolean
-type callbackFnWithThisArg = (thisArg: any, element: any, index: number?, array: Array<any>?) -> boolean
+type callbackFn<T> = (element: T, index: number, array: Array<T>?) -> boolean
+type callbackFnWithThisArg<T, U> = (self: U, element: T, index: number, array: Array<T>?) -> boolean
 type Object = { [string]: any }
 
 -- Implements Javascript's `Array.prototype.every` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every
-return function(t: Array<any>, callback: callbackFn | callbackFnWithThisArg, thisArg: Object?): boolean
+return function<T, U>(t: Array<T>, callback: callbackFn<T> | callbackFnWithThisArg<T, U>, thisArg: U?): boolean
 	if typeof(t) ~= "table" then
 		error(string.format("Array.every called on %s", typeof(t)))
 	end
@@ -23,9 +23,9 @@ return function(t: Array<any>, callback: callbackFn | callbackFnWithThisArg, thi
 
 		if kValue ~= nil then
 			if thisArg ~= nil then
-				testResult = (callback :: callbackFnWithThisArg)(thisArg, kValue, k, t)
+				testResult = (callback :: callbackFnWithThisArg<T, U>)(thisArg, kValue, k, t)
 			else
-				testResult = (callback :: callbackFn)(kValue, k, t)
+				testResult = (callback :: callbackFn<T>)(kValue, k, t)
 			end
 
 			if not testResult then

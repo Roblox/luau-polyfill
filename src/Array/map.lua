@@ -1,13 +1,13 @@
 --!strict
 
-type Array = { [number]: any }
-type callbackFn = (element: any, index: number?, array: Array?) -> any
-type callbackFnWithThisArg = (thisArg: any, element: any, index: number?, array: Array?) -> any
+type Array<T> = { [number]: T }
+type callbackFn<T, U> = (element: T, index: number, array: Array<T>?) -> U
+type callbackFnWithThisArg<T, U, V> = (thisArg: V, element: T, index: number, array: Array<T>?) -> U
 type Object = { [string]: any }
 
 -- Implements Javascript's `Array.prototype.map` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
-return function(t: Array, callback: callbackFn | callbackFnWithThisArg, thisArg: Object?): Array
+return function<T, U, V>(t: Array<T>, callback: callbackFn<T, U> | callbackFnWithThisArg<T, U, V>, thisArg: V?): Array<U>
 	if typeof(t) ~= "table" then
 		error(string.format("Array.map called on %s", typeof(t)))
 	end
@@ -26,9 +26,9 @@ return function(t: Array, callback: callbackFn | callbackFnWithThisArg, thisArg:
 			local mappedValue
 
 			if thisArg ~= nil then
-				mappedValue = (callback :: callbackFnWithThisArg)(thisArg, kValue, k, t)
+				mappedValue = (callback :: callbackFnWithThisArg<T, U, V>)(thisArg, kValue, k, t)
 			else
-				mappedValue = (callback :: callbackFn)(kValue, k, t)
+				mappedValue = (callback :: callbackFn<T, U>)(kValue, k, t)
 			end
 
 			A[k] = mappedValue

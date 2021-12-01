@@ -1,3 +1,4 @@
+--!strict
 export type Array<T> = { [number]: T }
 
 return {

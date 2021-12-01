@@ -1,3 +1,4 @@
+--!strict
 return {
 	charCodeAt = require(script.charCodeAt),
 	endsWith = require(script.endsWith),
