@@ -17,7 +17,9 @@ local function slice(str: string, startIndexStr: string | number, lastIndexStr: 
 	-- if no last index length set, go to str length + 1
 	local lastIndex = strLen + 1
 	if lastIndexStr ~= nil then
-		lastIndex = tonumber(lastIndexStr)
+		-- ROBLOX FIXME: add parseInt to encapsulate this logic and use it here
+		local NaN = 0 / 0
+		lastIndex = tonumber(lastIndexStr) or NaN -- this works because 0 is truthy in Lua
 	end
 	assert(typeof(lastIndex) == "number", "lastIndexStr should convert to number")
 
