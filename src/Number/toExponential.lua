@@ -3,11 +3,13 @@
 return function(value: string | number, fractionDigits: number?): string | nil
 	local num = value
 	if typeof(value) == "string" then
-		num = tonumber(value)
+		-- ROBLOX FIXME: add parseInt to encapsulate this logic and use it here
+		local NaN = 0 / 0
+		num = tonumber(value) or NaN -- works because 0 is truthy in Lua
 	end
 	-- returns nil for invalid input instead of nan to be more lua-native
 	if typeof(num) ~= "number" then
-		return nil
+		return "nan"
 	end
 
 	if fractionDigits ~= nil then
