@@ -2,10 +2,13 @@
 
 ## Unreleased
 
+* `Object.freeze` now uses `table.freeze`
+* add `isFrozen` method to `Object`
 * Strict luau type mode enabled on almost all polyfill files and tests. This may highlight latent type issues in code that consumes the polyfills, but was tested against apollo-client-lua (fixed merged), roact-alignment (no fixes needed), and jest-roblox (no fixes needed).
 * Fix for `Array.from` to respect the `thisArg` argument when it is supplied.
 * `setTimeout` now uses `task.delay` as the default implementation, increasing timer resolution from 30hz to 60hz.
 * `toExponential` now returns "nan" when given invalid values, more closely matching MDN documentation and in-browser tests.
+* the `Object` type exported no longer uses nil-able values, which works around some Luau inference issues, and better matches the typical intention of using it.
 
 ## 0.2.6
 * add `has` method to `WeakMap`
