@@ -1,14 +1,10 @@
 --!strict
-local preventExtensions = require(script.Parent.preventExtensions)
+type Object = { [string]: any }
+type Array<T> = { [number]: T }
 
-local function freeze(t)
-	-- FIXME: We don't have needed VM support to mimic the functionality of
-	-- seal, so we approximate with preventExtensions Seal should also support:
-	-- * Reassigning to a value that was set to nil
-	-- * Preventing modification of values
-	-- * Preventing removal of a field; this is hard to define given lua's
-	--   understanding of 'nil' and table membership
-	return preventExtensions(t)
+local function freeze<T>(t: T & (Object | Array<any>)): T
+	-- Luau FIXME: model freeze better so it passes through the type constraint and doesn't erase
+	return (table.freeze(t) :: any) :: T
 end
 
 return freeze
