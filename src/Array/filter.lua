@@ -1,6 +1,6 @@
 --!strict
 type Array<T> = { [number]: T }
-type callbackFn<T> = (element: T, index: number, array: Array<T>?) -> boolean
+type callbackFn<T> = (element: T, index: number, array: Array<T>) -> boolean
 type callbackFnWithThisArg<T, U> = (thisArg: U, element: T, index: number, array: Array<T>) -> boolean
 type Object = { [string]: any }
 

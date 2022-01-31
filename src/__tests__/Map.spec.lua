@@ -1,14 +1,19 @@
+--!strict
 return function()
 	local LuauPolyfill = script.Parent.Parent
 
 	local Packages = LuauPolyfill.Parent
 	local JestGlobals = require(Packages.Dev.JestGlobals)
 	local jestExpect = JestGlobals.expect
+	local jest = JestGlobals.jest
 
 	local Array = require(LuauPolyfill.Array)
+	type Function = (...any) -> ...any
+	type Object = { [string]: any }
 
 	local MapModule = require(LuauPolyfill.Map)
 	local Map = MapModule.Map
+	type Map<K, V> = MapModule.Map<K, V>
 	local coerceToMap = MapModule.coerceToMap
 	local coerceToTable = MapModule.coerceToTable
 	local instanceOf = require(LuauPolyfill.instanceof)
@@ -31,6 +36,20 @@ return function()
 				jestExpect(foo.size).toEqual(2)
 				jestExpect(foo:has(AN_ITEM)).toEqual(true)
 				jestExpect(foo:has(ANOTHER_ITEM)).toEqual(true)
+			end)
+
+			it("errors when not given an Array of array", function()
+				jestExpect(function()
+					-- types don't permit this abuse, so cast away safety
+					(Map.new :: any)({ AN_ITEM, "foo" })
+				end).toThrow("cannot create Map")
+				if _G.__DEV__ then
+					jestExpect(function()
+						(Map.new :: any)({
+							{ AN_ITEM = "foo" },
+						})
+					end).toThrow("cannot create Map")
+				end
 			end)
 
 			it("creates a Map from an array with duplicate keys", function()
@@ -66,10 +85,10 @@ return function()
 
 			it("throws when trying to create a set from a non-iterable", function()
 				jestExpect(function()
-					return Map.new(true)
+					return (Map.new :: any)(true)
 				end).toThrow("cannot create array from value of type `boolean`")
 				jestExpect(function()
-					return Map.new(1)
+					return (Map.new :: any)(1)
 				end).toThrow("cannot create array from value of type `number`")
 			end)
 		end)
@@ -89,7 +108,7 @@ return function()
 		describe("set", function()
 			it("returns the Map object", function()
 				local foo = Map.new()
-				jestExpect(foo:set(1)).toEqual(foo)
+				jestExpect(foo:set(1, "baz")).toEqual(foo)
 			end)
 
 			it("increments the size if the element is added for the first time", function()
@@ -106,7 +125,8 @@ return function()
 			end)
 
 			it("sets values correctly to true/false", function()
-				local foo = Map.new({ { AN_ITEM, false } })
+				-- Luau FIXME: Luau insists that arrays can't be mixed type
+				local foo = Map.new({ { AN_ITEM, false :: any } })
 				foo:set(AN_ITEM, false)
 				jestExpect(foo.size).toEqual(1)
 				jestExpect(foo:get(AN_ITEM)).toEqual(false)
@@ -184,7 +204,8 @@ return function()
 			end)
 
 			it("deletes value set to false", function()
-				local foo = Map.new({ { AN_ITEM, false } })
+				-- Luau FIXME: Luau insists arrays can't be mixed type
+				local foo = Map.new({ { AN_ITEM, false :: any } })
 
 				foo:delete(AN_ITEM)
 
@@ -206,7 +227,8 @@ return function()
 			end)
 
 			it("returns correctly with value set to false", function()
-				local foo = Map.new({ { AN_ITEM, false } })
+				-- Luau FIXME: Luau insists arrays can't be mixed type
+				local foo = Map.new({ { AN_ITEM, false :: any } })
 
 				jestExpect(foo:has(AN_ITEM)).toEqual(true)
 			end)
@@ -315,7 +337,7 @@ return function()
 			-- the following tests are adapted from the examples shown on the MDN documentation:
 			-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map#examples
 			it("MDN Examples", function()
-				local myMap = Map.new()
+				local myMap = Map.new() :: Map<string | Object | Function, string>
 
 				local keyString = "a string"
 				local keyObj = {}
@@ -341,7 +363,7 @@ return function()
 			end)
 
 			it("handles non-traditional keys", function()
-				local myMap = Map.new()
+				local myMap = Map.new() :: Map<boolean | number | string, string>
 
 				local falseKey = false
 				local trueKey = true
@@ -359,6 +381,13 @@ return function()
 				jestExpect(myMap:get(trueKey)).toEqual("bear")
 				jestExpect(myMap:get(negativeKey)).toEqual("corgi")
 				jestExpect(myMap:get(emptyKey)).toEqual("doge")
+
+				myMap:delete(falseKey)
+				myMap:delete(trueKey)
+				myMap:delete(negativeKey)
+				myMap:delete(emptyKey)
+
+				jestExpect(myMap.size).toEqual(0)
 			end)
 		end)
 	end)
@@ -428,6 +457,121 @@ return function()
 				[ANOTHER_ITEM] = "val",
 			}
 			jestExpect(coerceToTable(tbl)).toEqual(tbl)
+		end)
+	end)
+
+	describe("forEach", function()
+		it("forEach a map of non-mixed keys and values", function()
+			-- Luau FIXME: Luau insists arrays can't be mixed type
+			local myMap: Map<number, string> = Map.new({ { 1, "one" :: any } })
+			local mock = jest.fn()
+			myMap:set(1, "one")
+			myMap:set(2, "nil")
+			myMap:set(3, "false")
+			myMap:forEach(function(value: string, key: number)
+				mock(value, 0 + key)
+			end)
+			jestExpect(mock).toHaveBeenCalledWith("one", 1)
+			jestExpect(mock).toHaveBeenCalledWith("nil", 2)
+			jestExpect(mock).toHaveBeenCalledWith("false", 3)
+		end)
+
+		it("forEach with 'this' argument", function()
+			-- Luau FIXME: Luau insists arrays can't be mixed type
+			local myMap: Map<number, string> = Map.new({ { 1, "one" :: any } })
+			local mock = jest.fn()
+			local obj = {
+				message = "h0wdy",
+			}
+			myMap:forEach(function(self, value: string, key: number)
+				mock(self.message, value, key)
+			end, obj)
+			jestExpect(mock).toHaveBeenCalledWith("h0wdy", "one", 1)
+		end)
+
+		it("forEach a map of mixed keys and values", function()
+			local myMap = Map.new() :: Map<number | string, string | nil | boolean>
+			local mock = jest.fn()
+			myMap:set(1, "one")
+			myMap:set(-2, nil)
+			myMap:set("3", false)
+			myMap:forEach(function(value, key)
+				mock(value, key)
+			end)
+			jestExpect(mock).toHaveBeenCalledWith("one", 1)
+			jestExpect(mock).toHaveBeenCalledWith(nil, -2)
+			jestExpect(mock).toHaveBeenCalledWith(false, "3")
+		end)
+
+		it("forEach a map after a deletion", function()
+			-- Luau FIXME: Luau insists arrays can't be mixed type
+			local myMap: Map<number, string> = Map.new({ { 1, "one" :: any } })
+			local mock = jest.fn()
+			myMap:set(2, "nil")
+			myMap:set(3, "false")
+			myMap:delete(2)
+			myMap:forEach(function(value, key)
+				-- Luau knows key is number due to explicit Map<> annotation above
+				mock(value, 0 + key)
+			end)
+			jestExpect(mock).toHaveBeenCalledWith("one", 1)
+			jestExpect(mock).toHaveBeenCalledWith("false", 3)
+		end)
+
+		it("remove map element during forEach", function()
+			-- Luau FIXME: Luau insists arrays can't be mixed type
+			local myMap: Map<number, string> = Map.new({ { 1, "one" :: any } })
+			local mock = jest.fn()
+			myMap:set(2, "nil")
+			myMap:set(3, "false")
+			myMap:forEach(function(value, key)
+				myMap:delete(2)
+				-- Luau knows key is number due to explicit Map<> annotation above
+				mock(value, 0 + key)
+			end)
+			jestExpect(mock).toHaveBeenCalledWith("one", 1)
+			jestExpect(mock).toHaveBeenCalledWith("false", 3)
+		end)
+
+		it("add map element during forEach", function()
+			-- Luau FIXME: Luau insists arrays can't be mixed type
+			local myMap: Map<number, string> = Map.new({ { 1, "one" :: any } })
+			local mock = jest.fn()
+			myMap:set(2, "nil")
+			myMap:set(3, "false")
+			myMap:forEach(function(value, key)
+				myMap:set(666, "beast")
+				-- Luau knows key is number due to explicit Map<> annotation above
+				mock(value, 0 + key)
+			end)
+			jestExpect(mock).toHaveBeenCalledWith("one", 1)
+			jestExpect(mock).toHaveBeenCalledWith("nil", 2)
+			jestExpect(mock).toHaveBeenCalledWith("false", 3)
+			jestExpect(mock).never.toHaveBeenCalledWith(nil, nil)
+			jestExpect(mock).never.toHaveBeenCalledWith("beast", 666)
+		end)
+
+		it("nested forEach", function()
+			local mock = jest.fn()
+			local kvArray = {
+				-- Luau FIXME: Luau insists arrays can't be mixed type
+				{ { key = 1 }, { value = 10 } :: any },
+				{ { key = 2 }, { value = 20 } :: any },
+				{ { key = 3 }, { value = 30 } :: any },
+			}
+			local myMap = Map.new({
+				-- Luau FIXME: Luau insists arrays can't be mixed type
+				{ "alice", Map.new(kvArray) :: any },
+				{ "bob", Map.new() :: any },
+			})
+			myMap:forEach(function(value, key)
+				value:forEach(function(value, key)
+					mock(value, key)
+				end)
+			end)
+			jestExpect(mock).toHaveBeenCalledWith({ value = 10 }, { key = 1 })
+			jestExpect(mock).toHaveBeenCalledWith({ value = 20 }, { key = 2 })
+			jestExpect(mock).toHaveBeenCalledWith({ value = 30 }, { key = 3 })
 		end)
 	end)
 end

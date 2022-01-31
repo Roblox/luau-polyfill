@@ -20,6 +20,16 @@ return function()
 		print(indent() .. message)
 	end
 
+	function console.debug(content, ...)
+		local message
+		if typeof(content) == "string" then
+			message = string.format(content, ...)
+		else
+			message = inspect(content)
+		end
+		print(indent() .. message)
+	end
+
 	function console.info(content, ...)
 		local message
 		if typeof(content) == "string" then
