@@ -1,12 +1,15 @@
---!nonstrict
--- Luau FIXME: Type '{ @metatable Set, {| _array: {any}, _map: { [any]: boolean }, size: number |} }' could not be converted into '(Array<any> | Iterable | Set<any> | string)?'; none of the union options are compatible
+--!strict
 return function()
 	local LuauPolyfill = script.Parent.Parent
 	local Set = require(LuauPolyfill.Set)
+	type Set<T> = Set.Set<T>
+	local Object = require(LuauPolyfill.Object)
+	type Object = Object.Object
 
 	local Packages = LuauPolyfill.Parent
 	local JestGlobals = require(Packages.Dev.JestGlobals)
 	local jestExpect = JestGlobals.expect
+	local jest = JestGlobals.jest
 
 	local AN_ITEM = "bar"
 	local ANOTHER_ITEM = "baz"
@@ -134,6 +137,120 @@ return function()
 		end)
 	end)
 
+	describe("forEach", function()
+		it("forEach a Set of non-mixed keys and values", function()
+			local mySet = Set.new({ 1, -1 })
+			local mock = jest.fn()
+			mySet:add(1)
+			mySet:add(-1)
+			mySet:add(31337)
+			-- note: Luau knows `+` is safe here because it infers value type from Set ctor above
+			mySet:forEach(function(value)
+				mock(0 + value)
+			end)
+			jestExpect(mock).toHaveBeenCalledWith(1)
+			jestExpect(mock).toHaveBeenCalledWith(-1)
+			jestExpect(mock).toHaveBeenCalledWith(31337)
+		end)
+
+		it("forEach with 'this' argument", function()
+			local mySet = Set.new({ 1, -1 })
+			local mock = jest.fn()
+			local obj = {
+				message = "h0wdy",
+			}
+
+			mySet:forEach(function(self, value)
+				mock(value, self.message)
+			end, obj)
+			jestExpect(mock).toHaveBeenCalledWith(1, "h0wdy")
+			jestExpect(mock).toHaveBeenCalledWith(-1, "h0wdy")
+		end)
+
+		it("forEach a map of mixed keys and values", function()
+			local mySet: Set<boolean | number> = Set.new()
+			local mock = jest.fn()
+			mySet:add(1)
+			mySet:add(false)
+			mySet:forEach(function(value)
+				-- Luau FIXME: based on explicit Set<> above, Luau should know value is boolean | number
+				mock(value)
+			end)
+			jestExpect(mock).toHaveBeenCalledWith(1)
+			jestExpect(mock).toHaveBeenCalledWith(false)
+		end)
+
+		it("forEach a map after a deletion", function()
+			local mySet = Set.new({ { 1 } })
+			local mock = jest.fn()
+			local two = { 2 }
+			mySet:add(two)
+			mySet:add({ 3 })
+			mySet:delete(two)
+			mySet:forEach(function(value, key)
+				-- note: Luau knows key is Array<number> due to inference from ctor above
+				mock(0 + value[1])
+			end)
+			jestExpect(mock).toHaveBeenCalledWith(1)
+			jestExpect(mock).never.toHaveBeenCalledWith(2)
+			jestExpect(mock).toHaveBeenCalledWith(3)
+		end)
+
+		it("remove set item during forEach", function()
+			local mySet = Set.new({ { 1 } })
+			local mock = jest.fn()
+			local two = { 2 }
+			mySet:add(two)
+			mySet:add({ 3 })
+			mySet:forEach(function(value, key)
+				mySet:delete(two)
+				-- note: Luau knows key is Array<number> due to inference from ctor above
+				mock(0 + value[1])
+			end)
+			jestExpect(mock).toHaveBeenCalledWith(1)
+			jestExpect(mock).never.toHaveBeenCalledWith(2)
+			jestExpect(mock).never.toHaveBeenCalledWith(nil)
+			jestExpect(mock).toHaveBeenCalledWith(3)
+		end)
+
+		it("add set item during forEach", function()
+			local mySet = Set.new({ { 1 } })
+			local mock = jest.fn()
+			local two = { 2 }
+			mySet:add(two)
+			mySet:forEach(function(value, key)
+				mySet:add({ 3 })
+				-- note: Luau knows key is Array<number> due to inference from ctor above
+				mock(0 + value[1])
+			end)
+			jestExpect(mock).toHaveBeenCalledWith(1)
+			jestExpect(mock).toHaveBeenCalledWith(2)
+			jestExpect(mock).never.toHaveBeenCalledWith(3)
+			jestExpect(mock).never.toHaveBeenCalledWith(nil)
+		end)
+
+		it("nested forEach", function()
+			local mock = jest.fn()
+			local kvArray = {
+				{ key = 1, value = 10 },
+				{ key = 2, value = 20 },
+				{ key = 3, value = 30 },
+			}
+			local mySet = Set.new({
+				Set.new(kvArray),
+				Set.new(),
+			})
+			mySet:forEach(function(value)
+				value:forEach(function(value)
+					mock(value)
+				end)
+			end)
+			jestExpect(mock).toHaveBeenCalledWith({ value = 10, key = 1 })
+			jestExpect(mock).toHaveBeenCalledWith({ value = 20, key = 2 })
+			jestExpect(mock).toHaveBeenCalledWith({ value = 30, key = 3 })
+		end)
+	end)
+
 	describe("has", function()
 		it("returns true if the item is in the set", function()
 			local foo = Set.new()
@@ -193,7 +310,8 @@ return function()
 		-- the following tests are adapted from the examples shown on the MDN documentation:
 		-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
 		it("works like MDN documentation example", function()
-			local mySet = Set.new()
+			-- note: if you have a mixed-type Set, you'll need to declare the type explicitly
+			local mySet: Set<number | string | Object> = Set.new()
 
 			jestExpect(mySet:add(1)).toEqual(mySet)
 			jestExpect(mySet:add(5)).toEqual(mySet)

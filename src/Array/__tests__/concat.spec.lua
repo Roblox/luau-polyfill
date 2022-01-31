@@ -31,14 +31,16 @@ return function()
 	end)
 
 	it("concatenate values", function()
-		jestExpect(concat(1)).toEqual({ 1 })
-		jestExpect(concat(1, 2)).toEqual({ 1, 2 })
-		jestExpect(concat(1, 2, 3)).toEqual({ 1, 2, 3 })
-		jestExpect(concat(1, 2, 3, 4)).toEqual({ 1, 2, 3, 4 })
+		jestExpect(concat({}, 1)).toEqual({ 1 })
+		jestExpect(concat({}, 1, 2)).toEqual({ 1, 2 })
+		-- jestExpect(concat({}, "alice", 2)).toEqual({ 1, 2 }) -- correctly results in a type error
+		-- jestExpect(concat({"alice"}, 1, 2)).toEqual({ 1, 2 }) -- Luau FIXME: false negative, CLI-49876
+		jestExpect(concat({}, 1, 2, 3)).toEqual({ 1, 2, 3 })
+		jestExpect(concat({}, 1, 2, 3, 4)).toEqual({ 1, 2, 3, 4 })
 	end)
 
 	it("concatenate values and arrays combination", function()
-		jestExpect(concat(1, { 2 })).toEqual({ 1, 2 })
+		jestExpect(concat({}, 1, { 2 })).toEqual({ 1, 2 })
 		jestExpect(concat({ 1 }, 2)).toEqual({ 1, 2 })
 		jestExpect(concat({ 1 }, 2, { 3 })).toEqual({ 1, 2, 3 })
 		jestExpect(concat({ 1, 2 }, 3, { 4 })).toEqual({ 1, 2, 3, 4 })

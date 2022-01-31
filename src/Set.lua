@@ -2,6 +2,8 @@
 local LuauPolyfill = script.Parent
 local Array = require(LuauPolyfill.Array)
 type Array<T> = Array.Array<T>
+type Object = { [string]: any }
+
 local inspect = require(LuauPolyfill.util.inspect)
 
 local Set = {}
@@ -15,19 +17,23 @@ Set.__tostring = function(self)
 	return result
 end
 
+type callbackFn<T> = (value: T, key: T, set: Set<T>) -> ()
+type callbackFnWithThisArg<T> = (thisArg: Object, value: T, key: T, set: Set<T>) -> ()
+
 export type Set<T> = {
 	size: number,
 	-- method definitions
 	add: (self: Set<T>, T) -> Set<T>,
 	clear: (self: Set<T>) -> (),
 	delete: (self: Set<T>, T) -> boolean,
+	forEach: (self: Set<T>, callback: callbackFn<T> | callbackFnWithThisArg<T>, thisArg: Object?) -> (),
 	has: (self: Set<T>, T) -> boolean,
 	ipairs: (self: Set<T>) -> any,
 }
 
 type Iterable = { ipairs: (any) -> any }
 
-function Set.new(iterable: Array<any> | Set<any> | Iterable | string | nil)
+function Set.new<T>(iterable: Array<T> | Set<T> | Iterable | string | nil): Set<T>
 	local array = {}
 	local map = {}
 	if iterable ~= nil then
@@ -64,16 +70,16 @@ function Set.new(iterable: Array<any> | Set<any> | Iterable | string | nil)
 		end
 	end
 
-	return setmetatable({
+	return (setmetatable({
 		size = #array,
 		_map = map,
 		_array = array,
-	}, Set)
+	}, Set) :: any) :: Set<T>
 end
 
 function Set:add(value)
 	if not self._map[value] then
-		-- Luau FIXME: analyze should know self is Map<K, V> which includes size as a number
+		-- Luau FIXME: analyze should know self is Set<T> which includes size as a number
 		self.size = self.size :: number + 1
 		self._map[value] = true
 		table.insert(self._array, value)
@@ -99,6 +105,22 @@ function Set:delete(value): boolean
 		table.remove(self._array, index)
 	end
 	return true
+end
+
+-- Implements Javascript's `Map.prototype.forEach` as defined below
+-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/forEach
+function Set:forEach<T>(callback: callbackFn<T> | callbackFnWithThisArg<T>, thisArg: Object?): ()
+	if typeof(callback) ~= "function" then
+		error("callback is not a function")
+	end
+
+	return Array.forEach(self._array, function(value: T)
+		if thisArg ~= nil then
+			(callback :: callbackFnWithThisArg<T>)(thisArg, value, value, self)
+		else
+			(callback :: callbackFn<T>)(value, value, self)
+		end
+	end)
 end
 
 function Set:has(value): boolean

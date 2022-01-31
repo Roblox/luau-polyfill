@@ -3,6 +3,7 @@
 	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol
 ]]
 local Symbol = require(script.Symbol)
+export type Symbol = Symbol.Symbol
 local GlobalRegistry = require(script.GlobalRegistry)
 
 local SymbolObject = setmetatable({}, {

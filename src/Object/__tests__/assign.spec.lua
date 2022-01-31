@@ -1,3 +1,4 @@
+--!strict
 return function()
 	local Object = script.Parent.Parent
 	local None = require(Object.None)
@@ -29,11 +30,20 @@ return function()
 
 		local source2 = {
 			b = 8,
+			c = "hello",
 		}
 
-		assign(target, source1, source2)
+		local _target2 = assign(target, source1, source2)
+		-- _target2.c = "hello" -- errors, `c` included in source1 as number and source2 as string, so c ends up being number & string
 
-		jestExpect(target).toEqual({ a = 5, b = source2.b, c = source1.c })
+		local _target3 = assign(target, source1)
+		-- _target3.c = "hello" -- errors, `c` included in source1 as number
+
+		local target4 = assign(target, source2)
+		target4.c = "hello!" -- doesn't error, `c` not included in target or source2
+
+		jestExpect(target).toEqual({ a = 5, b = source2.b, c = target4.c })
+		target.c = "goodbye" -- doesn't error, `c` not included in target, and Luau doesn't express type side-effects, intersection only affects return value
 	end)
 
 	it("should remove keys if specified as None", function()
@@ -70,6 +80,40 @@ return function()
 		jestExpect(target.foo).toEqual(source2.foo)
 	end)
 
+	it("should assign from more than 5 tables", function()
+		local target = {
+			foo = 0,
+		}
+
+		local source1 = {
+			foo = 1,
+		}
+
+		local source2 = {
+			foo = 2,
+		}
+
+		local source3 = {
+			foo = 3,
+		}
+
+		local source4 = {
+			foo = 4,
+		}
+
+		local source5 = {
+			foo = 5,
+		}
+
+		local source6 = {
+			foo = None,
+		}
+
+		assign(target, source1, source2, source3, source4, source5, source6)
+
+		jestExpect(target).toEqual({})
+	end)
+
 	it("should ignore non-table arguments", function()
 		local target = {
 			foo = 1,
@@ -78,9 +122,9 @@ return function()
 		local source1 = {
 			foo = 2,
 			bar = 1,
-		}
+		};
 
-		assign(target, nil, true, 1, source1)
+		(assign :: any)(target, nil, true, 1, source1)
 
 		jestExpect(target).toEqual({ foo = 2, bar = 1 })
 	end)

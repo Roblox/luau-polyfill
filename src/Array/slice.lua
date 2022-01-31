@@ -4,7 +4,7 @@ type Array<T> = { [number]: T }
 
 -- Implements Javascript's `Array.prototype.slice` as defined below, but with 1-indexing
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
-return function(t: Array<any>, start_idx: number?, end_idx: number?): Array<any>
+return function<T>(t: Array<T>, start_idx: number?, end_idx: number?): Array<T>
 	if typeof(t) ~= "table" then
 		error(string.format("Array.slice called on %s", typeof(t)))
 	end

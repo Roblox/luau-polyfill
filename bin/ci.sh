@@ -12,6 +12,6 @@ roblox-cli analyze test-model.project.json
 selene src
 stylua -c src
 echo "Run tests in DEV"
-roblox-cli run --load.model model.rbxmx --run bin/spec.lua --lua.globals=__DEV__=true
+roblox-cli run --load.model test-model.project.json --run bin/spec.lua --lua.globals=__DEV__=true
 echo "Run tests in release"
 roblox-cli run --load.model model.rbxmx --run bin/spec.lua 

@@ -2,13 +2,32 @@
 
 ## Unreleased
 
+### Breaking Changes
+* strongly type `Set.new`, which allows Luau analysis to catch many new classes of issues. If `Set.new` is used without arguments, the `T` in the `Set<T>` return type cannot be inferred and may result in new analyze warnings. You will now need to add a typecheck operator: `local interactions = Set.new() :: Set<string>`
+* strongly type `Map.new`, which allows Luau analysis to catch many new classes of issues. If `Map.new` is used without arguments, the `K` and `V` in the `Map<K, V>` return type cannot be inferred and may result in new analyze warnings. You will now need to add a typecheck operator: `local myMap = Map.new() :: Map<string, MyType>`
+* `Array.concat` was incorrectly modeled in terms of functionality and types. The first argument now *must* be an `Array<>`, it will type check the arguments, and retain the appropriate types in the return value.
+
+
+### Changes
 * `Object.freeze` now uses `table.freeze`
 * add `isFrozen` method to `Object`
-* Strict luau type mode enabled on almost all polyfill files and tests. This may highlight latent type issues in code that consumes the polyfills, but was tested against apollo-client-lua (fixed merged), roact-alignment (no fixes needed), and jest-roblox (no fixes needed).
-* Fix for `Array.from` to respect the `thisArg` argument when it is supplied.
+* Strict luau type mode enabled on almost all polyfill files and tests. This may highlight latent type issues in code that consumes the polyfills.
 * `setTimeout` now uses `task.delay` as the default implementation, increasing timer resolution from 30hz to 60hz.
 * `toExponential` now returns "nan" when given invalid values, more closely matching MDN documentation and in-browser tests.
+
+
+### Added Polyfills
+* add `forEach` method to `Set`
+* add `forEach` method to `Map`
+* add `isFrozen` method to `Object`
+* add `debug` method to `console`
+
+### Fixes
+* `Array.forEach` will no longer incorrectly call the callback when the array length changes. The callback also is now more correctly typed.
 * the `Object` type exported no longer uses nil-able values, which works around some Luau inference issues, and better matches the typical intention of using it.
+* `Array.from` will now respect the `thisArg` argument when it is supplied.
+* `Array.slice` and `Array.filter` will no longer erase the type of the `Array<>` being operated on.
+* `Object.assign` will now pass through more original information on source and target types. Uses where the target is an empty table `Object.assign({}, myTable, otherTable)` may require an explicit annotation on assignment to a local variable.
 
 ## 0.2.6
 * add `has` method to `WeakMap`
