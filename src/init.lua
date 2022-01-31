@@ -5,6 +5,7 @@ local mapModule = require(script.Map)
 local Object = require(script.Object)
 local PromiseModule = require(script.Promise)
 local Set = require(script.Set)
+local Symbol = require(script.Symbol)
 local Timers = require(script.Timers)
 local WeakMap = require(script.WeakMap)
 
@@ -17,6 +18,7 @@ export type PromiseLike<T> = PromiseModule.PromiseLike<T>
 export type Promise<T> = PromiseModule.Promise<T>
 
 export type Set<T> = Set.Set<T>
+export type Symbol = Symbol.Symbol
 export type Timeout = Timers.Timeout
 export type WeakMap<T, V> = WeakMap.WeakMap<T, V>
 
@@ -36,7 +38,7 @@ return {
 	Set = Set,
 	WeakMap = WeakMap,
 	String = require(script.String),
-	Symbol = require(script.Symbol),
+	Symbol = Symbol,
 	setTimeout = Timers.setTimeout,
 	clearTimeout = Timers.clearTimeout,
 	util = require(script.util),

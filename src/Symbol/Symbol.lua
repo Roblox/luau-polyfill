@@ -1,4 +1,4 @@
---!nonstrict
+--!strict
 --[[
 	Symbols have the type 'userdata', but when printed or coerced to a string,
 	the symbol will turn into the string given as its name.
@@ -13,7 +13,7 @@ export type Symbol = typeof(newproxy(true))
 
 return {
 	new = function(name: string?): Symbol
-		local self = newproxy(true)
+		local self = newproxy(true) :: any
 
 		local wrappedName = "Symbol()"
 		if name then
@@ -24,6 +24,6 @@ return {
 			return wrappedName
 		end
 
-		return self
+		return (self :: any) :: Symbol
 	end,
 }

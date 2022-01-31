@@ -4,36 +4,44 @@ local LuauPolyfill = script.Parent
 local Array = require(LuauPolyfill.Array)
 local Object = require(LuauPolyfill.Object)
 local instanceOf = require(LuauPolyfill.instanceof)
-
+type Object = Object.Object
 type Array<T> = Array.Array<T>
 type Table<T, V> = { [T]: V }
 type Tuple<T, V> = Array<T | V>
+type callbackFn<K, V> = (element: V, key: K, map: Map<K, V>) -> ()
+type callbackFnWithThisArg<K, V> = (thisArg: Object, value: V, key: K, map: Map<K, V>) -> ()
 
 local Map = {}
 
-export type Map<T, V> = {
+export type Map<K, V> = {
 	size: number,
 	-- method definitions
-	set: (self: Map<T, V>, T, V) -> Map<T, V>,
-	get: (self: Map<T, V>, T) -> V,
-	clear: (self: Map<T, V>) -> (),
-	delete: (self: Map<T, V>, T) -> boolean,
-	has: (self: Map<T, V>, T) -> boolean,
-	keys: (self: Map<T, V>) -> Array<T>,
-	values: (self: Map<T, V>) -> Array<V>,
-	entries: (self: Map<T, V>) -> Array<Tuple<T, V>>,
-	ipairs: (self: Map<T, V>) -> any,
-	_map: { [T]: V },
-	_array: { [number]: T },
+	set: (self: Map<K, V>, K, V) -> Map<K, V>,
+	get: (self: Map<K, V>, K) -> V | nil,
+	clear: (self: Map<K, V>) -> (),
+	delete: (self: Map<K, V>, K) -> boolean,
+	forEach: (self: Map<K, V>, callback: callbackFn<K, V> | callbackFnWithThisArg<K, V>, thisArg: Object?) -> (),
+	has: (self: Map<K, V>, K) -> boolean,
+	keys: (self: Map<K, V>) -> Array<K>,
+	values: (self: Map<K, V>) -> Array<V>,
+	entries: (self: Map<K, V>) -> Array<Tuple<K, V>>,
+	ipairs: (self: Map<K, V>) -> any,
+	[K]: V,
+	_map: { [K]: V },
+	_array: { [number]: K },
 }
 
-function Map.new(iterable: Array<any>?): Map<any, any>
+function Map.new<K, V>(iterable: Array<Array<any>>?): Map<K, V>
 	local array = {}
 	local map = {}
 	if iterable ~= nil then
 		local arrayFromIterable
 		local iterableType = typeof(iterable)
 		if iterableType == "table" then
+			if #iterable > 0 and typeof(iterable[1]) ~= "table" then
+				error("cannot create Map from {K, V} form, it must be { {K, V}... }")
+			end
+
 			arrayFromIterable = Array.from(iterable)
 		else
 			error(("cannot create array from value of type `%s`"):format(iterableType))
@@ -41,6 +49,11 @@ function Map.new(iterable: Array<any>?): Map<any, any>
 
 		for _, entry in ipairs(arrayFromIterable) do
 			local key = entry[1]
+			if _G.__DEV__ then
+				if key == nil then
+					error("cannot create Map from a table that isn't an array.")
+				end
+			end
 			local val = entry[2]
 			-- only add to array if new
 			if map[key] == nil then
@@ -55,10 +68,10 @@ function Map.new(iterable: Array<any>?): Map<any, any>
 		size = #array,
 		_map = map,
 		_array = array,
-	}, Map) :: any) :: Map<any, any>
+	}, Map) :: any) :: Map<K, V>
 end
 
-function Map:set(key, value)
+function Map:set<K, V>(key: K, value: V): Map<K, V>
 	-- preserve initial insertion order
 	if self._map[key] == nil then
 		-- Luau FIXME: analyze should know self is Map<K, V> which includes size as a number
@@ -93,6 +106,24 @@ function Map:delete(key): boolean
 		table.remove(self._array, index)
 	end
 	return true
+end
+
+-- Implements Javascript's `Map.prototype.forEach` as defined below
+-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/forEach
+function Map:forEach<K, V>(callback: callbackFn<K, V> | callbackFnWithThisArg<K, V>, thisArg: Object?): ()
+	if typeof(callback) ~= "function" then
+		error("callback is not a function")
+	end
+
+	return Array.forEach(self._array, function(key: K)
+		local value: V = self._map[key] :: V
+
+		if thisArg ~= nil then
+			(callback :: callbackFnWithThisArg<K, V>)(thisArg, value, key, self)
+		else
+			(callback :: callbackFn<K, V>)(value, key, self)
+		end
+	end)
 end
 
 function Map:has(key): boolean

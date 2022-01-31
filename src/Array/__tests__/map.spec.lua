@@ -51,9 +51,30 @@ return function()
 
 	it("Mapping an array of numbers using a function containing an argument", function()
 		local numbers = { 1, 4, 9 }
+		-- Luau FIXME: Luau doesn't infer numbers as Array<number>, so num isn't automatically narrowed to number: https://jira.rbx.com/browse/CLI-49121
 		local doubles = map(numbers, function(num: number)
 			return num * 2
 		end)
 		jestExpect(doubles).toEqual({ 2, 8, 18 })
+	end)
+
+	it("add array element during map", function()
+		local numbers = { 1, 4, 9 }
+		-- Luau FIXME: Luau doesn't infer numbers as Array<number>, so num isn't automatically narrowed to number: https://jira.rbx.com/browse/CLI-49121
+		local doubles = map(numbers, function(num: number, _index, array)
+			table.insert(array, num * 2)
+			return num
+		end)
+		jestExpect(doubles).toEqual({ 1, 4, 9 })
+	end)
+
+	it("remove array element during map", function()
+		local numbers = { 1, 4, 9 }
+		-- Luau FIXME: Luau doesn't infer numbers as Array<number>, so num isn't automatically narrowed to number: https://jira.rbx.com/browse/CLI-49121
+		local doubles = map(numbers, function(num, _index, array)
+			table.remove(array, 1)
+			return num
+		end)
+		jestExpect(doubles).toEqual({ 1, 9 })
 	end)
 end

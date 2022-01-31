@@ -1,12 +1,11 @@
 --!strict
-
 type Array<T> = { [number]: T }
-type callbackFn<T> = (element: T, index: number, array: Array<T>?) -> ()
-type callbackFnWithThisArg<T, U> = (thisArg: U, element: T, index: number, array: Array<T>?) -> ()
+type callbackFn<T> = (element: T, index: number, array: Array<T>) -> ()
+type callbackFnWithThisArg<T, U> = (thisArg: U, element: T, index: number, array: Array<T>) -> ()
 type Object = { [string]: any }
 -- Implements Javascript's `Array.prototype.forEach` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
-return function<T, U>(t: Array<any>, callback: callbackFn<T> | callbackFnWithThisArg<T, U>, thisArg: U?): ()
+return function<T, U>(t: Array<T>, callback: callbackFn<T> | callbackFnWithThisArg<T, U>, thisArg: U?): ()
 	if typeof(t) ~= "table" then
 		error(string.format("Array.forEach called on %s", typeof(t)))
 	end
@@ -26,6 +25,10 @@ return function<T, U>(t: Array<any>, callback: callbackFn<T> | callbackFnWithThi
 			(callback :: callbackFn<T>)(kValue, k, t)
 		end
 
+		if #t < len then
+			-- don't iterate on removed items, don't iterate more than original length
+			len = #t
+		end
 		k += 1
 	end
 end

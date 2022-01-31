@@ -73,18 +73,39 @@ return function()
 		jestExpect(mock).toHaveBeenCalledWith({ key = 3, value = 30 })
 	end)
 
-	it("Modifying the array during iteration", function()
+	it("removing items from the array during iteration", function()
 		local words = { "one", "two", "three", "four" }
-		local result = {}
+		local mock = jest.fn()
 
 		forEach(words, function(word)
-			table.insert(result, word)
+			mock(word)
 			if word == "two" then
 				table.remove(words, 1)
 			end
 		end)
 
-		jestExpect(result).toEqual({ "one", "two", "four" })
+		jestExpect(mock).toHaveBeenCalledWith("one")
+		jestExpect(mock).toHaveBeenCalledWith("two")
+		jestExpect(mock).never.toHaveBeenCalledWith("three")
+		jestExpect(mock).never.toHaveBeenCalledWith(nil)
+		jestExpect(mock).toHaveBeenCalledWith("four")
+	end)
+
+	it("adding items from the array during iteration", function()
+		local words = { "one", "two", "three", "four" }
+		local mock = jest.fn()
+
+		forEach(words, function(word, _index, array)
+			mock(word)
+			table.insert(array, "five")
+		end)
+
+		jestExpect(mock).toHaveBeenCalledWith("one")
+		jestExpect(mock).toHaveBeenCalledWith("two")
+		jestExpect(mock).toHaveBeenCalledWith("three")
+		jestExpect(mock).toHaveBeenCalledWith("four")
+		jestExpect(mock).never.toHaveBeenCalledWith(nil)
+		jestExpect(mock).never.toHaveBeenCalledWith("five")
 	end)
 
 	it("Flatten an array", function()
