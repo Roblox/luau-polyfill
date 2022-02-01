@@ -1,6 +1,6 @@
 # LuauPolyfills Changelog
 
-## Unreleased
+## 0.3.0
 
 ### Breaking Changes
 * strongly type `Set.new`, which allows Luau analysis to catch many new classes of issues. If `Set.new` is used without arguments, the `T` in the `Set<T>` return type cannot be inferred and may result in new analyze warnings. You will now need to add a typecheck operator: `local interactions = Set.new() :: Set<string>`
