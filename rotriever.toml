@@ -1,12 +1,18 @@
 [package]
 name = "LuauPolyfill"
 version = "0.3.0"
-author = "Paul Doyle <pdoyle@roblox.com>"
+authors = [
+    "Chris Trześniewski <k.trzesniewski@gmail.com>",
+    "Matt Hargett <plaztiksyke@gmail.com>",
+    "Olivier Trepanier <otrepanier@roblox.com>",
+    "Paul Doyle <pdoyle@roblox.com>",
+    "Raymond Ng <rng@roblox.com>"
+]
 content_root = "src"
 files = ["*", "!**/__tests__/**"]
 
 [dev_dependencies]
-JestGlobals = "github.com/roblox/jest-roblox@2.2.1"
-TestEZ = "github.com/roblox/jest-roblox@2.2.1"
+JestGlobals = "github.com/roblox/jest-roblox@2.3.1"
+TestEZ = "github.com/roblox/jest-roblox@2.3.1"
 RegExp = "github.com/roblox/luau-regexp@0.1.3"
 Promise = "github.com/evaera/roblox-lua-promise@3.1.0"

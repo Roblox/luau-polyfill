@@ -9,13 +9,18 @@ local RECEIVED_OBJECT_ERROR = "Array.concat(...) only works with array-like tabl
 	.. "be `concat({1, 2}, { {a = true} }`"
 
 -- capture two separate generic arguments so that the type error in abuse cases is actionable, but needs CLI-49876 to avoid a false negative
-local function concat<T, S>(source: Array<T>, ...: Array<S> | S): Array<T> & Array<S>
+local function concat<T, S>(source: Array<T> | T, ...: Array<S> | S): Array<T> & Array<S>
 	local array = {}
 	local elementCount = 0
 
-	for _, value in ipairs(source) do
+	if isArray(source) then
+		for _, value in ipairs(source :: Array<T>) do
+			elementCount += 1
+			array[elementCount] = value
+		end
+	else
 		elementCount += 1
-		array[elementCount] = value
+		array[elementCount] = source :: T
 	end
 
 	for i = 1, select("#", ...) do
