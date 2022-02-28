@@ -52,6 +52,11 @@ return function()
 		jestExpect(alphaNumeric).toEqual({ "a", "b", "c", 1, 2, 3 } :: Array<any>)
 	end)
 
+	it("concatenates values to new array when first argument isn't an array", function()
+		local alphaNumeric = concat(1, { 2, 3 })
+		jestExpect(alphaNumeric).toEqual({ 1, 2, 3 })
+	end)
+
 	it("concatenates nested arrays", function()
 		local num1 = { { 1 } }
 		local num2: Array<any> = { 2, { 3 } }
