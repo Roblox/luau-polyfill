@@ -1,5 +1,10 @@
 # LuauPolyfills Changelog
 
+## Unreleased changes
+
+### Changes
+* `Array.concat` will now accept a non-array as the first parameter, matching the `Array.prototype.concat` behavior from JavaScript, and relied upon by React 17's `useImperativeHandle` tests.
+
 ## 0.3.0
 
 ### Breaking Changes
