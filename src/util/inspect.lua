@@ -7,8 +7,18 @@ local HttpService = game:GetService("HttpService")
 local Array = require(script.Parent.Parent.Array)
 -- local NULL = require(srcWorkspace.luaUtils.null)
 
+-- Support for options partial implementation
+-- see: https://nodejs.org/dist/latest-v16.x/docs/api/util.html#utilinspectobject-options
+export type InspectOptions = {
+	depth: number?,
+}
+
+type FormatOptions = {
+	depth: number,
+}
+
 local MAX_ARRAY_LENGTH = 10
-local MAX_RECURSIVE_DEPTH = 2
+local DEFAULT_RECURSIVE_DEPTH = 2
 
 -- deviation: pre-declare functions
 local formatValue
@@ -20,8 +30,11 @@ local getObjectTag
 --[[
  * Used to print values in error messages.
  ]]
-local function inspect(value): string
-	return formatValue(value, {})
+local function inspect(value, options: InspectOptions?): string
+	local inspectOptions: InspectOptions = options or { depth = DEFAULT_RECURSIVE_DEPTH }
+	local depth = inspectOptions.depth or DEFAULT_RECURSIVE_DEPTH
+	inspectOptions.depth = if depth >= 0 then depth else DEFAULT_RECURSIVE_DEPTH
+	return formatValue(value, {}, inspectOptions :: FormatOptions)
 end
 
 local function isIndexKey(k, contiguousLength)
@@ -72,7 +85,7 @@ local function getFragmentedKeys(tbl)
 	return keys, keysLength, tableLength
 end
 
-function formatValue(value, seenValues)
+function formatValue(value, seenValues, options: FormatOptions)
 	local valueType = typeof(value)
 	if valueType == "string" then
 		return HttpService:JSONEncode(value)
@@ -99,13 +112,13 @@ function formatValue(value, seenValues)
 		-- if value == NULL then
 		-- 	return 'null'
 		-- end
-		return formatObjectValue(value, seenValues)
+		return formatObjectValue(value, seenValues, options)
 	else
 		return tostring(value)
 	end
 end
 
-function formatObjectValue(value, previouslySeenValues)
+function formatObjectValue(value, previouslySeenValues, options: FormatOptions)
 	if table.find(previouslySeenValues, value) ~= nil then
 		return "[Circular]"
 	end
@@ -120,17 +133,17 @@ function formatObjectValue(value, previouslySeenValues)
 			if typeof(jsonValue) == "string" then
 				return jsonValue
 			else
-				return formatValue(jsonValue, seenValues)
+				return formatValue(jsonValue, seenValues, options)
 			end
 		end
 	elseif Array.isArray(value) then
-		return formatArray(value, seenValues)
+		return formatArray(value, seenValues, options)
 	end
 
-	return formatObject(value, seenValues)
+	return formatObject(value, seenValues, options)
 end
 
-function formatObject(object, seenValues)
+function formatObject(object, seenValues, options: FormatOptions)
 	local result = ""
 	local mt = getmetatable(object)
 	if mt and rawget(mt, "__tostring") then
@@ -143,21 +156,21 @@ function formatObject(object, seenValues)
 		result ..= "{}"
 		return result
 	end
-	if #seenValues > MAX_RECURSIVE_DEPTH then
+	if #seenValues > options.depth then
 		result ..= "[" .. getObjectTag(object) .. "]"
 		return result
 	end
 
 	local properties = {}
 	for i = 1, keysLength do
-		local value = formatValue(object[i], seenValues)
+		local value = formatValue(object[i], seenValues, options)
 
 		table.insert(properties, value)
 	end
 
 	for i = 1, fragmentedKeysLength do
 		local key = fragmentedKeys[i]
-		local value = formatValue(object[key], seenValues)
+		local value = formatValue(object[key], seenValues, options)
 
 		table.insert(properties, key .. ": " .. value)
 	end
@@ -166,12 +179,12 @@ function formatObject(object, seenValues)
 	return result
 end
 
-function formatArray(array: Array<any>, seenValues: Array<any>): string
+function formatArray(array: Array<any>, seenValues: Array<any>, options: FormatOptions): string
 	local length = #array
 	if length == 0 then
 		return "[]"
 	end
-	if #seenValues > MAX_RECURSIVE_DEPTH then
+	if #seenValues > options.depth then
 		return "[Array]"
 	end
 
@@ -180,7 +193,7 @@ function formatArray(array: Array<any>, seenValues: Array<any>): string
 	local items = {}
 
 	for i = 1, len do
-		items[i] = (formatValue(array[i], seenValues))
+		items[i] = (formatValue(array[i], seenValues, options))
 	end
 
 	if remaining == 1 then

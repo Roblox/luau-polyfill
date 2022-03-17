@@ -1,12 +1,12 @@
 [package]
 name = "LuauPolyfill"
-version = "0.3.0"
+version = "0.3.1"
 authors = [
     "Chris Trześniewski <k.trzesniewski@gmail.com>",
     "Matt Hargett <plaztiksyke@gmail.com>",
     "Olivier Trepanier <otrepanier@roblox.com>",
     "Paul Doyle <pdoyle@roblox.com>",
-    "Raymond Ng <rng@roblox.com>"
+    "Raymond Ng <rng@roblox.com>",
 ]
 content_root = "src"
 files = ["*", "!**/__tests__/**"]

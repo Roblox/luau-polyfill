@@ -1,8 +1,9 @@
 # LuauPolyfills Changelog
 
-## Unreleased changes
+## 0.3.1
 
 ### Changes
+* `inspect` now accepts an optional options table with a depth option that allows inspecting values deeper then the default of two.
 * `Array.concat` will now accept a non-array as the first parameter, matching the `Array.prototype.concat` behavior from JavaScript, and relied upon by React 17's `useImperativeHandle` tests.
 
 ## 0.3.0
