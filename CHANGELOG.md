@@ -5,6 +5,8 @@
 ### Changes
 * `inspect` now accepts an optional options table with a depth option that allows inspecting values deeper then the default of two.
 * `Array.concat` will now accept a non-array as the first parameter, matching the `Array.prototype.concat` behavior from JavaScript, and relied upon by React 17's `useImperativeHandle` tests.
+* `Array.sort` will now accept `Object.None` (our equivalent of JS' `undefined`) for the comparator and use the default sort.
+* the default sort in `Array.sort` now uses a more durable implementation, taking into account the `type()` *and* `tostring()`.
 
 ## 0.3.0
 

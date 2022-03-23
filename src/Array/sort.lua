@@ -1,14 +1,15 @@
 --!strict
+local None = require(script.Parent.Parent.Object.None)
 type Array<T> = { [number]: T }
 type Comparable = (any, any) -> number
 local defaultSort = function(a: any, b: any): boolean
-	return tostring(a) < tostring(b)
+	return type(a) .. tostring(a) < type(b) .. tostring(b)
 end
 
 local function sort(array: Array<any>, compare: Comparable?)
 	-- wrapperCompare interprets compare return value to be compatible with Lua's table.sort
 	local wrappedCompare = defaultSort
-	if compare ~= nil then
+	if compare ~= nil and compare ~= None then
 		if typeof(compare :: any) ~= "function" then
 			error("invalid argument to Array.sort: compareFunction must be a function")
 		end

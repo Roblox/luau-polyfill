@@ -3,8 +3,9 @@
 
 return function()
 	local Array = script.Parent.Parent
-	local LuauPolyfill = Array.Parent
 	local sort = require(Array.sort)
+	local LuauPolyfill = Array.Parent
+	local Object = require(LuauPolyfill.Object)
 
 	local Packages = LuauPolyfill.Parent
 	local JestGlobals = require(Packages.Dev.JestGlobals)
@@ -13,6 +14,12 @@ return function()
 	it("sorts string by default", function()
 		local months = { "March", "Jan", "Feb", "Dec" }
 		sort(months)
+		jestExpect(months).toEqual({ "Dec", "Feb", "Jan", "March" })
+	end)
+
+	it("sorts string when compare function is Lua equivalent of 'undefined'", function()
+		local months = { "March", "Jan", "Feb", "Dec" }
+		sort(months, Object.None)
 		jestExpect(months).toEqual({ "Dec", "Feb", "Jan", "March" })
 	end)
 
