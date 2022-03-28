@@ -1,4 +1,3 @@
---!strict
 local Status = newproxy(false)
 
 type TaskStatus = number
