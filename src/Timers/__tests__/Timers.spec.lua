@@ -1,6 +1,7 @@
 return function()
 	local Timers = script.Parent.Parent
 	local makeTimerImpl = require(Timers.makeTimerImpl)
+	local makeIntervalImpl = require(Timers.makeIntervalImpl)
 	local LuauPolyfill = Timers.Parent
 
 	local Packages = LuauPolyfill.Parent
@@ -10,8 +11,11 @@ return function()
 	local Promise = require(Packages.Dev.Promise)
 
 	local Timeout
+	local Interval
 	local mockTime: number
 	local timeouts
+
+	type Interval = makeIntervalImpl.Interval
 
 	describe("with fake delay", function()
 		local function advanceTime(amount: number)
@@ -37,6 +41,7 @@ return function()
 			mockTime = 0
 			timeouts = {}
 			Timeout = makeTimerImpl(mockDelay)
+			Interval = makeIntervalImpl(mockDelay)
 		end)
 
 		describe("Delay override logic", function()
@@ -96,6 +101,62 @@ return function()
 				jestExpect(callbackSpy).never.toHaveBeenCalled()
 			end)
 		end)
+
+		describe("Interval", function()
+			local id: Interval?
+
+			afterEach(function()
+				if id then
+					Interval.clearInterval(id)
+				end
+				id = nil
+			end)
+
+			it("should not run immediately", function()
+				local callbackSpy = jest.fn()
+				id = Interval.setInterval(callbackSpy, 100)
+
+				jestExpect(callbackSpy).never.toHaveBeenCalled()
+			end)
+
+			it("should run once every delay", function()
+				local callbackSpy = jest.fn()
+				Interval.setInterval(callbackSpy, 100)
+
+				jestExpect(callbackSpy).never.toHaveBeenCalled()
+
+				advanceTime(100)
+				jestExpect(callbackSpy).toHaveBeenCalledTimes(1)
+
+				advanceTime(100)
+				jestExpect(callbackSpy).toHaveBeenCalledTimes(2)
+				advanceTime(1)
+				jestExpect(callbackSpy).toHaveBeenCalledTimes(2)
+
+				advanceTime(100)
+				jestExpect(callbackSpy).toHaveBeenCalledTimes(3)
+			end)
+
+			it("should be called with the given args", function()
+				local callbackSpy = jest.fn()
+				Interval.setInterval(callbackSpy, 100, "hello", "world")
+
+				advanceTime(100)
+				jestExpect(callbackSpy).toHaveBeenCalledTimes(1)
+				jestExpect(callbackSpy).toHaveBeenCalledWith("hello", "world")
+			end)
+
+			it("should not run if cancelled before it is scheduled to run", function()
+				local callbackSpy = jest.fn()
+				id = Interval.setInterval(callbackSpy, 100)
+
+				jestExpect(callbackSpy).never.toHaveBeenCalled()
+
+				Interval.clearInterval(id :: Interval)
+				advanceTime(100)
+				jestExpect(callbackSpy).never.toHaveBeenCalled()
+			end)
+		end)
 	end)
 
 	describe("with real delay", function()
@@ -106,6 +167,7 @@ return function()
 		end
 		beforeEach(function()
 			Timeout = makeTimerImpl(task.delay)
+			Interval = makeIntervalImpl(task.delay)
 		end)
 
 		describe("Timeout", function()
@@ -146,6 +208,61 @@ return function()
 				jestExpect(callbackSpy).never.toHaveBeenCalled()
 
 				Timeout.clearTimeout(task)
+				advanceTime(100)
+				jestExpect(callbackSpy).never.toHaveBeenCalled()
+			end)
+		end)
+
+		describe("Interval", function()
+			local id: Interval?
+
+			afterEach(function()
+				if id then
+					Interval.clearInterval(id)
+				end
+				id = nil
+			end)
+
+			it("should not run delayed callbacks immediately", function()
+				local callbackSpy = jest.fn()
+				id = Interval.setInterval(callbackSpy, 50)
+				jestExpect(callbackSpy).never.toHaveBeenCalled()
+			end)
+
+			it("should run once every delay", function()
+				local callbackSpy = jest.fn()
+				id = Interval.setInterval(callbackSpy, 100)
+
+				jestExpect(callbackSpy).never.toHaveBeenCalled()
+
+				advanceTime(100)
+				jestExpect(callbackSpy).toHaveBeenCalledTimes(1)
+
+				advanceTime(100)
+				jestExpect(callbackSpy).toHaveBeenCalledTimes(2)
+				advanceTime(1)
+				jestExpect(callbackSpy).toHaveBeenCalledTimes(2)
+
+				advanceTime(100)
+				jestExpect(callbackSpy).toHaveBeenCalledTimes(3)
+			end)
+
+			it("should be called with the given args", function()
+				local callbackSpy = jest.fn()
+				id = Interval.setInterval(callbackSpy, 100, "hello", "world")
+
+				advanceTime(100)
+				jestExpect(callbackSpy).toHaveBeenCalledTimes(1)
+				jestExpect(callbackSpy).toHaveBeenCalledWith("hello", "world")
+			end)
+
+			it("should not run if cancelled before it is scheduled to run", function()
+				local callbackSpy = jest.fn()
+				id = Interval.setInterval(callbackSpy, 50)
+
+				jestExpect(callbackSpy).never.toHaveBeenCalled()
+
+				Interval.clearInterval(id :: Interval)
 				advanceTime(100)
 				jestExpect(callbackSpy).never.toHaveBeenCalled()
 			end)

@@ -1,5 +1,10 @@
 # LuauPolyfills Changelog
 
+## Unreleased
+
+### Added Polyfills
+* implement `setInterval` and `clearInterval`
+
 ## 0.3.1
 
 ### Changes
