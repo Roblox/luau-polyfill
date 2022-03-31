@@ -14,7 +14,6 @@ local function reduce(array: Array, callback: Function, initialValue: any?): any
 
 	local length = #array
 
-	local k = 0
 	local value
 	local initial = 1
 
@@ -29,9 +28,7 @@ local function reduce(array: Array, callback: Function, initialValue: any?): any
 	end
 
 	for i = initial, length do
-		if array[k + 1] ~= nil then
-			value = callback(value, array[i], i, array)
-		end
+		value = callback(value, array[i], i, array)
 	end
 
 	return value
