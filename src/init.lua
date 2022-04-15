@@ -20,6 +20,7 @@ export type Promise<T> = PromiseModule.Promise<T>
 export type Set<T> = Set.Set<T>
 export type Symbol = Symbol.Symbol
 export type Timeout = Timers.Timeout
+export type Interval = Timers.Interval
 export type WeakMap<T, V> = WeakMap.WeakMap<T, V>
 
 return {
@@ -41,5 +42,7 @@ return {
 	Symbol = Symbol,
 	setTimeout = Timers.setTimeout,
 	clearTimeout = Timers.clearTimeout,
+	setInterval = Timers.setInterval,
+	clearInterval = Timers.clearInterval,
 	util = require(script.util),
 }
