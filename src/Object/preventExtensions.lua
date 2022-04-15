@@ -1,9 +1,9 @@
 --!strict
-type Object = { [string]: any }
+type Table = { [string | number]: any }
 -- FIXME: This should be updated to be closer to the actual
 -- `Object.preventExtensions` functionality in JS. This requires additional
 -- support from the VM
-local function preventExtensions<T>(t: Object): T
+local function preventExtensions<T>(t: Table): T
 	local name = tostring(t)
 
 	return (
