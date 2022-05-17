@@ -9,7 +9,7 @@
 	Other behaviors, including the ability to find all symbol properties on
 	objects, are not implemented.
 ]]
-export type Symbol = typeof(newproxy(true))
+export type Symbol = typeof(newproxy(true)) & { [string]: any }
 
 return {
 	new = function(name: string?): Symbol
