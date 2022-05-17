@@ -4,6 +4,10 @@
 
 ### Added Polyfills
 * implement `setInterval` and `clearInterval`
+* implement `encodeURIComponent`, integration tested in Apollo GraphQL project
+
+###
+* `Symbol` is now typed to return any when indexed with a string, allowing code using `Symbol.species` and the like to type check without casts in the library consumer code.
 
 ## 0.3.1
 
