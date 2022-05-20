@@ -1,5 +1,10 @@
 # LuauPolyfills Changelog
 
+## Unreleased
+
+### Added Polyfills
+* implement `AssertionError`
+
 ## 0.3.2
 
 ### Added Polyfills

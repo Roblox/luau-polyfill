@@ -1,5 +1,6 @@
 --!strict
 local Array = require(script.Array)
+local AssertionError = require(script.AssertionError)
 local Error = require(script.Error)
 local mapModule = require(script.Map)
 local Object = require(script.Object)
@@ -10,6 +11,7 @@ local Timers = require(script.Timers)
 local WeakMap = require(script.WeakMap)
 
 export type Array<T> = Array.Array<T>
+export type AssertionError = AssertionError.AssertionError
 export type Error = Error.Error
 export type Map<T, V> = mapModule.Map<T, V>
 export type Object = Object.Object
@@ -25,6 +27,7 @@ export type WeakMap<T, V> = WeakMap.WeakMap<T, V>
 
 return {
 	Array = Array,
+	AssertionError = AssertionError,
 	Boolean = require(script.Boolean),
 	console = require(script.console),
 	Error = Error,
