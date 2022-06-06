@@ -19,7 +19,10 @@ export type Promise<T> = {
 
 	onCancel: (Promise<T>, () -> ()?) -> boolean,
 
-	expect: (Promise<T>) -> T,
+	expect: (Promise<T>) -> ...T,
+
+	-- FIXME Luau: need union type packs to parse  (...T) | () | PromiseLike<T> here
+	await: (Promise<T>) -> (boolean, ...(T | any)),
 }
 
 return {}
