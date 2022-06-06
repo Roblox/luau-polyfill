@@ -1,5 +1,11 @@
 # LuauPolyfills Changelog
 
+## Unreleased
+
+### Added Polyfills
+* add `await` method to `Promise`
+* add multi-return support for `Promise.expect`
+
 ## 0.3.3
 
 ### Added Polyfills
