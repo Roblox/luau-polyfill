@@ -1,6 +1,6 @@
 [package]
 name = "LuauPolyfill"
-version = "0.3.3"
+version = "0.3.4"
 authors = [
     "Chris Trześniewski <k.trzesniewski@gmail.com>",
     "Matt Hargett <plaztiksyke@gmail.com>",

@@ -1,6 +1,6 @@
 # LuauPolyfills Changelog
 
-## Unreleased
+## 0.3.4
 
 ### Added Polyfills
 * add `await` method to `Promise`
