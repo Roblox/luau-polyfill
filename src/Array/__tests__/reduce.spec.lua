@@ -3,6 +3,8 @@
 return function()
 	local Array = script.Parent.Parent
 	local LuauPolyfill = Array.Parent
+	local types = require(LuauPolyfill.types)
+	type Array<T> = types.Array<T>
 	local reduce = require(Array.reduce)
 
 	local Packages = LuauPolyfill.Parent
@@ -10,7 +12,7 @@ return function()
 	local jestExpect = JestGlobals.expect
 
 	it("calls the reducer function with the indexes", function()
-		jestExpect(reduce({ true, false, {}, "foo" }, function(accumulator, _currentValue, index)
+		jestExpect(reduce({ true, false, {}, "foo" } :: Array<any>, function(accumulator, _currentValue, index)
 			table.insert(accumulator, index)
 			return accumulator
 		end, {})).toEqual({ 1, 2, 3, 4 })
@@ -21,7 +23,7 @@ return function()
 		jestExpect(reduce(originalArray, function(_acc, currentValue, _index, array)
 			jestExpect(array).toBe(originalArray)
 			return currentValue
-		end, {})).toEqual(true)
+		end, false)).toEqual(true)
 	end)
 
 	it("throws if no initial value is provided and the array is empty", function()
@@ -47,20 +49,23 @@ return function()
 	end)
 
 	it("Sum all the values of an array", function()
-		jestExpect(reduce({ 1, 2, 3, 4 }, function(accumulator, currentValue)
+		-- TODO Luau: once Luau supports overloads, reduce can be typed to not need this annotation
+		jestExpect(reduce({ 1, 2, 3, 4 }, function(accumulator: number, currentValue)
 			return accumulator + currentValue
 		end)).toEqual(10)
 	end)
 
 	it("Sum of values in an object array", function()
-		jestExpect(reduce({ { x = 1 }, { x = 2 }, { x = 3 } }, function(accumulator, currentValue)
+		-- TODO Luau: once Luau supports overloads, reduce can be typed to not need this annotation
+		jestExpect(reduce({ { x = 1 }, { x = 2 }, { x = 3 } }, function(accumulator: number, currentValue)
 			return accumulator + currentValue.x
 		end, 0)).toEqual(6)
 	end)
 
 	it("Counting instances of values in an object", function()
 		local names = { "Alice", "Bob", "Tiff", "Bruce", "Alice" }
-		local reduced = reduce(names, function(allNames, name)
+		-- TODO Luau: once Luau supports overloads, reduce can be typed to not need this annotation
+		local reduced = reduce(names, function(allNames: { [string]: number }, name)
 			if allNames[name] ~= nil then
 				allNames[name] = allNames[name] + 1
 			else

@@ -1,7 +1,8 @@
 return function()
 	local Array = script.Parent.Parent
-	type Array<T> = { [number]: T }
 	local LuauPolyfill = Array.Parent
+	local types = require(LuauPolyfill.types)
+	type Array<T> = types.Array<T>
 	local find = require(Array.find)
 
 	local Packages = LuauPolyfill.Parent

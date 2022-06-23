@@ -1,8 +1,12 @@
 --!nonstrict
 local LuauPolyfill = script.Parent
 local Array = require(LuauPolyfill.Array)
-type Array<T> = Array.Array<T>
-type Object = { [string]: any }
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
+type Object = types.Object
+type setCallbackFn<T> = types.setCallbackFn<T>
+type setCallbackFnWithThisArg<T> = types.setCallbackFnWithThisArg<T>
+type Set<T> = types.Set<T>
 
 local inspect = require(LuauPolyfill.util.inspect)
 
@@ -16,25 +20,10 @@ Set.__tostring = function(self)
 	result ..= inspect(self._array)
 	return result
 end
-
-type callbackFn<T> = (value: T, key: T, set: Set<T>) -> ()
-type callbackFnWithThisArg<T> = (thisArg: Object, value: T, key: T, set: Set<T>) -> ()
-
-export type Set<T> = {
-	size: number,
-	-- method definitions
-	add: (self: Set<T>, T) -> Set<T>,
-	clear: (self: Set<T>) -> (),
-	delete: (self: Set<T>, T) -> boolean,
-	forEach: (self: Set<T>, callback: callbackFn<T> | callbackFnWithThisArg<T>, thisArg: Object?) -> (),
-	has: (self: Set<T>, T) -> boolean,
-	ipairs: (self: Set<T>) -> any,
-}
-
 type Iterable = { ipairs: (any) -> any }
 
 function Set.new<T>(iterable: Array<T> | Set<T> | Iterable | string | nil): Set<T>
-	local array = {}
+	local array
 	local map = {}
 	if iterable ~= nil then
 		local arrayIterable: Array<any>
@@ -54,6 +43,7 @@ function Set.new<T>(iterable: Array<T> | Set<T> | Iterable | string | nil): Set<
 		end
 
 		if arrayIterable then
+			array = table.create(#arrayIterable)
 			for _, element in ipairs(arrayIterable) do
 				if not map[element] then
 					map[element] = true
@@ -61,13 +51,18 @@ function Set.new<T>(iterable: Array<T> | Set<T> | Iterable | string | nil): Set<
 				end
 			end
 		elseif typeof(iterable) == "table" and typeof((iterable :: Iterable).ipairs) == "function" then
+			array = {}
 			for _, element in (iterable :: Iterable):ipairs() do
 				if not map[element] then
 					map[element] = true
 					table.insert(array, element)
 				end
 			end
+		else
+			array = {}
 		end
+	else
+		array = {}
 	end
 
 	return (setmetatable({
@@ -109,16 +104,16 @@ end
 
 -- Implements Javascript's `Map.prototype.forEach` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/forEach
-function Set:forEach<T>(callback: callbackFn<T> | callbackFnWithThisArg<T>, thisArg: Object?): ()
+function Set:forEach<T>(callback: setCallbackFn<T> | setCallbackFnWithThisArg<T>, thisArg: Object?): ()
 	if typeof(callback) ~= "function" then
 		error("callback is not a function")
 	end
 
 	return Array.forEach(self._array, function(value: T)
 		if thisArg ~= nil then
-			(callback :: callbackFnWithThisArg<T>)(thisArg, value, value, self)
+			(callback :: setCallbackFnWithThisArg<T>)(thisArg, value, value, self)
 		else
-			(callback :: callbackFn<T>)(value, value, self)
+			(callback :: setCallbackFn<T>)(value, value, self)
 		end
 	end)
 end

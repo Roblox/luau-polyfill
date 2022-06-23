@@ -1,4 +1,5 @@
 -- ROBLOX upstream: https://github.com/nodejs/node/blob/v18.1.0/lib/internal/assert/assertion_error.js
+--!strict
 
 local SrcWorkspace = script.Parent.Parent
 local Array = require(SrcWorkspace.Array)
@@ -8,8 +9,12 @@ local String = require(SrcWorkspace.String)
 local Error = require(SrcWorkspace.Error)
 local instanceof = require(SrcWorkspace.instanceof)
 local inspect = require(SrcWorkspace.util.inspect)
+local types = require(SrcWorkspace.types)
 
 type Error = Error.Error
+type Array<T> = types.Array<T>
+type Object = types.Object
+type Function = types.Function
 
 -- ROBLOX deviation START: mock process to not change AssertionError internals
 local process = {
@@ -54,7 +59,7 @@ local kReadableOperator = {
 -- Comparing short primitives should just show === / !== instead of using the
 -- diff.
 local kMaxShortLength = 12
-local function copyError(source)
+local function copyError(source: Object)
 	local keys = Object.keys(source)
 	-- ROBLOX TODO:
 	local target = {} -- ObjectCreate(ObjectGetPrototypeOf(source))
@@ -306,7 +311,7 @@ local function createErrDiff(actual, expected, operator)
 			else
 				-- Add all cached information to the result before adding other things
 				-- and reset the cache.
-				res += other
+				res ..= other
 				other = ""
 				identical += 1
 				-- The very first identical line since the last diverging line is be
@@ -342,29 +347,44 @@ end
 export type AssertionError = Error & {
 	actual: any,
 	expected: any,
-	operator: string,
+	operator: string?,
 	generatedMessage: boolean,
 	code: "ERR_ASSERTION",
 	toString: (self: AssertionError) -> any,
 	-- ROBLOX deviation: skipped [inpect.custom] method
 	-- [inspect.custom]: (self: AssertionError, recurseTimes: any, ctx: any) -> any,
 }
-local AssertionError = setmetatable({}, { __index = Error })
+
+type AssertionErrorStatics = {
+	new: (options: AssertionErrorOptions) -> AssertionError,
+	__index: AssertionError,
+	__tostring: (self: AssertionError) -> string,
+}
+
+local AssertionError: AssertionError & AssertionErrorStatics =
+	(setmetatable({}, { __index = Error }) :: any) :: AssertionError & AssertionErrorStatics
 AssertionError.__index = AssertionError
-AssertionError.__tostring = function(self)
+AssertionError.__tostring = function(self: AssertionError)
 	return self:toString()
 end
-function AssertionError.new(options): AssertionError
-	local self
+
+type AssertionErrorOptions = {
+	message: string?,
+	actual: any?,
+	expected: any?,
+	-- ROBLOX note: this is optional in definitely-typed, but we always use it in Lua and it's only nil when details is non-nil
+	operator: string?,
+	stackStartFn: Function?,
+}
+
+function AssertionError.new(options: AssertionErrorOptions): AssertionError
+	local self: AssertionError
 	-- validateObject(options, "options")
 	-- stylua: ignore
-	local message, operator, stackStartFn, details, stackStartFunction =
+	local message, operator, stackStartFn =
 		options.message,
 		options.operator,
-		options.stackStartFn,
-		options.details,
-		-- Compatibility with older versions.
-		options.stackStartFunction
+		options.stackStartFn
 	local actual, expected = options.actual, options.expected
 	-- ROBLOX deviation START: Error.stackTraceLimit not available in Luau port
 	-- local limit = Error.stackTraceLimit
@@ -373,7 +393,7 @@ function AssertionError.new(options): AssertionError
 	-- end
 	-- ROBLOX deviation END
 	if message ~= nil then
-		self = setmetatable(Error.new(tostring(message)), AssertionError)
+		self = (setmetatable(Error.new(tostring(message)), AssertionError) :: any) :: AssertionError
 	else
 		if process.stderr.isTTY then
 			-- Reset on each call to make sure we handle dynamically set environment
@@ -407,7 +427,8 @@ function AssertionError.new(options): AssertionError
 			expected = copyError(expected)
 		end
 		if operator == "deepStrictEqual" or operator == "strictEqual" then
-			self = setmetatable(Error.new(createErrDiff(actual, expected, operator)), AssertionError)
+			self =
+				(setmetatable(Error.new(createErrDiff(actual, expected, operator)), AssertionError) :: any) :: AssertionError
 		elseif operator == "notDeepStrictEqual" or operator == "notStrictEqual" then
 			-- In case the objects are equal but the operator requires unequal, show
 			-- the first object and say A equals B
@@ -434,12 +455,16 @@ function AssertionError.new(options): AssertionError
 
 			-- Only print a single input.
 			if #res == 1 then
-				self = setmetatable(
-					Error.new(("%s%s%s"):format(base, if string.len(res[1]) > 5 then "\n\n" else " ", res[1])),
-					AssertionError
-				)
+				self = (
+					setmetatable(
+						Error.new(("%s%s%s"):format(base, if string.len(res[1]) > 5 then "\n\n" else " ", res[1])),
+						AssertionError
+					) :: any
+				) :: AssertionError
 			else
-				self = setmetatable(Error.new(("%s\n\n%s\n"):format(base, Array.join(res, "\n"))), AssertionError)
+				self = (
+					setmetatable(Error.new(("%s\n\n%s\n"):format(base, Array.join(res, "\n"))), AssertionError) :: any
+				) :: AssertionError
 			end
 		else
 			local res = inspectValue(actual)
@@ -450,7 +475,7 @@ function AssertionError.new(options): AssertionError
 				if string.len(res) > 1024 then
 					res = ("%s..."):format(String.slice(res, 0, 1021))
 				end
-				self = setmetatable(Error.new(res), AssertionError)
+				self = (setmetatable(Error.new(res), AssertionError) :: any) :: AssertionError
 			else
 				if string.len(res) > 512 then
 					res = ("%s..."):format(String.slice(res, 0, 509))
@@ -461,14 +486,14 @@ function AssertionError.new(options): AssertionError
 				if operator == "deepEqual" then
 					res = ("%s\n\n%s\n\nshould loosely deep-equal\n\n"):format(knownOperator, res)
 				else
-					local newOp = kReadableOperator[("%sUnequal"):format(operator)]
+					local newOp = kReadableOperator[("%sUnequal"):format(tostring(operator))]
 					if Boolean.toJSBoolean(newOp) then
 						res = ("%s\n\n%s\n\nshould not loosely deep-equal\n\n"):format(newOp, res)
 					else
-						other = (" %s %s"):format(operator, other)
+						other = (" %s %s"):format(tostring(operator), other)
 					end
 				end
-				self = setmetatable(Error.new(("%s%s"):format(res, other)), AssertionError)
+				self = (setmetatable(Error.new(("%s%s"):format(res, other)), AssertionError) :: any) :: AssertionError
 			end
 		end
 	end
@@ -490,23 +515,25 @@ function AssertionError.new(options): AssertionError
 	]]
 	self.name = "AssertionError [ERR_ASSERTION]"
 	self.code = "ERR_ASSERTION"
-	if details ~= nil then
-		self.actual = nil
-		self.expected = nil
-		self.operator = nil
-		for i = 1, #details do
-			self["message " .. tostring(i)] = details[i].message
-			self["actual " .. tostring(i)] = details[i].actual
-			self["expected " .. tostring(i)] = details[i].expected
-			self["operator " .. tostring(i)] = details[i].operator
-			self["stack trace " .. tostring(i)] = details[i].stack
-		end
-	else
-		self.actual = actual
-		self.expected = expected
-		self.operator = operator
-	end
-	ErrorCaptureStackTrace(self, stackStartFn or stackStartFunction)
+	-- ROBLOX deviation START: details field not in public API docs, nodejs test suite, or in definitely-typed
+	-- if details ~= nil then
+	-- 	self.actual = nil
+	-- 	self.expected = nil
+	-- 	self.operator = ""
+	-- 	for i = 1, #details do
+	-- 		self["message " .. tostring(i)] = details[i].message
+	-- 		self["actual " .. tostring(i)] = details[i].actual
+	-- 		self["expected " .. tostring(i)] = details[i].expected
+	-- 		self["operator " .. tostring(i)] = details[i].operator
+	-- 		self["stack trace " .. tostring(i)] = details[i].stack
+	-- 	end
+	-- else
+	self.actual = actual
+	self.expected = expected
+	self.operator = operator
+	-- end
+	-- ROBLOX deviation END
+	ErrorCaptureStackTrace(self, stackStartFn)
 	-- Create error message including the error code in the name.
 	--[[
 		ROBLOX deviation: Lua doesn't support 'LuaMemberExpression' as a standalone type

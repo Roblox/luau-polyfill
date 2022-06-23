@@ -8,6 +8,8 @@ export type PromiseLike<T> = {
 	) -> PromiseLike<T>,
 }
 
+type PromiseStatus = "Started" | "Resolved" | "Rejected" | "Cancelled"
+
 export type Promise<T> = {
 	andThen: (
 		self: Promise<T>,
@@ -23,6 +25,10 @@ export type Promise<T> = {
 
 	-- FIXME Luau: need union type packs to parse  (...T) | () | PromiseLike<T> here
 	await: (Promise<T>) -> (boolean, ...(T | any)),
+
+	getStatus: (self: Promise<T>) -> PromiseStatus,
+	-- FIXME Luau: need union type packs to parse  (...T) | () | PromiseLike<T> here
+	awaitStatus: (self: Promise<T>) -> (PromiseStatus, ...(T | any)),
 }
 
 return {}

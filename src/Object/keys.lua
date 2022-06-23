@@ -1,8 +1,9 @@
 local LuauPolyfill = script.Parent.Parent
 local Set = require(LuauPolyfill.Set)
 local instanceOf = require(LuauPolyfill.instanceof)
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
 type Table = { [any]: any }
-type Array<T> = { [number]: T }
 
 return function(value: Table | string): Array<string>
 	if value == nil then
@@ -11,8 +12,9 @@ return function(value: Table | string): Array<string>
 
 	local valueType = typeof(value)
 
-	local keys = {}
+	local keys
 	if valueType == "table" then
+		keys = {}
 		if instanceOf(value, Set) then
 			return keys
 		end

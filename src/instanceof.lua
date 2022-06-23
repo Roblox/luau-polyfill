@@ -1,7 +1,11 @@
---!nonstrict
+--!strict
 -- polyfill for https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof
-return function(tbl, class)
-	assert(typeof(class) == "table", "Received a non-table as the second argument for instanceof")
+
+-- FIXME Luau: typing class as Object gives: Type '{ @metatable {| __call: <a>(a, ...any) -> Error, __tostring: <b, c>({+ message: b, name: c +}) -> string |}, Error }' could not be converted into 'table'
+return function(tbl: any, class: any): boolean
+	if _G.__DEV__ then
+		assert(typeof(class) == "table", "Received a non-table as the second argument for instanceof")
+	end
 
 	if typeof(tbl) ~= "table" then
 		return false

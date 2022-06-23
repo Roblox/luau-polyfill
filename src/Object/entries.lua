@@ -1,20 +1,20 @@
 --!strict
-type Object = { [string]: any }
-local Array = require(script.Parent.Parent.Array)
-type Array<T> = Array.Array<T>
-type Tuple<T, V> = Array<T | V>
+local types = require(script.Parent.Parent.types)
+type Array<T> = types.Array<T>
+type Tuple<T, V> = types.Tuple<T, V>
 
-return function(value: string | Object | Array<any>): Array<any>
+return function<T>(value: string | { [string]: T } | Array<T>): Array<Tuple<string, T>>
 	assert(value :: any ~= nil, "cannot get entries from a nil value")
 	local valueType = typeof(value)
 
-	local entries: Array<Tuple<string, any>> = {}
+	local entries: Array<Tuple<string, T>> = {}
 	if valueType == "table" then
-		for key, keyValue in pairs(value :: Object) do
+		for key, keyValue in pairs(value :: { [string]: T } | Array<T>) do
 			-- Luau FIXME: Luau should see entries as Array<any>, given object is [string]: any, but it sees it as Array<Array<string>> despite all the manual annotation
-			table.insert(entries, { key :: string, keyValue :: any })
+			table.insert(entries, { key, keyValue })
 		end
 	elseif valueType == "string" then
+		-- TODO: should we be using utf8.len?
 		for i = 1, string.len(value :: string) do
 			entries[i] = { tostring(i), string.sub(value :: string, i, i) }
 		end

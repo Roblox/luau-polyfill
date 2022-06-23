@@ -2,15 +2,16 @@
 -- https://github.com/graphql/graphql-js/blob/1951bce42092123e844763b6a8e985a8a3327511/src/jsutils/__tests__/inspect-test.js
 -- https://github.com/edam/inspect.lua/blob/master/spec/inspect_spec.lua
 return function()
-	local srcWorkspace = script.Parent.Parent.Parent
-	local Packages = srcWorkspace.Parent
+	local LuauPolyfill = script.Parent.Parent.Parent
+	local Packages = LuauPolyfill.Parent
 	local JestGlobals = require(Packages.Dev.JestGlobals)
 	local jestExpect = JestGlobals.expect
 	local Promise = require(Packages.Dev.Promise)
-	local inspect = require(srcWorkspace).util.inspect
-	local Set = require(srcWorkspace).Set
-	type Array<T> = { [number]: T }
-	type Object = { [string]: any }
+	local inspect = require(LuauPolyfill).util.inspect
+	local Set = require(LuauPolyfill).Set
+	local types = require(LuauPolyfill.types)
+	type Array<T> = types.Array<T>
+	type Object = types.Object
 
 	describe("inspect", function()
 		-- it("undefined", function()

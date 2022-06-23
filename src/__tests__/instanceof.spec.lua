@@ -139,11 +139,13 @@ return function()
 		jestExpect(instanceof(breakingTable, {})).toEqual(false)
 	end)
 
-	it("errors when checking instanceof nil", function()
-		jestExpect(function()
-			instanceof(setmetatable({}, {}), nil)
-		end).toThrow("Received a non-table as the second argument for instanceof")
-	end)
+	if _G.__DEV__ then
+		it("errors when checking instanceof nil", function()
+			jestExpect(function()
+				instanceof(setmetatable({}, {}), nil :: any)
+			end).toThrow("Received a non-table as the second argument for instanceof")
+		end)
+	end
 
 	describe("works on LuauPolyfill types", function()
 		it("Set", function()

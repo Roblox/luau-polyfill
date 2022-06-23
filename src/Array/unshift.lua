@@ -1,9 +1,11 @@
 --!strict
 local Array = script.Parent
 local isArray = require(Array.isArray)
-type Array<T> = { [number]: T }
+local LuauPolyfill = Array.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
 
-return function(array: Array<any>, ...): number
+return function<T>(array: Array<T>, ...: T): number
 	if _G.__DEV__ then
 		if not isArray(array) then
 			error(string.format("Array.unshift called on non-array %s", typeof(array)))

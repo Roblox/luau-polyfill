@@ -1,6 +1,7 @@
 --!strict
-
-type Array<T> = { [number]: T }
+local LuauPolyfill = script.Parent.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
 
 -- Implements equivalent functionality to JavaScript's `array.indexOf`,
 -- implementing the interface and behaviors defined at:
@@ -8,7 +9,7 @@ type Array<T> = { [number]: T }
 --
 -- This implementation is loosely based on the one described in the polyfill
 -- source in the above link
-return function<T>(array: Array<T>, searchElement: any, fromIndex: number?): number
+return function<T>(array: Array<T>, searchElement: T, fromIndex: number?): number
 	local fromIndex_ = fromIndex or 1
 	local length = #array
 
