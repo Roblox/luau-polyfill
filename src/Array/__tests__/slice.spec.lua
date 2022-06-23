@@ -2,8 +2,9 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
 return function()
 	local Array = script.Parent.Parent
-	type Array<T> = { [number]: T }
 	local LuauPolyfill = Array.Parent
+	local types = require(LuauPolyfill.types)
+	type Array<T> = types.Array<T>
 	local slice = require(Array.slice)
 
 	local Packages = LuauPolyfill.Parent

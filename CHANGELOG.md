@@ -1,5 +1,21 @@
 # LuauPolyfills Changelog
 
+## Unreleased
+
+### Added Polyfills
+* add `getStatus` and `awaitStatus` methods to `Promise` type
+
+### Changes
+* Runtime optimizations to avoid empty table assignments unnecessarily, using the faster table.clone() when convenient.
+* `Array.findIndex` will now typecheck the predicate function to ensure types match the supplied `Array<T>`
+* `Array.reduce` will now typecheck the predicate function and initial values to ensure types match the supplied `Array<>`
+* `Array.from` will now type the return value correctly when a map function parameter is omitted. Until Luau adds better support for function overloads, you may now need to manually annotate the return value in some scenarios.
+* `Array.includes` and `Array.indexOf` will now typecheck the searched element is the same type as the supplied containing `Array<>`
+* `Array.reverse`, `Array.splice`, `Array.sort`, `Array.shift`, `Array.unshift` will no longer erase the element type of the supplied `Array<>`
+* `AssertionError.new` no longer requires the `operation` field, and the `AssertionError` instance field is now nil-able, matching upstream nodejs.
+* `Object.entries` and `Object.values` now returns a more specifically-typed `Array<>` based on the supplied Object
+* `Object.freeze` and `Object.seal` should now retain more type fidelity of the input parameter to the return value
+
 ## 0.3.4
 
 ### Added Polyfills

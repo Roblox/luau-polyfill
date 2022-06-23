@@ -1,8 +1,10 @@
 --!strict
-type Array<T> = { [number]: T }
+local LuauPolyfill = script.Parent.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
 local map = require(script.Parent.map)
 
-local function join(arr: Array<any>, separator: string?): string
+return function<T>(arr: Array<T>, separator: string?): string
 	if #arr == 0 then
 		return ""
 	end
@@ -13,5 +15,3 @@ local function join(arr: Array<any>, separator: string?): string
 
 	return table.concat(stringifiedArray, separator or ",")
 end
-
-return join

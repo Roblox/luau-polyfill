@@ -1,7 +1,10 @@
 --!strict
 -- https://programming-idioms.org/idiom/19/reverse-a-list/1314/lua
-type Array<T> = { [number]: any }
-function reverse(t: Array<any>): Array<any>
+local LuauPolyfill = script.Parent.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
+
+return function<T>(t: Array<T>): Array<T>
 	local n = #t
 	local i = 1
 	while i < n do
@@ -11,5 +14,3 @@ function reverse(t: Array<any>): Array<any>
 	end
 	return t
 end
-
-return reverse
