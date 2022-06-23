@@ -1,10 +1,10 @@
 --!strict
 return function()
 	local LuauPolyfill = script.Parent.Parent
+	local types = require(LuauPolyfill.types)
+	type Object = types.Object
+	type Set<T> = types.Set<T>
 	local Set = require(LuauPolyfill.Set)
-	type Set<T> = Set.Set<T>
-	local Object = require(LuauPolyfill.Object)
-	type Object = Object.Object
 
 	local Packages = LuauPolyfill.Parent
 	local JestGlobals = require(Packages.Dev.JestGlobals)

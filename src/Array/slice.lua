@@ -1,6 +1,8 @@
 --!strict
 
-type Array<T> = { [number]: T }
+local LuauPolyfill = script.Parent.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
 
 -- Implements Javascript's `Array.prototype.slice` as defined below, but with 1-indexing
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice

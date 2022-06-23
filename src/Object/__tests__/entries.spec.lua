@@ -2,12 +2,13 @@
 -- tests based on the examples provided on MDN web docs:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
 return function()
-	type Object = { [string]: any }
-	type Array<T> = { [number]: T }
 	local Object = script.Parent.Parent
 	local entries = require(Object.entries)
 
 	local LuauPolyfill = Object.Parent
+	local types = require(LuauPolyfill.types)
+	type Array<T> = types.Array<T>
+	type Object = types.Object
 	local Packages = LuauPolyfill.Parent
 	local JestGlobals = require(Packages.Dev.JestGlobals)
 	local jestExpect = JestGlobals.expect

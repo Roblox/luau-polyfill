@@ -1,8 +1,10 @@
 --!strict
-type Array<T> = { [number]: T }
+local LuauPolyfill = script.Parent.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
+type Object = types.Object
 type callbackFn<T> = (element: T, index: number, array: Array<T>) -> boolean
 type callbackFnWithThisArg<T, U> = (self: U, element: T, index: number, array: Array<T>) -> boolean
-type Object = { [string]: any }
 
 -- Implements Javascript's `Array.prototype.every` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every

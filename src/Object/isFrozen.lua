@@ -1,9 +1,9 @@
 --!strict
-type Object = { [string]: any }
-type Array<T> = { [number]: T }
+local LuauPolyfill = script.Parent.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
+type Object = types.Object
 
-local function isfrozen(t: Object | Array<any>): boolean
+return function(t: Object | Array<any>): boolean
 	return table.isfrozen(t)
 end
-
-return isfrozen

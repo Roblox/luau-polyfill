@@ -1,6 +1,4 @@
 --!strict
-export type Array<T> = { [number]: T }
-
 return {
 	concat = require(script.concat),
 	every = require(script.every),

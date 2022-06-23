@@ -1,10 +1,11 @@
 -- Some tests are adapted from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
 return function()
-	type Array<T> = { [number]: T }
 	local Array = script.Parent.Parent
 	local LuauPolyfill = Array.Parent
 	local concat = require(Array.concat)
+	local types = require(LuauPolyfill.types)
+	type Array<T> = types.Array<T>
 
 	local Packages = LuauPolyfill.Parent
 	local JestGlobals = require(Packages.Dev.JestGlobals)

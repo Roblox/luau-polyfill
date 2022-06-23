@@ -1,5 +1,7 @@
 --!strict
-type Array<T> = { [number]: T }
+local LuauPolyfill = script.Parent.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
 type PredicateFunction<T> = (value: T, index: number, array: Array<T>) -> boolean
 
 return function<T>(array: Array<T>, predicate: PredicateFunction<T>): T | nil

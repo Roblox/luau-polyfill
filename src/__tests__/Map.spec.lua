@@ -8,12 +8,13 @@ return function()
 	local jest = JestGlobals.jest
 
 	local Array = require(LuauPolyfill.Array)
-	type Function = (...any) -> ...any
-	type Object = { [string]: any }
+	local types = require(LuauPolyfill.types)
+	type Function = types.Function
+	type Object = types.Object
 
 	local MapModule = require(LuauPolyfill.Map)
 	local Map = MapModule.Map
-	type Map<K, V> = MapModule.Map<K, V>
+	type Map<K, V> = types.Map<K, V>
 	local coerceToMap = MapModule.coerceToMap
 	local coerceToTable = MapModule.coerceToTable
 	local instanceOf = require(LuauPolyfill.instanceof)

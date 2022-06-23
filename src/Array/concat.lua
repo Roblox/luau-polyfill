@@ -1,7 +1,9 @@
 --!strict
 local Array = script.Parent
 local isArray = require(Array.isArray)
-type Array<T> = { [number]: T }
+local LuauPolyfill = Array.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
 
 local RECEIVED_OBJECT_ERROR = "Array.concat(...) only works with array-like tables but "
 	.. "it received an object-like table.\nYou can avoid this error by wrapping the "
@@ -10,16 +12,15 @@ local RECEIVED_OBJECT_ERROR = "Array.concat(...) only works with array-like tabl
 
 -- capture two separate generic arguments so that the type error in abuse cases is actionable, but needs CLI-49876 to avoid a false negative
 local function concat<T, S>(source: Array<T> | T, ...: Array<S> | S): Array<T> & Array<S>
-	local array = {}
+	local array
 	local elementCount = 0
 
 	if isArray(source) then
-		for _, value in ipairs(source :: Array<T>) do
-			elementCount += 1
-			array[elementCount] = value
-		end
+		array = table.clone(source :: Array<T>)
+		elementCount = #(source :: Array<T>)
 	else
 		elementCount += 1
+		array = {}
 		array[elementCount] = source :: T
 	end
 

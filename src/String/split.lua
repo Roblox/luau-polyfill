@@ -2,7 +2,9 @@
 local findOr = require(script.Parent.findOr)
 local slice = require(script.Parent.slice)
 
-type Array<T> = { [number]: T }
+local LuauPolyfill = script.Parent.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
 
 type Pattern = string | Array<string>
 

@@ -3,8 +3,9 @@
 
 return function()
 	local Array = script.Parent.Parent
-	type Array<T> = { [number]: T }
 	local LuauPolyfill = Array.Parent
+	local types = require(LuauPolyfill.types)
+	type Array<T> = types.Array<T>
 	local filter = require(Array.filter)
 	local isFinite = require(LuauPolyfill.Number.isFinite)
 

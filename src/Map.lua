@@ -1,38 +1,22 @@
 --!strict
 local LuauPolyfill = script.Parent
+local types = require(LuauPolyfill.types)
 
 local Array = require(LuauPolyfill.Array)
 local Object = require(LuauPolyfill.Object)
 local instanceOf = require(LuauPolyfill.instanceof)
-type Object = Object.Object
-type Array<T> = Array.Array<T>
-type Table<T, V> = { [T]: V }
-type Tuple<T, V> = Array<T | V>
-type callbackFn<K, V> = (element: V, key: K, map: Map<K, V>) -> ()
-type callbackFnWithThisArg<K, V> = (thisArg: Object, value: V, key: K, map: Map<K, V>) -> ()
+type Object = types.Object
+type Array<T> = types.Array<T>
+type Table<T, V> = types.Table<T, V>
+type Tuple<T, V> = types.Tuple<T, V>
+type mapCallbackFn<K, V> = types.mapCallbackFn<K, V>
+type mapCallbackFnWithThisArg<K, V> = types.mapCallbackFnWithThisArg<K, V>
+type Map<K, V> = types.Map<K, V>
 
 local Map = {}
 
-export type Map<K, V> = {
-	size: number,
-	-- method definitions
-	set: (self: Map<K, V>, K, V) -> Map<K, V>,
-	get: (self: Map<K, V>, K) -> V | nil,
-	clear: (self: Map<K, V>) -> (),
-	delete: (self: Map<K, V>, K) -> boolean,
-	forEach: (self: Map<K, V>, callback: callbackFn<K, V> | callbackFnWithThisArg<K, V>, thisArg: Object?) -> (),
-	has: (self: Map<K, V>, K) -> boolean,
-	keys: (self: Map<K, V>) -> Array<K>,
-	values: (self: Map<K, V>) -> Array<V>,
-	entries: (self: Map<K, V>) -> Array<Tuple<K, V>>,
-	ipairs: (self: Map<K, V>) -> any,
-	[K]: V,
-	_map: { [K]: V },
-	_array: { [number]: K },
-}
-
 function Map.new<K, V>(iterable: Array<Array<any>>?): Map<K, V>
-	local array = {}
+	local array
 	local map = {}
 	if iterable ~= nil then
 		local arrayFromIterable
@@ -47,6 +31,7 @@ function Map.new<K, V>(iterable: Array<Array<any>>?): Map<K, V>
 			error(("cannot create array from value of type `%s`"):format(iterableType))
 		end
 
+		array = table.create(#arrayFromIterable)
 		for _, entry in ipairs(arrayFromIterable) do
 			local key = entry[1]
 			if _G.__DEV__ then
@@ -62,6 +47,8 @@ function Map.new<K, V>(iterable: Array<Array<any>>?): Map<K, V>
 			-- always assign
 			map[key] = val
 		end
+	else
+		array = {}
 	end
 
 	return (setmetatable({
@@ -110,7 +97,7 @@ end
 
 -- Implements Javascript's `Map.prototype.forEach` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/forEach
-function Map:forEach<K, V>(callback: callbackFn<K, V> | callbackFnWithThisArg<K, V>, thisArg: Object?): ()
+function Map:forEach<K, V>(callback: mapCallbackFn<K, V> | mapCallbackFnWithThisArg<K, V>, thisArg: Object?): ()
 	if typeof(callback) ~= "function" then
 		error("callback is not a function")
 	end
@@ -119,9 +106,9 @@ function Map:forEach<K, V>(callback: callbackFn<K, V> | callbackFnWithThisArg<K,
 		local value: V = self._map[key] :: V
 
 		if thisArg ~= nil then
-			(callback :: callbackFnWithThisArg<K, V>)(thisArg, value, key, self)
+			(callback :: mapCallbackFnWithThisArg<K, V>)(thisArg, value, key, self)
 		else
-			(callback :: callbackFn<K, V>)(value, key, self)
+			(callback :: mapCallbackFn<K, V>)(value, key, self)
 		end
 	end)
 end

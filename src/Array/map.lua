@@ -1,9 +1,11 @@
 --!strict
 
-type Array<T> = { [number]: T }
+local LuauPolyfill = script.Parent.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
+type Object = types.Object
 type callbackFn<T, U> = (element: T, index: number, array: Array<T>) -> U
 type callbackFnWithThisArg<T, U, V> = (thisArg: V, element: T, index: number, array: Array<T>) -> U
-type Object = { [string]: any }
 
 -- Implements Javascript's `Array.prototype.map` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map

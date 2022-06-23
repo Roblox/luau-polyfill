@@ -1,10 +1,13 @@
 --!strict
-type Array = { [number]: any }
-type Function = (any, any, number, any) -> any
+local LuauPolyfill = script.Parent.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
+type reduceFn<T, U> = (previousValue: U, currentValue: T, currentIndex: number, array: Array<T>) -> U
 
 -- Implements Javascript's `Array.prototype.reduce` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
-local function reduce(array: Array, callback: Function, initialValue: any?): any
+-- TODO Luau: when Luau supports overloads, use them here so that reduceFn can correctly use T when initialValue (U) isn't supplied
+return function<T, U>(array: Array<T>, callback: reduceFn<T, U>, initialValue: U?): U
 	if typeof(array) ~= "table" then
 		error(string.format("Array.reduce called on %s", typeof(array)))
 	end
@@ -14,7 +17,7 @@ local function reduce(array: Array, callback: Function, initialValue: any?): any
 
 	local length = #array
 
-	local value
+	local value: T | U
 	local initial = 1
 
 	if initialValue ~= nil then
@@ -28,10 +31,8 @@ local function reduce(array: Array, callback: Function, initialValue: any?): any
 	end
 
 	for i = initial, length do
-		value = callback(value, array[i], i, array)
+		value = callback(value :: U, array[i], i, array)
 	end
 
-	return value
+	return value :: U
 end
-
-return reduce

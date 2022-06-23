@@ -1,6 +1,8 @@
 --!strict
 local None = require(script.Parent.None)
-type Object = { [any]: any }
+local LuauPolyfill = script.Parent.Parent
+local types = require(LuauPolyfill.types)
+type Object = types.Object
 
 --[[
 	Merges values from zero or more tables onto a target table. If a value is
@@ -9,7 +11,7 @@ type Object = { [any]: any }
 	This function is identical in functionality to JavaScript's Object.assign.
 ]]
 -- Luau TODO: no way to strongly type this accurately, it doesn't eliminate deleted keys of T, and Luau won't do intersections of type packs: <T, ...U>(T, ...: ...U): T & ...U
-local function assign<T, U, V, W>(target: T, source0: U?, source1: V?, source2: W?, ...): T & U & V & W
+return function<T, U, V, W>(target: T, source0: U?, source1: V?, source2: W?, ...): T & U & V & W
 	if source0 ~= nil and typeof(source0 :: any) == "table" then
 		for key, value in pairs(source0 :: any) do
 			if value == None then
@@ -57,5 +59,3 @@ local function assign<T, U, V, W>(target: T, source0: U?, source1: V?, source2: 
 	-- TODO? we can add & Object to this, if needed by real-world code, once CLI-49825 is fixed
 	return (target :: any) :: T & U & V & W
 end
-
-return assign

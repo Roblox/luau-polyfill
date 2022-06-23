@@ -9,17 +9,18 @@ local Set = require(script.Set)
 local Symbol = require(script.Symbol)
 local Timers = require(script.Timers)
 local WeakMap = require(script.WeakMap)
+local types = require(script.types)
 
-export type Array<T> = Array.Array<T>
+export type Array<T> = types.Array<T>
 export type AssertionError = AssertionError.AssertionError
 export type Error = Error.Error
-export type Map<T, V> = mapModule.Map<T, V>
-export type Object = Object.Object
+export type Map<T, V> = types.Map<T, V>
+export type Object = types.Object
 
 export type PromiseLike<T> = PromiseModule.PromiseLike<T>
 export type Promise<T> = PromiseModule.Promise<T>
 
-export type Set<T> = Set.Set<T>
+export type Set<T> = types.Set<T>
 export type Symbol = Symbol.Symbol
 export type Timeout = Timers.Timeout
 export type Interval = Timers.Interval

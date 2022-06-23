@@ -1,10 +1,12 @@
 -- derived from these upstream sources:
 -- https://github.com/graphql/graphql-js/blob/1951bce42092123e844763b6a8e985a8a3327511/src/jsutils/inspect.js
 
-type Array<T> = { [number]: T }
+local LuauPolyfill = script.Parent.Parent
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
 local HttpService = game:GetService("HttpService")
 
-local Array = require(script.Parent.Parent.Array)
+local Array = require(LuauPolyfill.Array)
 -- local NULL = require(srcWorkspace.luaUtils.null)
 
 -- Support for options partial implementation

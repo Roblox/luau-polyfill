@@ -1,19 +1,21 @@
 --!strict
-local None = require(script.Parent.Parent.Object.None)
-type Array<T> = { [number]: T }
+local LuauPolyfill = script.Parent.Parent
+local None = require(LuauPolyfill.Object.None)
+local types = require(LuauPolyfill.types)
+type Array<T> = types.Array<T>
 type Comparable = (any, any) -> number
-local defaultSort = function(a: any, b: any): boolean
+local defaultSort = function<T>(a: T, b: T): boolean
 	return type(a) .. tostring(a) < type(b) .. tostring(b)
 end
 
-local function sort(array: Array<any>, compare: Comparable?)
+return function<T>(array: Array<T>, compare: Comparable?): Array<T>
 	-- wrapperCompare interprets compare return value to be compatible with Lua's table.sort
 	local wrappedCompare = defaultSort
 	if compare ~= nil and compare ~= None then
 		if typeof(compare :: any) ~= "function" then
 			error("invalid argument to Array.sort: compareFunction must be a function")
 		end
-		wrappedCompare = function(a, b)
+		wrappedCompare = function<T>(a: T, b: T)
 			local result = compare(a, b)
 			if typeof(result) ~= "number" then
 				-- deviation: throw an error because
@@ -28,5 +30,3 @@ local function sort(array: Array<any>, compare: Comparable?)
 	table.sort(array, wrappedCompare)
 	return array
 end
-
-return sort
