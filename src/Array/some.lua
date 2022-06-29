@@ -18,7 +18,7 @@ return function<T, U>(t: Array<T>, callback: callbackFn<T> | callbackFnWithThisA
 		error("callback is not a function")
 	end
 
-	for i, value in ipairs(t) do
+	for i, value in t do
 		if thisArg ~= nil then
 			if value ~= nil and (callback :: callbackFnWithThisArg<T, U>)(thisArg, value, i, t) then
 				return true

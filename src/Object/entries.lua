@@ -1,9 +1,10 @@
 --!strict
 local types = require(script.Parent.Parent.types)
 type Array<T> = types.Array<T>
+type Map<K, V> = types.Map<K, V>
 type Tuple<T, V> = types.Tuple<T, V>
 
-return function<T>(value: string | { [string]: T } | Array<T>): Array<Tuple<string, T>>
+return function<T>(value: string | { [string]: T } | Array<T> | Map<any, T>): Array<Tuple<string, T>>
 	assert(value :: any ~= nil, "cannot get entries from a nil value")
 	local valueType = typeof(value)
 

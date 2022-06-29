@@ -19,20 +19,21 @@ function Map.new<K, V>(iterable: Array<Array<any>>?): Map<K, V>
 	local array
 	local map = {}
 	if iterable ~= nil then
-		local arrayFromIterable
-		local iterableType = typeof(iterable)
-		if iterableType == "table" then
-			if #iterable > 0 and typeof(iterable[1]) ~= "table" then
-				error("cannot create Map from {K, V} form, it must be { {K, V}... }")
+		if _G.__DEV__ then
+			local iterableType = typeof(iterable)
+			if iterableType == "table" then
+				if #iterable > 0 and typeof(iterable[1]) ~= "table" then
+					error("cannot create Map from {K, V} form, it must be { {K, V}... }")
+				end
+			else
+				error(("cannot create array from value of type `%s`"):format(iterableType))
 			end
-
-			arrayFromIterable = Array.from(iterable)
-		else
-			error(("cannot create array from value of type `%s`"):format(iterableType))
 		end
 
+		-- TODO Luau: need overloads for `from` to avoid needing the manual cast
+		local arrayFromIterable = Array.from(iterable) :: Array<Array<any>>
 		array = table.create(#arrayFromIterable)
-		for _, entry in ipairs(arrayFromIterable) do
+		for _, entry in arrayFromIterable do
 			local key = entry[1]
 			if _G.__DEV__ then
 				if key == nil then
@@ -98,10 +99,11 @@ end
 -- Implements Javascript's `Map.prototype.forEach` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/forEach
 function Map:forEach<K, V>(callback: mapCallbackFn<K, V> | mapCallbackFnWithThisArg<K, V>, thisArg: Object?): ()
-	if typeof(callback) ~= "function" then
-		error("callback is not a function")
+	if _G.__DEV__ then
+		if typeof(callback) ~= "function" then
+			error("callback is not a function")
+		end
 	end
-
 	return Array.forEach(self._array, function(key: K)
 		local value: V = self._map[key] :: V
 
@@ -134,7 +136,19 @@ function Map:entries()
 end
 
 function Map:ipairs()
+	if _G.__DEV__ then
+		warn(
+			debug.traceback(
+				"`for _,_ in myMap:ipairs() do` is deprecated and will be removed in a future release, please use `for _,_ in myMap do` instead\n",
+				2
+			)
+		)
+	end
 	return ipairs(self:entries())
+end
+
+function Map.__iter(self)
+	return next, self:entries()
 end
 
 function Map.__index(self, key)
@@ -151,13 +165,13 @@ function Map.__newindex(table_, key, value)
 end
 
 local function coerceToMap(mapLike: Map<any, any> | Table<any, any>): Map<any, any>
-	return instanceOf(mapLike, Map) and mapLike :: Map<any, any> -- ROBLOX: order is preservered
+	return instanceOf(mapLike, Map) and mapLike :: Map<any, any> -- ROBLOX: order is preserved
 		or Map.new(Object.entries(mapLike)) -- ROBLOX: order is not preserved
 end
 
 local function coerceToTable(mapLike: Map<any, any> | Table<any, any>): Table<any, any>
 	if not instanceOf(mapLike, Map) then
-		return mapLike
+		return mapLike :: Table<any, any>
 	end
 
 	-- create table from map

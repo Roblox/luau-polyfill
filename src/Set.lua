@@ -10,49 +10,49 @@ type Set<T> = types.Set<T>
 
 local inspect = require(LuauPolyfill.util.inspect)
 
-local Set = {}
+local Set = {
+	__iter = function(self)
+		return next, self._array
+	end,
+	__tostring = function(self)
+		local result = "Set "
+		if #self._array > 0 then
+			result ..= "(" .. tostring(#self._array) .. ") "
+		end
+		result ..= inspect(self._array)
+		return result
+	end,
+}
 Set.__index = Set
-Set.__tostring = function(self)
-	local result = "Set "
-	if #self._array > 0 then
-		result ..= "(" .. tostring(#self._array) .. ") "
-	end
-	result ..= inspect(self._array)
-	return result
-end
-type Iterable = { ipairs: (any) -> any }
 
-function Set.new<T>(iterable: Array<T> | Set<T> | Iterable | string | nil): Set<T>
+function Set.new<T>(iterable: Array<T> | Set<T> | string | nil): Set<T>
 	local array
 	local map = {}
 	if iterable ~= nil then
-		local arrayIterable: Array<any>
-		-- ROBLOX TODO: remove type casting from (iterable :: any).ipairs in next release
+		local arrayIterable
+
 		if typeof(iterable) == "table" then
 			if Array.isArray(iterable) then
-				arrayIterable = Array.from(iterable :: Array<any>)
-			elseif typeof((iterable :: Iterable).ipairs) == "function" then
-				-- handle in loop below
-			elseif _G.__DEV__ then
-				error("cannot create array from an object-like table")
+				-- TODO Luau: need overloads for `from` to avoid needing the manual cast
+				arrayIterable = Array.from(iterable :: Array<T>) :: Array<T>
+			else
+				local mt = getmetatable(iterable :: any)
+				if mt and rawget(mt, "__iter") then
+					arrayIterable = iterable :: Set<T>
+				elseif _G.__DEV__ then
+					error("cannot create array from an object-like table")
+				end
 			end
 		elseif typeof(iterable) == "string" then
-			arrayIterable = Array.from(iterable :: string)
+			-- TODO Luau: need overloads for `from` to avoid needing the manual cast
+			arrayIterable = Array.from(iterable :: string) :: Array<string>
 		else
 			error(("cannot create array from value of type `%s`"):format(typeof(iterable)))
 		end
 
 		if arrayIterable then
 			array = table.create(#arrayIterable)
-			for _, element in ipairs(arrayIterable) do
-				if not map[element] then
-					map[element] = true
-					table.insert(array, element)
-				end
-			end
-		elseif typeof(iterable) == "table" and typeof((iterable :: Iterable).ipairs) == "function" then
-			array = {}
-			for _, element in (iterable :: Iterable):ipairs() do
+			for _, element in arrayIterable do
 				if not map[element] then
 					map[element] = true
 					table.insert(array, element)
@@ -123,6 +123,14 @@ function Set:has(value): boolean
 end
 
 function Set:ipairs()
+	if _G.__DEV__ then
+		warn(
+			debug.traceback(
+				"`for _,_ in mySet:ipairs() do` is deprecated and will be removed in a future release, please use `for _,_ in mySet do` instead\n",
+				2
+			)
+		)
+	end
 	return ipairs(self._array)
 end
 

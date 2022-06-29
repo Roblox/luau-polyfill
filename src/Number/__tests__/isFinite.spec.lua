@@ -17,13 +17,13 @@ return function()
 		"0" :: any,
 	}
 
-	for _, value in ipairs(trueValues) do
+	for _, value in trueValues do
 		it(("returns true for %s"):format(tostring(value)), function()
 			jestExpect(isFinite(value)).toEqual(true)
 		end)
 	end
 
-	for _, value in ipairs(falseValues) do
+	for _, value in falseValues do
 		it(("returns false for %s"):format(tostring(value)), function()
 			jestExpect(isFinite(value)).toEqual(false)
 		end)

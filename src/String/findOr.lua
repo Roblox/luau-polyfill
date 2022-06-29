@@ -9,7 +9,7 @@ local function findOr(str: string, patternTable: { string }, initIndex: number?)
 
 	local init = utf8.offset(str, initIndex or 1)
 	local matches = {}
-	for _, value in ipairs(patternTable) do
+	for _, value in patternTable do
 		local iStart, iEnd = string.find(str, value, init)
 		if iStart then
 			local prefix = string.sub(str, 1, iStart - 1)
@@ -35,7 +35,7 @@ local function findOr(str: string, patternTable: { string }, initIndex: number?)
 	-- for each, if we get a hit, return the earliest index and matched term
 
 	local firstMatch
-	for _, value in ipairs(matches) do
+	for _, value in matches do
 		-- load first condition
 		if firstMatch == nil then
 			firstMatch = value

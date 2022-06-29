@@ -114,7 +114,7 @@ return function()
 			local result = {}
 			forEach(arr, function(i)
 				if isArray(i) then
-					for _, v in ipairs(flatten(i)) do
+					for _, v in flatten(i) do
 						table.insert(result, v)
 					end
 				else

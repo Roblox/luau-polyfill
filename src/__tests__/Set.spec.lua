@@ -264,7 +264,7 @@ return function()
 		end)
 	end)
 
-	describe("ipairs", function()
+	describe("iter", function()
 		local function makeArray(...)
 			local array = {}
 			for _, item in ... do
@@ -275,8 +275,8 @@ return function()
 
 		it("iterates on an empty set", function()
 			local foo = Set.new()
-			jestExpect(makeArray(foo:ipairs())).toEqual({})
-			for _, __ in foo:ipairs() do
+			jestExpect(makeArray(foo)).toEqual({})
+			for _, __ in foo do
 				error("should never be called")
 			end
 		end)
@@ -285,7 +285,7 @@ return function()
 			local foo = Set.new()
 			foo:add(AN_ITEM)
 			foo:add(ANOTHER_ITEM)
-			jestExpect(makeArray(foo:ipairs())).toEqual({ AN_ITEM, ANOTHER_ITEM })
+			jestExpect(makeArray(foo)).toEqual({ AN_ITEM, ANOTHER_ITEM })
 		end)
 
 		it("does not iterate on removed elements", function()
@@ -293,7 +293,7 @@ return function()
 			foo:add(AN_ITEM)
 			foo:add(ANOTHER_ITEM)
 			foo:delete(AN_ITEM)
-			jestExpect(makeArray(foo:ipairs())).toEqual({ ANOTHER_ITEM })
+			jestExpect(makeArray(foo)).toEqual({ ANOTHER_ITEM })
 		end)
 
 		it("iterates on elements if the added back to the set", function()
@@ -302,7 +302,7 @@ return function()
 			foo:add(ANOTHER_ITEM)
 			foo:delete(AN_ITEM)
 			foo:add(AN_ITEM)
-			jestExpect(makeArray(foo:ipairs())).toEqual({ ANOTHER_ITEM, AN_ITEM })
+			jestExpect(makeArray(foo)).toEqual({ ANOTHER_ITEM, AN_ITEM })
 		end)
 	end)
 

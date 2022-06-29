@@ -63,7 +63,7 @@ local function copyError(source: Object)
 	local keys = Object.keys(source)
 	-- ROBLOX TODO:
 	local target = {} -- ObjectCreate(ObjectGetPrototypeOf(source))
-	for _, key in ipairs(keys) do
+	for _, key in keys do
 		target[key] = source[key]
 	end
 	target.message = source.message

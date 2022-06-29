@@ -40,11 +40,11 @@ return function()
 			end)
 
 			it("errors when not given an Array of array", function()
-				jestExpect(function()
-					-- types don't permit this abuse, so cast away safety
-					(Map.new :: any)({ AN_ITEM, "foo" })
-				end).toThrow("cannot create Map")
 				if _G.__DEV__ then
+					jestExpect(function()
+						-- types don't permit this abuse, so cast away safety
+						(Map.new :: any)({ AN_ITEM, "foo" })
+					end).toThrow("cannot create Map")
 					jestExpect(function()
 						(Map.new :: any)({
 							{ AN_ITEM = "foo" },
@@ -85,12 +85,14 @@ return function()
 			end)
 
 			it("throws when trying to create a set from a non-iterable", function()
-				jestExpect(function()
-					return (Map.new :: any)(true)
-				end).toThrow("cannot create array from value of type `boolean`")
-				jestExpect(function()
-					return (Map.new :: any)(1)
-				end).toThrow("cannot create array from value of type `number`")
+				if _G.__DEV__ then
+					jestExpect(function()
+						return (Map.new :: any)(true)
+					end).toThrow("cannot create array from value of type `boolean`")
+					jestExpect(function()
+						return (Map.new :: any)(1)
+					end).toThrow("cannot create array from value of type `number`")
+				end
 			end)
 		end)
 
@@ -284,7 +286,7 @@ return function()
 			end)
 		end)
 
-		describe("ipairs", function()
+		describe("iter", function()
 			local function makeArray(...)
 				local array = {}
 				for _, item in ... do
@@ -295,17 +297,17 @@ return function()
 
 			it("iterates on an empty set", function()
 				local foo = Map.new()
-				for k, v in foo:ipairs() do
+				for k, v in foo do
 					error("should not iterate on empty set")
 				end
-				jestExpect(makeArray(foo:ipairs())).toEqual({})
+				jestExpect(makeArray(foo)).toEqual({})
 			end)
 
 			it("iterates on the elements by their insertion order", function()
 				local foo = Map.new()
 				foo:set(AN_ITEM, "foo")
 				foo:set(ANOTHER_ITEM, "val")
-				jestExpect(makeArray(foo:ipairs())).toEqual({
+				jestExpect(makeArray(foo)).toEqual({
 					{ AN_ITEM, "foo" },
 					{ ANOTHER_ITEM, "val" },
 				})
@@ -316,7 +318,7 @@ return function()
 				foo:set(AN_ITEM, "foo")
 				foo:set(ANOTHER_ITEM, "val")
 				foo:delete(AN_ITEM)
-				jestExpect(makeArray(foo:ipairs())).toEqual({
+				jestExpect(makeArray(foo)).toEqual({
 					{ ANOTHER_ITEM, "val" },
 				})
 			end)
@@ -327,7 +329,7 @@ return function()
 				foo:set(ANOTHER_ITEM, "val")
 				foo:delete(AN_ITEM)
 				foo:set(AN_ITEM, "food")
-				jestExpect(makeArray(foo:ipairs())).toEqual({
+				jestExpect(makeArray(foo)).toEqual({
 					{ ANOTHER_ITEM, "val" },
 					{ AN_ITEM, "food" },
 				})
