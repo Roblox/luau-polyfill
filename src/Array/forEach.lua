@@ -9,11 +9,13 @@ type callbackFnWithThisArg<T, U> = (thisArg: U, element: T, index: number, array
 -- Implements Javascript's `Array.prototype.forEach` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 return function<T, U>(t: Array<T>, callback: callbackFn<T> | callbackFnWithThisArg<T, U>, thisArg: U?): ()
-	if typeof(t) ~= "table" then
-		error(string.format("Array.forEach called on %s", typeof(t)))
-	end
-	if typeof(callback) ~= "function" then
-		error("callback is not a function")
+	if _G.__DEV__ then
+		if typeof(t) ~= "table" then
+			error(string.format("Array.forEach called on %s", typeof(t)))
+		end
+		if typeof(callback) ~= "function" then
+			error("callback is not a function")
+		end
 	end
 
 	local len = #t

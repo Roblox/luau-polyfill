@@ -52,7 +52,7 @@ return function<T, U>(
 	elseif instanceof(value, Set) then
 		if mapFn then
 			array = {}
-			for i, v in (value :: any):ipairs() do
+			for i, v in value :: any do
 				if thisArg ~= nil then
 					(array :: Array<U>)[i] = (mapFn :: mapFnWithThisArg<T, U>)(thisArg, v, i)
 				else
@@ -65,7 +65,7 @@ return function<T, U>(
 	elseif instanceof(value, Map) then
 		if mapFn then
 			array = {}
-			for i, v in (value :: any):ipairs() do
+			for i, v in value :: any do
 				if thisArg ~= nil then
 					(array :: Array<U>)[i] = (mapFn :: mapFnWithThisArg<T, U>)(thisArg, v, i)
 				else
@@ -74,7 +74,7 @@ return function<T, U>(
 			end
 		else
 			array = {}
-			for i, v in (value :: any):ipairs() do
+			for i, v in value :: any do
 				(array :: Array<T>)[i] = v
 			end
 		end

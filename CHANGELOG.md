@@ -6,6 +6,7 @@
 * add `getStatus` and `awaitStatus` methods to `Promise` type
 
 ### Changes
+* Use Luau's generalized iteration feature where possible, resulting in up to 50% better benchmark performance in some scenarios.
 * Runtime optimizations to avoid empty table assignments unnecessarily, using the faster table.clone() when convenient.
 * `Array.findIndex` will now typecheck the predicate function to ensure types match the supplied `Array<T>`
 * `Array.reduce` will now typecheck the predicate function and initial values to ensure types match the supplied `Array<>`
@@ -15,6 +16,13 @@
 * `AssertionError.new` no longer requires the `operation` field, and the `AssertionError` instance field is now nil-able, matching upstream nodejs.
 * `Object.entries` and `Object.values` now returns a more specifically-typed `Array<>` based on the supplied Object
 * `Object.freeze` and `Object.seal` should now retain more type fidelity of the input parameter to the return value
+
+### Deprecations
+* `Map<>:ipairs()` and `Set<>:ipairs()` will be removed in a future version of the library, in favor of the significantly better-performance `__iter` metamethod. Please migrate your loops that use these methods to instead used the generalized iteration approach:
+```lua
+for key, value in myMap do
+end
+```
 
 ## 0.3.4
 
