@@ -3,9 +3,10 @@ local Set = require(LuauPolyfill.Set)
 local instanceOf = require(LuauPolyfill.instanceof)
 local types = require(LuauPolyfill.types)
 type Array<T> = types.Array<T>
+type Set<T> = types.Set<T>
 type Table = { [any]: any }
 
-return function(value: Table | string): Array<string>
+return function(value: Set<any> | Table | string): Array<string>
 	if value == nil then
 		error("cannot extract keys from a nil value")
 	end
