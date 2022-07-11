@@ -361,8 +361,9 @@ type AssertionErrorStatics = {
 	__tostring: (self: AssertionError) -> string,
 }
 
-local AssertionError: AssertionError & AssertionErrorStatics =
-	(setmetatable({}, { __index = Error }) :: any) :: AssertionError & AssertionErrorStatics
+local AssertionError: AssertionError & AssertionErrorStatics = (
+	setmetatable({}, { __index = Error }) :: any
+) :: AssertionError & AssertionErrorStatics
 AssertionError.__index = AssertionError
 AssertionError.__tostring = function(self: AssertionError)
 	return self:toString()
@@ -427,8 +428,9 @@ function AssertionError.new(options: AssertionErrorOptions): AssertionError
 			expected = copyError(expected)
 		end
 		if operator == "deepStrictEqual" or operator == "strictEqual" then
-			self =
-				(setmetatable(Error.new(createErrDiff(actual, expected, operator)), AssertionError) :: any) :: AssertionError
+			self = (
+				setmetatable(Error.new(createErrDiff(actual, expected, operator)), AssertionError) :: any
+			) :: AssertionError
 		elseif operator == "notDeepStrictEqual" or operator == "notStrictEqual" then
 			-- In case the objects are equal but the operator requires unequal, show
 			-- the first object and say A equals B
