@@ -13,7 +13,11 @@ type mapCallbackFn<K, V> = types.mapCallbackFn<K, V>
 type mapCallbackFnWithThisArg<K, V> = types.mapCallbackFnWithThisArg<K, V>
 type Map<K, V> = types.Map<K, V>
 
-local Map = {}
+type Map_Statics = {
+	new: <K, V>(iterable: Array<Array<any>>?) -> Map<K, V>,
+}
+
+local Map: Map<any, any> & Map_Statics = ({} :: any) :: Map<any, any> & Map_Statics
 
 function Map.new<K, V>(iterable: Array<Array<any>>?): Map<K, V>
 	local array
@@ -59,7 +63,8 @@ function Map.new<K, V>(iterable: Array<Array<any>>?): Map<K, V>
 	}, Map) :: any) :: Map<K, V>
 end
 
-function Map:set<K, V>(key: K, value: V): Map<K, V>
+-- TODO Luau: annoying type erasure here, probably needs the new Records language feature
+function Map:set(key: any, value: any): Map<any, any>
 	-- preserve initial insertion order
 	if self._map[key] == nil then
 		-- Luau FIXME: analyze should know self is Map<K, V> which includes size as a number
@@ -98,19 +103,19 @@ end
 
 -- Implements Javascript's `Map.prototype.forEach` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/forEach
-function Map:forEach<K, V>(callback: mapCallbackFn<K, V> | mapCallbackFnWithThisArg<K, V>, thisArg: Object?): ()
+function Map:forEach(callback: mapCallbackFn<any, any> | mapCallbackFnWithThisArg<any, any>, thisArg: Object?): ()
 	if _G.__DEV__ then
 		if typeof(callback) ~= "function" then
 			error("callback is not a function")
 		end
 	end
-	return Array.forEach(self._array, function(key: K)
-		local value: V = self._map[key] :: V
+	return Array.forEach(self._array, function(key)
+		local value = self._map[key]
 
 		if thisArg ~= nil then
-			(callback :: mapCallbackFnWithThisArg<K, V>)(thisArg, value, key, self)
+			(callback :: mapCallbackFnWithThisArg<any, any>)(thisArg, value, key, self)
 		else
-			(callback :: mapCallbackFn<K, V>)(value, key, self)
+			(callback :: mapCallbackFn<any, any>)(value, key, self)
 		end
 	end)
 end
