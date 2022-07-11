@@ -16,9 +16,11 @@
 * `AssertionError.new` no longer requires the `operation` field, and the `AssertionError` instance field is now nil-able, matching upstream nodejs.
 * `Object.entries` and `Object.values` now returns a more specifically-typed `Array<>` based on the supplied Object
 * `Object.freeze` and `Object.seal` should now retain more type fidelity of the input parameter to the return value
+* `Map`, `WeakMap`, and `Set` exported tables are now strongly-typed, which mostly aids typechecking of the backing implementation detail.
+* `WeakMap.new` is now generic, so the return value can be force-cast to specific Key and Value types by users.
 
 ### Deprecations
-* `Map<>:ipairs()` and `Set<>:ipairs()` will be removed in a future version of the library, in favor of the significantly better-performance `__iter` metamethod. Please migrate your loops that use these methods to instead used the generalized iteration approach:
+* `Map<>:ipairs()` and `Set<>:ipairs()` will be removed in a future version of the library, in favor of the significantly better-performing `__iter` metamethod. Please migrate your loops that use these methods to instead used the generalized iteration approach:
 ```lua
 for key, value in myMap do
 end

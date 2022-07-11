@@ -10,20 +10,26 @@ type Set<T> = types.Set<T>
 
 local inspect = require(LuauPolyfill.util.inspect)
 
-local Set = {
-	__iter = function(self)
-		return next, self._array
-	end,
-	__tostring = function(self)
-		local result = "Set "
-		if #self._array > 0 then
-			result ..= "(" .. tostring(#self._array) .. ") "
-		end
-		result ..= inspect(self._array)
-		return result
-	end,
+type Set_Statics = {
+	new: <T>(iterable: Array<T> | Set<T> | string | nil) -> Set<T>,
 }
-Set.__index = Set
+
+local Set: Set<any> & Set_Statics = (
+	{
+		__iter = function(self)
+			return next, self._array
+		end,
+		__tostring = function(self)
+			local result = "Set "
+			if #self._array > 0 then
+				result ..= "(" .. tostring(#self._array) .. ") "
+			end
+			result ..= inspect(self._array)
+			return result
+		end,
+	} :: any
+) :: Set<any> & Set_Statics;
+(Set :: any).__index = Set
 
 function Set.new<T>(iterable: Array<T> | Set<T> | string | nil): Set<T>
 	local array
@@ -104,16 +110,16 @@ end
 
 -- Implements Javascript's `Map.prototype.forEach` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/forEach
-function Set:forEach<T>(callback: setCallbackFn<T> | setCallbackFnWithThisArg<T>, thisArg: Object?): ()
+function Set:forEach(callback: setCallbackFn<any> | setCallbackFnWithThisArg<any>, thisArg: Object?): ()
 	if typeof(callback) ~= "function" then
 		error("callback is not a function")
 	end
 
-	return Array.forEach(self._array, function(value: T)
+	return Array.forEach(self._array, function(value)
 		if thisArg ~= nil then
-			(callback :: setCallbackFnWithThisArg<T>)(thisArg, value, value, self)
+			(callback :: setCallbackFnWithThisArg<any>)(thisArg, value, value, self)
 		else
-			(callback :: setCallbackFn<T>)(value, value, self)
+			(callback :: setCallbackFn<any>)(value, value, self)
 		end
 	end)
 end
