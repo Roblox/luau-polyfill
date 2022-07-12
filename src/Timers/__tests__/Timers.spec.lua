@@ -100,6 +100,13 @@ return function()
 				advanceTime(100)
 				jestExpect(callbackSpy).never.toHaveBeenCalled()
 			end)
+
+			it("should not throw if clearTimeout is given nil", function()
+				jestExpect(function()
+					-- types don't permit this abuse, so cast away safety
+					(Timeout.clearTimeout :: any)(nil)
+				end).never.toThrow()
+			end)
 		end)
 
 		describe("Interval", function()
@@ -265,6 +272,13 @@ return function()
 				Interval.clearInterval(id :: Interval)
 				advanceTime(100)
 				jestExpect(callbackSpy).never.toHaveBeenCalled()
+			end)
+
+			it("should not throw if clearInterval is given nil", function()
+				jestExpect(function()
+					-- types don't permit this abuse, so cast away safety
+					(Interval.clearInterval :: any)(nil)
+				end).never.toThrow()
 			end)
 		end)
 	end)
