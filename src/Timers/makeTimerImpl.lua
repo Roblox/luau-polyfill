@@ -32,6 +32,9 @@ return function(delayImpl)
 	end
 
 	local function clearTimeout(task: Timeout)
+		if task == nil then
+			return
+		end
 		if task[Status] == SCHEDULED then
 			task[Status] = CANCELLED
 		end
