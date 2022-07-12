@@ -18,6 +18,7 @@
 * `Object.freeze` and `Object.seal` should now retain more type fidelity of the input parameter to the return value
 * `Map`, `WeakMap`, and `Set` exported tables are now strongly-typed, which mostly aids typechecking of the backing implementation detail.
 * `WeakMap.new` is now generic, so the return value can be force-cast to specific Key and Value types by users.
+* `clearTimeout` and `clearInterval` will no longer crash when given `nil`, and just be a no-op.
 
 ### Deprecations
 * `Map<>:ipairs()` and `Set<>:ipairs()` will be removed in a future version of the library, in favor of the significantly better-performing `__iter` metamethod. Please migrate your loops that use these methods to instead used the generalized iteration approach:
