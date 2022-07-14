@@ -5,22 +5,31 @@ local slice = require(script.Parent.slice)
 local LuauPolyfill = script.Parent.Parent
 local types = require(LuauPolyfill.types)
 type Array<T> = types.Array<T>
+local MAX_SAFE_INTEGER = require(LuauPolyfill.Number).MAX_SAFE_INTEGER
 
 type Pattern = string | Array<string>
 
-local function split(str: string, pattern: Pattern?): Array<string>
-	if pattern == nil then
+local function split(str: string, _pattern: Pattern?, _limit: number?): Array<string>
+	if _pattern == nil then
 		return { str }
 	end
+	if _limit == 0 then
+		return {}
+	end
+	local limit = if _limit == nil or _limit < 0 then MAX_SAFE_INTEGER else _limit
+	local pattern = _pattern
 	local patternList: Array<string>
 	if typeof(pattern) == "string" then
 		if pattern == "" then
-			--[[ ROBLOX deviation: JS would return an array of characters ]]
-			return { str }
+			local result = {}
+			for c in str:gmatch(".") do
+				table.insert(result, c)
+			end
+			return result
 		end
 		patternList = { pattern }
 	else
-		patternList = pattern :: any
+		patternList = pattern :: Array<string>
 	end
 	local init = 1
 	local result = {}
@@ -41,7 +50,7 @@ local function split(str: string, pattern: Pattern?): Array<string>
 		if match ~= nil then
 			lastMatch = match
 		end
-	until match == nil or init > strLen
+	until match == nil or init > strLen or #result >= limit
 	if lastMatch ~= nil then
 		local lastMatchLength, invalidBytePosition_ = utf8.len(lastMatch.match)
 		assert(

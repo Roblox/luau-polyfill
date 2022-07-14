@@ -4,12 +4,16 @@ type Match = {
 	match: string,
 }
 
+-- excluding the `+` and `*` character, since findOr tests and graphql use them explicitly
+local luaPatternCharacters = "([" .. ("$%^()-[].?"):gsub("(.)", "%%%1") .. "])"
+
 local function findOr(str: string, patternTable: { string }, initIndex: number?): Match | nil
 	-- loop through all options in patern patternTable
 
 	local init = utf8.offset(str, initIndex or 1)
 	local matches = {}
 	for _, value in patternTable do
+		value = value:gsub(luaPatternCharacters, "%%%1")
 		local iStart, iEnd = string.find(str, value, init)
 		if iStart then
 			local prefix = string.sub(str, 1, iStart - 1)

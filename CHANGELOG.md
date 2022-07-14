@@ -1,6 +1,6 @@
 # LuauPolyfills Changelog
 
-## Unreleased
+## 0.3.5
 
 ### Added Polyfills
 * add `getStatus` and `awaitStatus` methods to `Promise` type
@@ -18,6 +18,9 @@
 * `Object.freeze` and `Object.seal` should now retain more type fidelity of the input parameter to the return value
 * `Map`, `WeakMap`, and `Set` exported tables are now strongly-typed, which mostly aids typechecking of the backing implementation detail.
 * `WeakMap.new` is now generic, so the return value can be force-cast to specific Key and Value types by users.
+* `String.split` now accepts a `limit` parameter, to limit the number of split strings returned.
+* `String.split` will now escape Lua pattern match characters in the `pattern` parameter, allowing for splitting on `%` and `.` characters.
+* `String.split` behavior now matches JavaScript when passed an empty pattern.
 * `clearTimeout` and `clearInterval` will no longer crash when given `nil`, and just be a no-op.
 
 ### Deprecations
