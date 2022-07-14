@@ -109,7 +109,8 @@ function Map:forEach(callback: mapCallbackFn<any, any> | mapCallbackFnWithThisAr
 			error("callback is not a function")
 		end
 	end
-	return Array.forEach(self._array, function(key)
+	-- note: we can't turn this into a simple for-in loop, because the callbacks can modify the table and React, GQL, and Jest rely on JS behavior in that scenario
+	Array.forEach(self._array, function(key)
 		local value = self._map[key]
 
 		if thisArg ~= nil then

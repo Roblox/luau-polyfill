@@ -24,6 +24,28 @@ return function()
 		jestExpect(actual).toEqual(expected)
 	end)
 
+	it("returns matched element when its a Lua pattern % character", function()
+		local str = "a%c"
+		local terms = { "%" }
+		local actual = findOr(str, terms)
+		local expected = {
+			index = 2,
+			match = "%",
+		}
+		jestExpect(actual).toEqual(expected)
+	end)
+
+	it("returns matched element when its a Lua pattern . character", function()
+		local str = "a.c"
+		local terms = { "." }
+		local actual = findOr(str, terms)
+		local expected = {
+			index = 2,
+			match = ".",
+		}
+		jestExpect(actual).toEqual(expected)
+	end)
+
 	it("returns 2nd instance of matched element after start position", function()
 		local str = "abcb"
 		local terms = { "b" }

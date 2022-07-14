@@ -115,7 +115,8 @@ function Set:forEach(callback: setCallbackFn<any> | setCallbackFnWithThisArg<any
 		error("callback is not a function")
 	end
 
-	return Array.forEach(self._array, function(value)
+	-- note: we can't turn this into a simple for-in loop, because the callbacks can modify the table and React, GQL, and Jest rely on JS behavior in that scenario
+	Array.forEach(self._array, function(value)
 		if thisArg ~= nil then
 			(callback :: setCallbackFnWithThisArg<any>)(thisArg, value, value, self)
 		else
