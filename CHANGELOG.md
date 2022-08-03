@@ -1,5 +1,9 @@
 # LuauPolyfills Changelog
 
+## 0.4.1
+
+* fix `WeakMap` typing - distinguish private and public API
+
 ## 0.4.0
 
 ### Added Polyfills
