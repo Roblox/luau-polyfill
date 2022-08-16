@@ -3,10 +3,12 @@ name = "LuauPolyfill"
 version = "0.4.1"
 authors = [
     "Chris Trześniewski <k.trzesniewski@gmail.com>",
+    "Kyle Mitofsky <kylemit@gmail.com>",
     "Matt Hargett <plaztiksyke@gmail.com>",
     "Olivier Trepanier <otrepanier@roblox.com>",
     "Paul Doyle <pdoyle@roblox.com>",
     "Raymond Ng <rng@roblox.com>",
+    "Zack Ovits <zack@boatbomber.com>",
 ]
 content_root = "src"
 files = ["*", "!**/__tests__/**"]

@@ -2,6 +2,7 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 return function()
 	local Array = script.Parent.Parent
+	type Array<T> = { [number]: T }
 	local LuauPolyfill = Array.Parent
 	local forEach = require(Array.forEach)
 	local isArray = require(Array.isArray)
@@ -125,8 +126,9 @@ return function()
 			return result
 		end
 
-		-- Luau FIXME: Luau should realize this isn't an array in this single assingment: TypeError: Type '{number}' could not be converted into 'number'
-		local nested = { 1, 2, 3, { 4, 5, { 6, 7 } :: any, 8, 9 } :: any }
+		-- FIXME Luau: Luau doesn't have a way to deal with mixed arrays without (temporary) type erasure
+		local nested =
+			{ 1, 2, 3, { 4, 5, { 6, 7 } :: any, 8, 9 } } :: Array<number | Array<number> | Array<Array<number>>>
 		jestExpect(flatten(nested)).toEqual({ 1, 2, 3, 4, 5, 6, 7, 8, 9 })
 	end)
 end
