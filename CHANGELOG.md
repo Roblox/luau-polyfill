@@ -1,5 +1,11 @@
 # LuauPolyfills Changelog
 
+## Unreleased
+
+### Added Polyfills
+
+* add `includes` method to `String` type
+
 ## 0.4.1
 
 * fix `WeakMap` typing - distinguish private and public API
