@@ -6,6 +6,10 @@
 
 * add `includes` method to `String` type
 
+### Changes
+
+* restructured some internals to avoid circular dependency issues
+
 ## 0.4.1
 
 * fix `WeakMap` typing - distinguish private and public API

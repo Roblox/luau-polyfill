@@ -6,7 +6,7 @@ local types = require(LuauPolyfill.types)
 type Array<T> = types.Array<T>
 local HttpService = game:GetService("HttpService")
 
-local Array = require(LuauPolyfill.Array)
+local isArray = require(LuauPolyfill.Array.isArray)
 -- local NULL = require(srcWorkspace.luaUtils.null)
 
 -- Support for options partial implementation
@@ -138,7 +138,7 @@ function formatObjectValue(value, previouslySeenValues, options: FormatOptions)
 				return formatValue(jsonValue, seenValues, options)
 			end
 		end
-	elseif Array.isArray(value) then
+	elseif isArray(value) then
 		return formatArray(value, seenValues, options)
 	end
 
