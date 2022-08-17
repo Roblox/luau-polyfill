@@ -1,6 +1,9 @@
 --!nonstrict
 local LuauPolyfill = script.Parent
-local Array = require(LuauPolyfill.Array)
+--local Array = require(LuauPolyfill.Array)
+local isArray = require(LuauPolyfill.Array.isArray)
+local arrayFromString = require(LuauPolyfill.Array.from.fromString)
+local arrayForEach = require(LuauPolyfill.Array.forEach)
 local types = require(LuauPolyfill.types)
 type Array<T> = types.Array<T>
 type Object = types.Object
@@ -38,9 +41,8 @@ function Set.new<T>(iterable: Array<T> | Set<T> | string | nil): Set<T>
 		local arrayIterable
 
 		if typeof(iterable) == "table" then
-			if Array.isArray(iterable) then
-				-- TODO Luau: need overloads for `from` to avoid needing the manual cast
-				arrayIterable = Array.from(iterable :: Array<T>) :: Array<T>
+			if isArray(iterable) then
+				arrayIterable = table.clone(iterable)
 			else
 				local mt = getmetatable(iterable :: any)
 				if mt and rawget(mt, "__iter") then
@@ -51,7 +53,7 @@ function Set.new<T>(iterable: Array<T> | Set<T> | string | nil): Set<T>
 			end
 		elseif typeof(iterable) == "string" then
 			-- TODO Luau: need overloads for `from` to avoid needing the manual cast
-			arrayIterable = Array.from(iterable :: string) :: Array<string>
+			arrayIterable = arrayFromString(iterable :: string) :: Array<string>
 		else
 			error(("cannot create array from value of type `%s`"):format(typeof(iterable)))
 		end
@@ -116,7 +118,7 @@ function Set:forEach(callback: setCallbackFn<any> | setCallbackFnWithThisArg<any
 	end
 
 	-- note: we can't turn this into a simple for-in loop, because the callbacks can modify the table and React, GQL, and Jest rely on JS behavior in that scenario
-	Array.forEach(self._array, function(value)
+	arrayForEach(self._array, function(value)
 		if thisArg ~= nil then
 			(callback :: setCallbackFnWithThisArg<any>)(thisArg, value, value, self)
 		else

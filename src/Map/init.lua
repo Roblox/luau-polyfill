@@ -1,10 +1,8 @@
 --!strict
 local LuauPolyfill = script.Parent
+local arrayForEach = require(LuauPolyfill.Array.forEach)
+local arrayMap = require(LuauPolyfill.Array.map)
 local types = require(LuauPolyfill.types)
-
-local Array = require(LuauPolyfill.Array)
-local Object = require(LuauPolyfill.Object)
-local instanceOf = require(LuauPolyfill.instanceof)
 type Object = types.Object
 type Array<T> = types.Array<T>
 type Table<T, V> = types.Table<T, V>
@@ -34,8 +32,7 @@ function Map.new<K, V>(iterable: Array<Array<any>>?): Map<K, V>
 			end
 		end
 
-		-- TODO Luau: need overloads for `from` to avoid needing the manual cast
-		local arrayFromIterable = Array.from(iterable) :: Array<Array<any>>
+		local arrayFromIterable = table.clone(iterable) :: Array<Array<any>>
 		array = table.create(#arrayFromIterable)
 		for _, entry in arrayFromIterable do
 			local key = entry[1]
@@ -110,7 +107,7 @@ function Map:forEach(callback: mapCallbackFn<any, any> | mapCallbackFnWithThisAr
 		end
 	end
 	-- note: we can't turn this into a simple for-in loop, because the callbacks can modify the table and React, GQL, and Jest rely on JS behavior in that scenario
-	Array.forEach(self._array, function(key)
+	arrayForEach(self._array, function(key)
 		local value = self._map[key]
 
 		if thisArg ~= nil then
@@ -130,13 +127,13 @@ function Map:keys()
 end
 
 function Map:values()
-	return Array.map(self._array, function(key)
+	return arrayMap(self._array, function(key)
 		return self._map[key]
 	end)
 end
 
 function Map:entries()
-	return Array.map(self._array, function(key)
+	return arrayMap(self._array, function(key)
 		return { key, self._map[key] }
 	end)
 end
@@ -170,25 +167,4 @@ function Map.__newindex(table_, key, value)
 	table_:set(key, value)
 end
 
-local function coerceToMap(mapLike: Map<any, any> | Table<any, any>): Map<any, any>
-	return instanceOf(mapLike, Map) and mapLike :: Map<any, any> -- ROBLOX: order is preserved
-		or Map.new(Object.entries(mapLike)) -- ROBLOX: order is not preserved
-end
-
-local function coerceToTable(mapLike: Map<any, any> | Table<any, any>): Table<any, any>
-	if not instanceOf(mapLike, Map) then
-		return mapLike :: Table<any, any>
-	end
-
-	-- create table from map
-	return Array.reduce(mapLike:entries(), function(tbl, entry)
-		tbl[entry[1]] = entry[2]
-		return tbl
-	end, {})
-end
-
-return {
-	Map = Map,
-	coerceToMap = coerceToMap,
-	coerceToTable = coerceToTable,
-}
+return Map

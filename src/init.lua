@@ -2,13 +2,15 @@
 local Array = require(script.Array)
 local AssertionError = require(script.AssertionError)
 local Error = require(script.Error)
-local mapModule = require(script.Map)
 local Object = require(script.Object)
 local PromiseModule = require(script.Promise)
 local Set = require(script.Set)
 local Symbol = require(script.Symbol)
 local Timers = require(script.Timers)
 local WeakMap = require(script.WeakMap)
+local Map = require(script.Map)
+local coerceToMap = require(script.Map.coerceToMap)
+local coerceToTable = require(script.Map.coerceToTable)
 local types = require(script.types)
 
 export type Array<T> = types.Array<T>
@@ -37,9 +39,9 @@ return {
 	Math = require(script.Math),
 	Number = require(script.Number),
 	Object = Object,
-	Map = mapModule.Map,
-	coerceToMap = mapModule.coerceToMap,
-	coerceToTable = mapModule.coerceToTable,
+	Map = Map,
+	coerceToMap = coerceToMap,
+	coerceToTable = coerceToTable,
 	Set = Set,
 	WeakMap = WeakMap,
 	String = require(script.String),

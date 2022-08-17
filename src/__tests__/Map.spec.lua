@@ -12,11 +12,10 @@ return function()
 	type Function = types.Function
 	type Object = types.Object
 
-	local MapModule = require(LuauPolyfill.Map)
-	local Map = MapModule.Map
+	local Map = require(LuauPolyfill.Map)
 	type Map<K, V> = types.Map<K, V>
-	local coerceToMap = MapModule.coerceToMap
-	local coerceToTable = MapModule.coerceToTable
+	local coerceToMap = require(LuauPolyfill.Map.coerceToMap)
+	local coerceToTable = require(LuauPolyfill.Map.coerceToTable)
 	local instanceOf = require(LuauPolyfill.instanceof)
 
 	local AN_ITEM = "bar"
