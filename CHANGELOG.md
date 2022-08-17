@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.4.2
+
 ### Added Polyfills
 
 * add `includes` method to `String` type
