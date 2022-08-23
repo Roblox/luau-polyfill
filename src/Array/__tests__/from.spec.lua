@@ -32,6 +32,12 @@ return function()
 		jestExpect(from({})).toEqual({})
 	end)
 
+	it("returns an empty array given an empty table and a map function", function()
+		jestExpect(from({}, function(index, item)
+			return item
+		end)).toEqual({})
+	end)
+
 	it("returns an empty array given a map-like table", function()
 		jestExpect(from({ foo = "bar" })).toEqual({})
 	end)
