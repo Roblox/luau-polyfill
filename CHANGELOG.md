@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.0.0
+
 * add `indexOf` method to `String` type
 
 ## 0.4.2
