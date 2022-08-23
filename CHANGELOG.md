@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* add `indexOf` method to `String` type
+
 ## 0.4.2
 
 ### Added Polyfills
