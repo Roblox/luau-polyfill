@@ -13,12 +13,12 @@
 	* limitations under the License.
 ]]
 --!strict
-export type WeakMap<K, V> = {
-	-- method definitions
-	get: (self: WeakMap<K, V>, K) -> V,
-	set: (self: WeakMap<K, V>, K, V) -> WeakMap<K, V>,
-	has: (self: WeakMap<K, V>, K) -> boolean,
-}
+local Collections = script.Parent
+local Packages = Collections.Parent
+
+local ES7Types = require(Packages.ES7Types)
+
+type WeakMap<K, V> = ES7Types.WeakMap<K, V>
 
 type WeakMapPrivate<K, V> = {
 	_weakMap: { [K]: V },

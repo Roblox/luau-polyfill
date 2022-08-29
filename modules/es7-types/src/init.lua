@@ -49,6 +49,13 @@ export type Map<K, V> = typeof(setmetatable(
 	}
 ))
 
+export type WeakMap<K, V> = {
+	-- method definitions
+	get: (self: WeakMap<K, V>, K) -> V,
+	set: (self: WeakMap<K, V>, K, V) -> WeakMap<K, V>,
+	has: (self: WeakMap<K, V>, K) -> boolean,
+}
+
 export type setCallbackFn<T> = (value: T, key: T, set: Set<T>) -> ()
 export type setCallbackFnWithThisArg<T> = (thisArg: Object, value: T, key: T, set: Set<T>) -> ()
 
