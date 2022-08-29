@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* Fix `indexOf` to be accessible from `String`
 * Refactor structure to a rotriever workspace
 
 ## 1.0.0

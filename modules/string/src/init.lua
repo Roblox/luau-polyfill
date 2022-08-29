@@ -12,12 +12,12 @@
 	* See the License for the specific language governing permissions and
 	* limitations under the License.
 ]]
---!strict
 return {
 	charCodeAt = require(script.charCodeAt),
 	endsWith = require(script.endsWith),
 	findOr = require(script.findOr),
 	includes = require(script.includes),
+	indexOf = require(script.indexOf),
 	lastIndexOf = require(script.lastIndexOf),
 	slice = require(script.slice),
 	split = require(script.split),
