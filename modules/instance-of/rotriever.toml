@@ -1,0 +1,12 @@
+[package]
+name = "InstanceOf"
+version = { workspace = true }
+authors = { workspace = true }
+content_root = "src"
+files = ["*", "!**/__tests__/**"]
+
+[dependencies]
+
+[dev_dependencies]
+Collections = { path = "../collections" }
+JestGlobals = { workspace = true }

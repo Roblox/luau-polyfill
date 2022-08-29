@@ -1,0 +1,24 @@
+[package]
+name = "LuauPolyfill"
+version = { workspace = true }
+authors = { workspace = true }
+content_root = "src"
+files = ["*", "!**/__tests__/**"]
+
+[dependencies]
+Boolean = { path = "../boolean" }
+Collections = { path = "../collections" }
+Console = { path = "../console" }
+InstanceOf = { path = "../instance-of" }
+Math = { path = "../math" }
+Number = { path = "../number" }
+ES7Types = { path = "../es7-types" }
+String = { path = "../string" }
+Symbol = { path = "../symbol" }
+Timers = { path = "../timers" }
+
+[dev_dependencies]
+JestGlobals = { workspace = true }
+TestEZ = { workspace = true }
+RegExp = { workspace = true }
+Promise = { workspace = true }

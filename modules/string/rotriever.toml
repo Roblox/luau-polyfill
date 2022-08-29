@@ -1,0 +1,13 @@
+[package]
+name = "String"
+version = { workspace = true }
+authors = { workspace = true }
+content_root = "src"
+files = ["*", "!**/__tests__/**"]
+
+[dependencies]
+Number = { path = "../number" }
+ES7Types = { path = "../es7-types" }
+
+[dev_dependencies]
+JestGlobals = { workspace = true }

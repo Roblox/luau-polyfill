@@ -1,0 +1,11 @@
+[package]
+name = "Number"
+version = { workspace = true }
+authors = { workspace = true }
+content_root = "src"
+files = ["*", "!**/__tests__/**"]
+
+[dependencies]
+
+[dev_dependencies]
+JestGlobals = { workspace = true }

@@ -1,0 +1,13 @@
+[package]
+name = "Timers"
+version = { workspace = true }
+authors = { workspace = true }
+content_root = "src"
+files = ["*", "!**/__tests__/**"]
+
+[dependencies]
+Collections = { path = "../collections" }
+
+[dev_dependencies]
+JestGlobals = { workspace = true }
+Promise = { workspace = true }

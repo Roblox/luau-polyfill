@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* Refactor structure to a rotriever workspace
+
 ## 1.0.0
 
 * add `indexOf` method to `String` type
