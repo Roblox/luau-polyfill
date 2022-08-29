@@ -17,6 +17,7 @@ Packages/_Workspace/*
 # Local IDE settings
 .vscode
 .idea/
+sourcemap.json
 
 # Code coverage data files
 **/luacov.*

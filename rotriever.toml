@@ -1,6 +1,6 @@
-[package]
-name = "LuauPolyfill"
+[workspace]
 version = "1.0.0"
+members = ["modules/*"]
 authors = [
     "Chris Trześniewski <k.trzesniewski@gmail.com>",
     "Kyle Mitofsky <kylemit@gmail.com>",
@@ -10,10 +10,8 @@ authors = [
     "Raymond Ng <rng@roblox.com>",
     "Zack Ovits <zack@boatbomber.com>",
 ]
-content_root = "src"
-files = ["*", "!**/__tests__/**"]
 
-[dev_dependencies]
+[workspace.dependencies]
 JestGlobals = "github.com/roblox/jest-roblox@2.4.1"
 TestEZ = "github.com/roblox/jest-roblox@2.4.1"
 RegExp = "github.com/roblox/luau-regexp@0.1.3"
