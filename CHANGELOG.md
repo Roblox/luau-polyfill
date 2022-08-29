@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* Replace custom implementation of `Math.countlz` with the new engine `bit32.countlz` function
 * Fix `indexOf` to be accessible from `String`
 * Refactor structure to a rotriever workspace
 
