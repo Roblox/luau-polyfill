@@ -1,6 +1,6 @@
 {
   "name": "RobloxLuauPolyfill",
   "tree": {
-    "$path": "src"
+    "$path": "modules"
   }
 }

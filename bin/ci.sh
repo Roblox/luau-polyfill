@@ -9,9 +9,9 @@ find Packages/Dev -name "*.robloxrc" | xargs rm -f
 find Packages/_Index -name "*.robloxrc" | xargs rm -f
 echo "Run static analysis"
 roblox-cli analyze test-model.project.json
-selene src
-stylua -c src
+selene modules
+stylua -c modules
 echo "Run tests in DEV"
 roblox-cli run --load.model test-model.project.json --run bin/spec.lua --lua.globals=__DEV__=true
 echo "Run tests in release"
-roblox-cli run --load.model model.rbxmx --run bin/spec.lua 
+roblox-cli run --load.model model.rbxmx --run bin/spec.lua

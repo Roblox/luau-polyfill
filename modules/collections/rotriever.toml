@@ -1,0 +1,15 @@
+[package]
+name = "Collections"
+version = { workspace = true }
+authors = { workspace = true }
+content_root = "src"
+files = ["*", "!**/__tests__/**"]
+
+[dependencies]
+InstanceOf = { path = "../instance-of" }
+ES7Types = { path = "../es7-types" }
+
+[dev_dependencies]
+Number = { path = "../number" }
+JestGlobals = { workspace = true }
+Promise = { workspace = true }
