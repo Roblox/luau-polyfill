@@ -13,6 +13,13 @@
 	* limitations under the License.
 ]]
 --!strict
+local LuauPolyfill = script.Parent
+local Packages = LuauPolyfill.Parent
+
+local types = require(Packages.ES7Types)
+
+type Function = types.Function
+
 export type Error = { name: string, message: string, stack: string? }
 
 local Error = {}
@@ -24,21 +31,54 @@ Error.__tostring = function(self)
 	return getmetatable(Error :: any).__tostring(self)
 end
 
+-- ROBLOX NOTE: extracted __createError function so that both Error.new() and Error() can capture the stack trace at the same depth
+local function __createError(message: string?): Error
+	local self = (setmetatable({
+		name = DEFAULT_NAME,
+		message = message or "",
+	}, Error) :: any) :: Error
+	Error.__captureStackTrace(self, 4)
+	return self
+end
+
 function Error.new(message: string?): Error
-	return (
-		setmetatable({
-			name = DEFAULT_NAME,
-			message = message or "",
-			stack = debug.traceback(nil, 2),
-		}, Error) :: any
-	) :: Error
+	return __createError(message)
+end
+
+function Error.captureStackTrace(err: Error, options: Function?)
+	Error.__captureStackTrace(err, 3, options)
+end
+
+function Error.__captureStackTrace(err: Error, level: number, options: Function?)
+	local message = err.message
+	local name = err.name or DEFAULT_NAME
+
+	local errName = name .. (if message ~= nil and message ~= "" then (": " .. message) else "")
+
+	if typeof(options) == "function" then
+		local stack = debug.traceback(nil, level)
+		local functionName: string = debug.info(options, "n")
+		local sourceFilePath: string = debug.info(options, "s")
+
+		local espacedSourceFilePath = string.gsub(sourceFilePath, "([%(%)%.%%%+%-%*%?%[%^%$])", "%%%1")
+		local stacktraceLinePattern = espacedSourceFilePath .. ":%d* function " .. functionName
+		local beg = string.find(stack, stacktraceLinePattern)
+		local end_ = nil
+		if beg ~= nil then
+			beg, end_ = string.find(stack, "\n", beg + 1)
+		end
+		if end_ ~= nil then
+			stack = string.sub(stack, end_ + 1)
+		end
+		err.stack = errName .. "\n" .. stack
+	else
+		err.stack = debug.traceback(errName, level)
+	end
 end
 
 return setmetatable(Error, {
 	__call = function(_, ...)
-		local inst = Error.new(...)
-		inst.stack = debug.traceback(nil, 2)
-		return inst
+		return __createError(...)
 	end,
 	__tostring = function(self)
 		if self.name ~= nil then

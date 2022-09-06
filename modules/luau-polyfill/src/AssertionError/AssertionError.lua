@@ -53,7 +53,9 @@ local process = {
 }
 -- ROBLOX deviation END
 -- ROBLOX TODO START: implement ErrorCaptureStackTrace correctly
-function ErrorCaptureStackTrace(...) end
+function ErrorCaptureStackTrace(err, ...)
+	Error.captureStackTrace(err, ...)
+end
 -- ROBLOX TODO END
 -- ROBLOX TODO START: use real remove colors
 local function removeColors(str)
@@ -560,7 +562,7 @@ function AssertionError.new(options: AssertionErrorOptions): AssertionError
 	self.operator = operator
 	-- end
 	-- ROBLOX deviation END
-	ErrorCaptureStackTrace(self, stackStartFn)
+	ErrorCaptureStackTrace(self, stackStartFn or AssertionError.new)
 	-- Create error message including the error code in the name.
 	--[[
 		ROBLOX deviation: Lua doesn't support 'LuaMemberExpression' as a standalone type
