@@ -12,6 +12,6 @@ roblox-cli analyze test-model.project.json
 selene modules
 stylua -c modules
 echo "Run tests in DEV"
-roblox-cli run --load.model test-model.project.json --run bin/spec.lua --lua.globals=__DEV__=true
+roblox-cli run --load.model test-model.project.json --run bin/spec.lua --lua.globals=__DEV__=true --fastFlags.overrides DebugDisableOptimizedBytecode=true
 echo "Run tests in release"
-roblox-cli run --load.model model.rbxmx --run bin/spec.lua
+roblox-cli run --load.model model.rbxmx --run bin/spec.lua --fastFlags.overrides DebugDisableOptimizedBytecode=true

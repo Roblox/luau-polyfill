@@ -15,9 +15,10 @@ Packages/_Workspace/*
 .DS_Store
 
 # Local IDE settings
-.vscode
+.vscode/*
 .idea/
 sourcemap.json
+!.vscode/launch.sample.json
 
 # Code coverage data files
 **/luacov.*

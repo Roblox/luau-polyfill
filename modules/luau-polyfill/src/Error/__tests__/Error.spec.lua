@@ -97,14 +97,72 @@ return function()
 	end)
 
 	it("checks Error stack field", function()
+		local lineNumber = (debug.info(1, "l") :: number) + 1
+		local err = Error("test stack for Error()")
+		local topLineRegExp = RegExp("Error.__tests__\\.Error\\.spec:" .. tostring(lineNumber))
+
+		jestExpect(topLineRegExp:test(err.stack)).toEqual(true)
+
+		local lineNumber2 = (debug.info(1, "l") :: number) + 1
+		local err2 = Error.new("test stack for Error.new()")
+		local topLineRegExp2 = RegExp("Error.__tests__\\.Error\\.spec:" .. tostring(lineNumber2))
+
+		jestExpect(topLineRegExp2:test(err2.stack)).toEqual(true)
+	end)
+
+	it("checks Error stack field contains error message", function()
 		local err = Error("test stack for Error()")
 		local err2 = Error.new("test stack for Error.new()")
 
-		local topLineRegExp = RegExp("^.*Error.__tests__\\.Error\\.spec:\\d+")
+		local topLineRegExp = RegExp("^.*test stack for Error()")
+		local topLineRegExp2 = RegExp("^.*test stack for Error.new()")
 
 		jestExpect(topLineRegExp:test(err.stack)).toEqual(true)
-		jestExpect(topLineRegExp:test(err2.stack)).toEqual(true)
+		jestExpect(topLineRegExp2:test(err2.stack)).toEqual(true)
 	end)
+
+	it("checks Error stack field doesn't contains stack from callable table", function()
+		local err = Error("test stack for Error()")
+
+		local topLineRegExp = RegExp("Error:\\d+ function __call")
+
+		jestExpect(topLineRegExp:test(err.stack)).toEqual(false)
+	end)
+
+	it("checks Error stack field doesn't contains stack from Error.new function", function()
+		local err = Error.new("test stack for Error.new()")
+
+		local topLineRegExp = RegExp("Error:\\d+ function new")
+
+		jestExpect(topLineRegExp:test(err.stack)).toEqual(false)
+	end)
+
+	it("checks Error stack field contains error name at the beginning", function()
+		local err = Error("test stack for Error()")
+		local err2 = Error.new("test stack for Error.new()")
+
+		local topLineRegExp = RegExp("^Error: test stack for Error()")
+		local topLineRegExp2 = RegExp("^Error: test stack for Error.new()")
+
+		jestExpect(topLineRegExp:test(err.stack)).toEqual(true)
+		jestExpect(topLineRegExp2:test(err2.stack)).toEqual(true)
+	end)
+
+	itSKIP(
+		"checks Error stack field contains error name at the beginning if name is modified before accessing stack",
+		function()
+			local err = Error("test stack for Error()")
+			local err2 = Error.new("test stack for Error.new()")
+			err.name = "MyError"
+			err2.name = "MyError"
+
+			local topLineRegExp = RegExp("^MyError: test stack for Error()")
+			local topLineRegExp2 = RegExp("^MyError: test stack for Error.new()")
+
+			jestExpect(topLineRegExp:test(err.stack)).toEqual(true)
+			jestExpect(topLineRegExp2:test(err2.stack)).toEqual(true)
+		end
+	)
 
 	it("checks default Error message field", function()
 		jestExpect(Error().message).toEqual("")
@@ -112,5 +170,135 @@ return function()
 
 	it("prints 'Error' for an empty Error", function()
 		jestExpect(tostring(Error())).toEqual("Error")
+	end)
+
+	describe("Error.captureStackTrace", function()
+		local function createErrorNew()
+			return Error.new("error message new function")
+		end
+
+		local function createErrorCallable()
+			return Error("error message callable table")
+		end
+
+		local function myCaptureStacktrace(err: Error)
+			Error.captureStackTrace(err)
+		end
+
+		local function myCaptureStacktraceNested0(err: Error)
+			local function f1()
+				local function f2()
+					Error.captureStackTrace(err)
+				end
+				f2()
+			end
+			f1()
+		end
+
+		local function myCaptureStacktraceNested1(err: Error)
+			local function f1()
+				local function f2()
+					Error.captureStackTrace(err, f1)
+				end
+				f2()
+			end
+			f1()
+		end
+
+		local function myCaptureStacktraceNested2(err: Error)
+			local function f1()
+				local function f2()
+					Error.captureStackTrace(err, f2)
+				end
+				f2()
+			end
+			f1()
+		end
+
+		it("should capture functions stacktrace - Error.new", function()
+			local err = createErrorNew()
+
+			local stacktraceRegex1 = RegExp("function createErrorNew")
+			local stacktraceRegex2 = RegExp("function createErrorCallable")
+			local stacktraceRegex3 = RegExp("function myCaptureStacktrace")
+
+			jestExpect(stacktraceRegex1:test(err.stack)).toEqual(true)
+			jestExpect(stacktraceRegex2:test(err.stack)).toEqual(false)
+			jestExpect(stacktraceRegex3:test(err.stack)).toEqual(false)
+
+			myCaptureStacktrace(err)
+
+			jestExpect(stacktraceRegex1:test(err.stack)).toEqual(false)
+			jestExpect(stacktraceRegex2:test(err.stack)).toEqual(false)
+			jestExpect(stacktraceRegex3:test(err.stack)).toEqual(true)
+		end)
+
+		it("should capture functions stacktrace - Error", function()
+			local err = createErrorCallable()
+
+			local stacktraceRegex1 = RegExp("function createErrorNew")
+			local stacktraceRegex2 = RegExp("function createErrorCallable")
+			local stacktraceRegex3 = RegExp("function myCaptureStacktrace")
+
+			jestExpect(stacktraceRegex1:test(err.stack)).toEqual(false)
+			jestExpect(stacktraceRegex2:test(err.stack)).toEqual(true)
+			jestExpect(stacktraceRegex3:test(err.stack)).toEqual(false)
+
+			myCaptureStacktrace(err)
+
+			jestExpect(stacktraceRegex1:test(err.stack)).toEqual(false)
+			jestExpect(stacktraceRegex2:test(err.stack)).toEqual(false)
+			jestExpect(stacktraceRegex3:test(err.stack)).toEqual(true)
+		end)
+
+		it("should capture functions stacktrace with option - Error.new", function()
+			local err = createErrorNew()
+			local stacktraceRegex = RegExp("function myCaptureStacktraceNested")
+			local stacktraceRegexF1 = RegExp("function f1")
+			local stacktraceRegexF2 = RegExp("function f2")
+
+			myCaptureStacktraceNested0(err)
+
+			jestExpect(stacktraceRegex:test(err.stack)).toEqual(true)
+			jestExpect(stacktraceRegexF1:test(err.stack)).toEqual(true)
+			jestExpect(stacktraceRegexF2:test(err.stack)).toEqual(true)
+
+			myCaptureStacktraceNested1(err)
+
+			jestExpect(stacktraceRegex:test(err.stack)).toEqual(true)
+			jestExpect(stacktraceRegexF1:test(err.stack)).toEqual(false)
+			jestExpect(stacktraceRegexF2:test(err.stack)).toEqual(false)
+
+			myCaptureStacktraceNested2(err)
+
+			jestExpect(stacktraceRegex:test(err.stack)).toEqual(true)
+			jestExpect(stacktraceRegexF1:test(err.stack)).toEqual(true)
+			jestExpect(stacktraceRegexF2:test(err.stack)).toEqual(false)
+		end)
+
+		it("should capture functions stacktrace with option - Error", function()
+			local err = createErrorCallable()
+			local stacktraceRegex = RegExp("function myCaptureStacktraceNested")
+			local stacktraceRegexF1 = RegExp("function f1")
+			local stacktraceRegexF2 = RegExp("function f2")
+
+			myCaptureStacktraceNested0(err)
+
+			jestExpect(stacktraceRegex:test(err.stack)).toEqual(true)
+			jestExpect(stacktraceRegexF1:test(err.stack)).toEqual(true)
+			jestExpect(stacktraceRegexF2:test(err.stack)).toEqual(true)
+
+			myCaptureStacktraceNested1(err)
+
+			jestExpect(stacktraceRegex:test(err.stack)).toEqual(true)
+			jestExpect(stacktraceRegexF1:test(err.stack)).toEqual(false)
+			jestExpect(stacktraceRegexF2:test(err.stack)).toEqual(false)
+
+			myCaptureStacktraceNested2(err)
+
+			jestExpect(stacktraceRegex:test(err.stack)).toEqual(true)
+			jestExpect(stacktraceRegexF1:test(err.stack)).toEqual(true)
+			jestExpect(stacktraceRegexF2:test(err.stack)).toEqual(false)
+		end)
 	end)
 end
