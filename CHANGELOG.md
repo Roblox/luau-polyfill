@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* When `__DEV__` global is true, the Map object will no longer overflow the C stack when you access a field on it after incorrectly calling table.clear(). It now asserts with actionable information.
+
 ## 1.1.0
 
 * Add WeakMap type to ES7Types package
