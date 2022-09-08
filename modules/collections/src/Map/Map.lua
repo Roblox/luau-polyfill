@@ -13,6 +13,7 @@
 	* limitations under the License.
 ]]
 --!strict
+local __DEV__ = _G.__DEV__
 local Collections = script.Parent.Parent
 local Packages = Collections.Parent
 
@@ -37,7 +38,7 @@ function Map.new<K, V>(iterable: Array<Array<any>>?): Map<K, V>
 	local array
 	local map = {}
 	if iterable ~= nil then
-		if _G.__DEV__ then
+		if __DEV__ then
 			local iterableType = typeof(iterable)
 			if iterableType == "table" then
 				if #iterable > 0 and typeof(iterable[1]) ~= "table" then
@@ -52,7 +53,7 @@ function Map.new<K, V>(iterable: Array<Array<any>>?): Map<K, V>
 		array = table.create(#arrayFromIterable)
 		for _, entry in arrayFromIterable do
 			local key = entry[1]
-			if _G.__DEV__ then
+			if __DEV__ then
 				if key == nil then
 					error("cannot create Map from a table that isn't an array.")
 				end
@@ -117,7 +118,7 @@ end
 -- Implements Javascript's `Map.prototype.forEach` as defined below
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map/forEach
 function Map:forEach(callback: mapCallbackFn<any, any> | mapCallbackFnWithThisArg<any, any>, thisArg: Object?): ()
-	if _G.__DEV__ then
+	if __DEV__ then
 		if typeof(callback) ~= "function" then
 			error("callback is not a function")
 		end
@@ -155,7 +156,7 @@ function Map:entries()
 end
 
 function Map:ipairs()
-	if _G.__DEV__ then
+	if __DEV__ then
 		warn(
 			debug.traceback(
 				"`for _,_ in myMap:ipairs() do` is deprecated and will be removed in a future release, please use `for _,_ in myMap do` instead\n",
@@ -174,6 +175,12 @@ function Map.__index(self, key)
 	local mapProp = rawget(Map, key)
 	if mapProp ~= nil then
 		return mapProp
+	end
+	if __DEV__ then
+		assert(
+			rawget(self, "_map"),
+			"Map has been corrupted, and is missing private state! Did you accidentally call table.clear() instead of map:clear()?"
+		)
 	end
 
 	return Map.get(self, key)

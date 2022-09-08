@@ -14,6 +14,7 @@
 ]]
 --!strict
 return function()
+	local __DEV__ = _G.__DEV__
 	local SetModule = script.Parent.Parent
 	local Packages = SetModule.Parent.Parent
 
@@ -73,7 +74,7 @@ return function()
 			end).toThrow("cannot create array from value of type `number`")
 		end)
 
-		if _G.__DEV__ then
+		if __DEV__ then
 			it("throws when trying to create a set from an object like table", function()
 				jestExpect(function()
 					return Set.new({ a = true })
