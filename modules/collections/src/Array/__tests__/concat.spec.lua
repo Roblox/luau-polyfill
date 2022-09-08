@@ -15,6 +15,7 @@
 -- Some tests are adapted from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
 return function()
+	local __DEV__ = _G.__DEV__
 	local Array = script.Parent.Parent
 	local Packages = Array.Parent.Parent
 
@@ -79,7 +80,7 @@ return function()
 		jestExpect(numbers).toEqual({ { 1 }, 2, { 3 } } :: Array<any>)
 	end)
 
-	if _G.__DEV__ then
+	if __DEV__ then
 		it("throws when an object-like table value is passed", function()
 			jestExpect(function()
 				concat({ 1, 2 }, { a = true })

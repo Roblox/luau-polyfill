@@ -14,6 +14,7 @@
 	* limitations under the License.
 ]]
 return function()
+	local __DEV__ = _G.__DEV__
 	local root = script.Parent.Parent
 
 	local instanceof = require(root.instanceof)
@@ -154,7 +155,7 @@ return function()
 		jestExpect(instanceof(breakingTable, {})).toEqual(false)
 	end)
 
-	if _G.__DEV__ then
+	if __DEV__ then
 		it("errors when checking instanceof nil", function()
 			jestExpect(function()
 				instanceof(setmetatable({}, {}), nil :: any)

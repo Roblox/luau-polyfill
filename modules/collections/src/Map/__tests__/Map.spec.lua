@@ -14,6 +14,7 @@
 ]]
 --!strict
 return function()
+	local __DEV__ = _G.__DEV__
 	local MapModule = script.Parent.Parent
 	local Collections = MapModule.Parent
 	local Packages = Collections.Parent
@@ -55,7 +56,7 @@ return function()
 			end)
 
 			it("errors when not given an Array of array", function()
-				if _G.__DEV__ then
+				if __DEV__ then
 					jestExpect(function()
 						-- types don't permit this abuse, so cast away safety
 						(Map.new :: any)({ AN_ITEM, "foo" })
@@ -100,7 +101,7 @@ return function()
 			end)
 
 			it("throws when trying to create a set from a non-iterable", function()
-				if _G.__DEV__ then
+				if __DEV__ then
 					jestExpect(function()
 						return (Map.new :: any)(true)
 					end).toThrow("cannot create array from value of type `boolean`")
@@ -282,6 +283,23 @@ return function()
 				jestExpect(foo[ANOTHER_ITEM]).toEqual("val")
 				jestExpect(foo:get(typeName)).toEqual("buzz")
 			end)
+
+			if __DEV__ then
+				it("errors when indexing a Map that's been incorrectly passed to table.clear()", function()
+					local foo = Map.new({
+						{ AN_ITEM, "foo" },
+					})
+
+					table.clear(foo)
+
+					jestExpect(function()
+						return foo.size
+					end).toThrow("corrupted")
+					jestExpect(function()
+						return foo[AN_ITEM]
+					end).toThrow("corrupted")
+				end)
+			end
 		end)
 
 		describe("__newindex", function()
