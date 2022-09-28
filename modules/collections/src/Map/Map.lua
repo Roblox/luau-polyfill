@@ -19,6 +19,8 @@ local Packages = Collections.Parent
 
 local arrayForEach = require(Collections.Array.forEach)
 local arrayMap = require(Collections.Array.map)
+local isArray = require(Collections.Array.isArray)
+local instanceof = require(Packages.InstanceOf)
 local types = require(Packages.ES7Types)
 type Object = types.Object
 type Array<T> = types.Array<T>
@@ -34,24 +36,26 @@ type Map_Statics = {
 
 local Map: Map<any, any> & Map_Statics = ({} :: any) :: Map<any, any> & Map_Statics
 
-function Map.new<K, V>(iterable: Array<Array<any>>?): Map<K, V>
+function Map.new<K, V>(iterable: (Array<Array<any>> | Map<K, V>)?): Map<K, V>
 	local array
-	local map = {}
-	if iterable ~= nil then
+	local map
+	if iterable == nil then
+		array = {}
+		map = {}
+	elseif isArray(iterable) then
 		if __DEV__ then
-			local iterableType = typeof(iterable)
-			if iterableType == "table" then
-				if #iterable > 0 and typeof(iterable[1]) ~= "table" then
-					error("cannot create Map from {K, V} form, it must be { {K, V}... }")
-				end
-			else
-				error(("cannot create array from value of type `%s`"):format(iterableType))
+			if #(iterable :: Array<Array<any>>) > 0 and typeof((iterable :: Array<Array<any>>)[1]) ~= "table" then
+				error(
+					"Value `"
+						.. typeof((iterable :: Array<Array<any>>)[1])
+						.. "` is not an entry object.\n "
+						.. "Cannot create Map from {K, V} form, it must be { {K, V}... }"
+				)
 			end
 		end
-
-		local arrayFromIterable = table.clone(iterable) :: Array<Array<any>>
-		array = table.create(#arrayFromIterable)
-		for _, entry in arrayFromIterable do
+		array = table.create(#(iterable :: Array<Array<any>>))
+		map = {}
+		for _, entry in iterable :: Array<Array<any>> do
 			local key = entry[1]
 			if __DEV__ then
 				if key == nil then
@@ -66,8 +70,11 @@ function Map.new<K, V>(iterable: Array<Array<any>>?): Map<K, V>
 			-- always assign
 			map[key] = val
 		end
+	elseif instanceof(iterable, Map) then
+		array = table.clone((iterable :: Map<K, V>)._array)
+		map = table.clone((iterable :: Map<K, V>)._map)
 	else
-		array = {}
+		error(("`%s` `%s` is not iterable, cannot make Map using it"):format(typeof(iterable), tostring(iterable)))
 	end
 
 	return (setmetatable({
@@ -167,18 +174,19 @@ function Map:ipairs()
 	return ipairs(self:entries())
 end
 
-function Map.__iter(self)
+function Map.__iter(self: Map<any, any>)
 	return next, self:entries()
 end
 
-function Map.__index(self, key)
+function Map.__index(self: Map<any, any>, key)
 	local mapProp = rawget(Map, key)
 	if mapProp ~= nil then
 		return mapProp
 	end
 	if __DEV__ then
 		assert(
-			rawget(self, "_map"),
+			-- FIXME Luau: shouldn't need this cast, the self param is annotated already
+			rawget(self :: any, "_map"),
 			"Map has been corrupted, and is missing private state! Did you accidentally call table.clear() instead of map:clear()?"
 		)
 	end
@@ -186,8 +194,8 @@ function Map.__index(self, key)
 	return Map.get(self, key)
 end
 
-function Map.__newindex(table_, key, value)
-	table_:set(key, value)
+function Map.__newindex(self: Map<any, any>, key, value)
+	self:set(key, value)
 end
 
 return Map
