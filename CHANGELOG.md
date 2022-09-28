@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 1.1.1
+
 * When `__DEV__` global is true, the Map object will no longer overflow the C stack when you access a field on it after incorrectly calling table.clear(). It now asserts with actionable information.
 * the `Map` constructor will now correctly take a `Map`, cloning the keys and values correctly.
 * `Map.new` will now include more information that more closely matches JS standards when given invalid arguments.
