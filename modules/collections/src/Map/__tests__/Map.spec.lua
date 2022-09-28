@@ -55,12 +55,23 @@ return function()
 				jestExpect(foo:has(ANOTHER_ITEM)).toEqual(true)
 			end)
 
+			it("creates a Map from a Map", function()
+				local originalMap = Map.new({
+					{ AN_ITEM, "foo" },
+					{ ANOTHER_ITEM, "val" },
+				})
+				local foo = Map.new(originalMap)
+				jestExpect(foo.size).toEqual(2)
+				jestExpect(foo:has(AN_ITEM)).toEqual(true)
+				jestExpect(foo:has(ANOTHER_ITEM)).toEqual(true)
+			end)
+
 			it("errors when not given an Array of array", function()
 				if __DEV__ then
 					jestExpect(function()
 						-- types don't permit this abuse, so cast away safety
 						(Map.new :: any)({ AN_ITEM, "foo" })
-					end).toThrow("cannot create Map")
+					end).toThrow("Cannot create Map")
 					jestExpect(function()
 						(Map.new :: any)({
 							{ AN_ITEM = "foo" },
@@ -80,6 +91,49 @@ return function()
 				jestExpect(foo:keys()).toEqual({ AN_ITEM })
 				jestExpect(foo:values()).toEqual({ "foo2" })
 				jestExpect(foo:entries()).toEqual({ { AN_ITEM, "foo2" } })
+			end)
+
+			it("private _array fields should match the size property when the _map has a hole", function()
+				local foo = Map.new({
+					{ 3, 0 },
+					{ 5, 1 },
+					{ 2, 11 },
+				})
+				jestExpect(foo.size).toEqual(3)
+				jestExpect(#foo._array).toEqual(3)
+				jestExpect(foo:get(2)).toEqual(11)
+				jestExpect(foo:get(5)).toEqual(1)
+
+				jestExpect(foo:keys()).toEqual({ 3, 5, 2 })
+				jestExpect(foo:values()).toEqual({ 0, 1, 11 })
+				jestExpect(foo:entries()).toEqual({
+					{ 3, 0 },
+					{ 5, 1 },
+					{ 2, 11 },
+				})
+			end)
+
+			it("private _array fields should match the size property when the _map has a hole at the end", function()
+				local foo = Map.new({
+					{ 3, 0 },
+					{ 5, 1 },
+					{ 2, 11 },
+					{ 1, 11 },
+				})
+				jestExpect(foo.size).toEqual(4)
+				jestExpect(#foo._array).toEqual(4)
+				jestExpect(foo:get(2)).toEqual(11)
+				jestExpect(foo:get(5)).toEqual(1)
+				jestExpect(foo:get(1)).toEqual(11)
+
+				jestExpect(foo:keys()).toEqual({ 3, 5, 2, 1 })
+				jestExpect(foo:values()).toEqual({ 0, 1, 11, 11 })
+				jestExpect(foo:entries()).toEqual({
+					{ 3, 0 },
+					{ 5, 1 },
+					{ 2, 11 },
+					{ 1, 11 },
+				})
 			end)
 
 			it("preserves the order of keys first assignment", function()
@@ -104,10 +158,10 @@ return function()
 				if __DEV__ then
 					jestExpect(function()
 						return (Map.new :: any)(true)
-					end).toThrow("cannot create array from value of type `boolean`")
+					end).toThrow("`boolean` `true` is not iterable")
 					jestExpect(function()
 						return (Map.new :: any)(1)
-					end).toThrow("cannot create array from value of type `number`")
+					end).toThrow("`number` `1` is not iterable")
 				end
 			end)
 		end)
@@ -290,7 +344,8 @@ return function()
 						{ AN_ITEM, "foo" },
 					})
 
-					table.clear(foo)
+					-- clearing makes the table no longer comply with the typedef
+					table.clear(foo :: any)
 
 					jestExpect(function()
 						return foo.size

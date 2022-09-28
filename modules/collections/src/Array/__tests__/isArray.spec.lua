@@ -16,8 +16,10 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
 return function()
 	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
+	local Collections = Array.Parent
+	local Packages = Collections.Parent
 
+	local Map = require(Collections).Map
 	local types = require(Packages.ES7Types)
 	type Array<T> = types.Array<T>
 	local isArray = require(Array.isArray)
@@ -37,6 +39,7 @@ return function()
 		jestExpect(isArray({ hello = 1 })).toEqual(false)
 		jestExpect(isArray({ [function() end] = 1 })).toEqual(false)
 		jestExpect(isArray({ [newproxy(false)] = 1 })).toEqual(false)
+		jestExpect(isArray(Map.new())).toEqual(false)
 	end)
 
 	it("returns false for a table with non-integer key", function()
@@ -56,9 +59,15 @@ return function()
 			[1] = "1",
 			[3] = "3",
 		})).toEqual(false)
+		local noFours = {}
+		noFours[5] = "5"
+		noFours[3] = "3"
+		noFours[1] = "1"
+		noFours[2] = "2"
+		jestExpect(isArray(noFours)).toEqual(false)
 		jestExpect(isArray({
-			[2] = "2",
 			[3] = "3",
+			[2] = "2",
 		})).toEqual(false)
 	end)
 

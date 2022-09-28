@@ -16,10 +16,13 @@
 return function()
 	local __DEV__ = _G.__DEV__
 	local SetModule = script.Parent.Parent
-	local Packages = SetModule.Parent.Parent
+	local Collections = SetModule.Parent
+	local Packages = Collections.Parent
 
 	local types = require(Packages.ES7Types)
 	type Object = types.Object
+	local Object = require(Collections.Object)
+	local Array = require(Collections.Array)
 	type Set<T> = types.Set<T>
 	local Set = require(SetModule)
 
@@ -319,6 +322,49 @@ return function()
 			foo:delete(AN_ITEM)
 			foo:add(AN_ITEM)
 			jestExpect(makeArray(foo)).toEqual({ ANOTHER_ITEM, AN_ITEM })
+		end)
+
+		it("retains order in integration cases", function()
+			local keys = Set.new(Array.concat({
+				"one",
+				"two",
+				"three",
+			}, {
+				"four",
+				"five",
+				"six",
+				"seven",
+			}))
+			local changedKeys = {}
+			for _, key in keys do
+				table.insert(changedKeys, key)
+			end
+			jestExpect(changedKeys).toHaveLength(7)
+			jestExpect(changedKeys[1]).toBe("one")
+			jestExpect(changedKeys[2]).toBe("two")
+			jestExpect(changedKeys[3]).toBe("three")
+			jestExpect(changedKeys[4]).toBe("four")
+			jestExpect(changedKeys[5]).toBe("five")
+			jestExpect(changedKeys[6]).toBe("six")
+			jestExpect(changedKeys[7]).toBe("seven")
+		end)
+
+		it("has consistent order across platforms in integration cases", function()
+			local prev = { one = 1, two = 2, three = 3 }
+			local next_ = { four = 4, five = 5, six = 6, seven = 7 }
+			local keys = Set.new(Array.concat(Object.keys(prev), Object.keys(next_)))
+			local changedKeys = {}
+			for _, key in keys do
+				table.insert(changedKeys, key)
+			end
+			jestExpect(changedKeys).toHaveLength(7)
+			jestExpect(changedKeys[1]).toBe("one")
+			jestExpect(changedKeys[2]).toBe("three")
+			jestExpect(changedKeys[3]).toBe("two")
+			jestExpect(changedKeys[4]).toBe("four")
+			jestExpect(changedKeys[5]).toBe("seven")
+			jestExpect(changedKeys[6]).toBe("five")
+			jestExpect(changedKeys[7]).toBe("six")
 		end)
 	end)
 
