@@ -23,6 +23,8 @@ return function()
 	local Collections = require(Packages.Dev.Collections)
 	local Set = Collections.Set
 	local Map = Collections.Map
+	local LuauPolyfill = require(Packages.Dev.LuauPolyfill)
+	local Error = LuauPolyfill.Error
 	local JestGlobals = require(Packages.Dev.JestGlobals)
 	local jestExpect = JestGlobals.expect
 
@@ -174,6 +176,11 @@ return function()
 			instance:set("key1", 123)
 			instance:set("key2", 456)
 			jestExpect(instanceof(instance, Map)).toEqual(true)
+		end)
+
+		it("Error", function()
+			local instance = Error.new("some message")
+			jestExpect(instanceof(instance, Error)).toEqual(true)
 		end)
 	end)
 end

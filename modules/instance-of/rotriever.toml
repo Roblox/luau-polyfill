@@ -9,4 +9,5 @@ files = ["*", "!**/__tests__/**"]
 
 [dev_dependencies]
 Collections = { path = "../collections" }
+LuauPolyfill = { path = "../luau-polyfill" }
 JestGlobals = { workspace = true }
