@@ -316,7 +316,7 @@ return function()
 			res.message = "new message"
 			assert(typeof(res.stack) == "string", "stack should be defined")
 			local foundIndex = res.stack:find(
-				("Error: new message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.0.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
+				("Error: new message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.1.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
 					lineNumber
 				),
 				1,
@@ -331,7 +331,7 @@ return function()
 			res.message = "new message"
 			assert(typeof(res.stack) == "string", "stack should be defined")
 			local foundIndex = res.stack:find(
-				("Error: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.0.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
+				("Error: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.1.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
 					lineNumber
 				),
 				1,
@@ -354,7 +354,7 @@ return function()
 			res.name = "MyCustomError"
 			assert(typeof(res.stack) == "string", "stack should be defined")
 			local foundIndex = res.stack:find(
-				("MyCustomError: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.0.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
+				("MyCustomError: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.1.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
 					lineNumber
 				),
 				1,
@@ -369,7 +369,7 @@ return function()
 			res.name = "MyCustomError"
 			assert(typeof(res.stack) == "string", "stack should be defined")
 			local foundIndex = res.stack:find(
-				("Error: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.0.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
+				("Error: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.1.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
 					lineNumber
 				),
 				1,
@@ -393,7 +393,7 @@ return function()
 			Error.__recalculateStacktrace(res)
 			assert(typeof(res.stack) == "string", "stack should be defined")
 			local foundIndex = res.stack:find(
-				("Error: new message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.0.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
+				("Error: new message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.1.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
 					lineNumber
 				),
 				1,
@@ -407,7 +407,7 @@ return function()
 			res.message = "new message"
 			assert(typeof(res.stack) == "string", "stack should be defined")
 			local foundIndex = res.stack:find(
-				("Error: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.0.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
+				("Error: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.1.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
 					lineNumber
 				),
 				1,
