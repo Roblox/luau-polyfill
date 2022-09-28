@@ -21,6 +21,7 @@ local types = require(Packages.ES7Types)
 type Function = types.Function
 
 export type Error = { name: string, message: string, stack: string? }
+type Error_private = Error & { __stack: string? }
 
 local Error = {}
 
@@ -49,12 +50,8 @@ function Error.captureStackTrace(err: Error, options: Function?)
 	Error.__captureStackTrace(err, 3, options)
 end
 
-function Error.__captureStackTrace(err: Error, level: number, options: Function?)
-	local message = err.message
-	local name = err.name or DEFAULT_NAME
-
-	local errName = name .. (if message ~= nil and message ~= "" then (": " .. message) else "")
-
+function Error.__captureStackTrace(err_: Error, level: number, options: Function?)
+	local err = err_ :: Error_private
 	if typeof(options) == "function" then
 		local stack = debug.traceback(nil, level)
 		local functionName: string = debug.info(options, "n")
@@ -70,10 +67,22 @@ function Error.__captureStackTrace(err: Error, level: number, options: Function?
 		if end_ ~= nil then
 			stack = string.sub(stack, end_ + 1)
 		end
-		err.stack = errName .. "\n" .. stack
+		err.__stack = stack
 	else
-		err.stack = debug.traceback(errName, level)
+		err.__stack = debug.traceback(nil, level)
 	end
+	Error.__recalculateStacktrace(err)
+end
+
+function Error.__recalculateStacktrace(err_: Error)
+	local err = err_ :: Error_private
+	local message = err.message
+	local name = err.name or DEFAULT_NAME
+
+	local errName = name .. (if message ~= nil and message ~= "" then (": " .. message) else "")
+	local stack = if err.__stack then err.__stack else ""
+
+	err.stack = errName .. "\n" .. stack
 end
 
 return setmetatable(Error, {

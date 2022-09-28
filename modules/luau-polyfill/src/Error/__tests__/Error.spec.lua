@@ -21,17 +21,18 @@ return function()
 	local RegExp = require(Packages.Dev.RegExp)
 	local extends = require(LuauPolyfill).extends
 	local instanceof = require(LuauPolyfill).instanceof
+	local Object = require(Packages.Collections).Object
 
 	local JestGlobals = require(Packages.Dev.JestGlobals)
 	local jestExpect = JestGlobals.expect
 
 	local MyError = extends(Error, "MyError", function(self, message)
-		self.message = message
+		Object.assign(self, Error.new(message))
 		self.name = "MyError"
 	end)
 
 	local YourError = extends(MyError, "YourError", function(self, message)
-		self.message = message
+		Object.assign(self, Error.new(message))
 		self.name = "YourError"
 	end)
 
@@ -299,6 +300,152 @@ return function()
 			jestExpect(stacktraceRegex:test(err.stack)).toEqual(true)
 			jestExpect(stacktraceRegexF1:test(err.stack)).toEqual(true)
 			jestExpect(stacktraceRegexF2:test(err.stack)).toEqual(false)
+		end)
+	end)
+
+	describe("stack", function()
+		local lineNumber = ""
+		local function createError()
+			lineNumber = tostring(debug.info(1, "l") :: number + 1)
+			local err = Error.new("initial message")
+			return err
+		end
+
+		itFIXME("should include new message if stacktrace NOT accessed before", function()
+			local res = createError()
+			res.message = "new message"
+			assert(typeof(res.stack) == "string", "stack should be defined")
+			local foundIndex = res.stack:find(
+				("Error: new message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.0.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
+					lineNumber
+				),
+				1,
+				true
+			)
+			jestExpect(foundIndex).toBe(1)
+		end)
+
+		it("should include initial message if stacktrace IS accessed before", function()
+			local res = createError()
+			local _tmp = res.stack
+			res.message = "new message"
+			assert(typeof(res.stack) == "string", "stack should be defined")
+			local foundIndex = res.stack:find(
+				("Error: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.0.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
+					lineNumber
+				),
+				1,
+				true
+			)
+			jestExpect(foundIndex).toBe(1)
+		end)
+	end)
+
+	describe("name", function()
+		local lineNumber = ""
+		local function createError()
+			lineNumber = tostring(debug.info(1, "l") :: number + 1)
+			local err = Error.new("initial message")
+			return err
+		end
+
+		itFIXME("should include new name if stacktrace NOT accessed before", function()
+			local res = createError()
+			res.name = "MyCustomError"
+			assert(typeof(res.stack) == "string", "stack should be defined")
+			local foundIndex = res.stack:find(
+				("MyCustomError: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.0.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
+					lineNumber
+				),
+				1,
+				true
+			)
+			jestExpect(foundIndex).toBe(1)
+		end)
+
+		it("should include initial name if stacktrace IS accessed before", function()
+			local res = createError()
+			local _tmp = res.stack
+			res.name = "MyCustomError"
+			assert(typeof(res.stack) == "string", "stack should be defined")
+			local foundIndex = res.stack:find(
+				("Error: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.0.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
+					lineNumber
+				),
+				1,
+				true
+			)
+			jestExpect(foundIndex).toBe(1)
+		end)
+	end)
+
+	describe("__recalculateStacktrace", function()
+		local lineNumber = ""
+		local function createError()
+			lineNumber = tostring(debug.info(1, "l") :: number + 1)
+			local err = Error.new("initial message")
+			return err
+		end
+
+		it("should include new message if __recalculateStacktrace is called", function()
+			local res = createError()
+			res.message = "new message"
+			Error.__recalculateStacktrace(res)
+			assert(typeof(res.stack) == "string", "stack should be defined")
+			local foundIndex = res.stack:find(
+				("Error: new message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.0.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
+					lineNumber
+				),
+				1,
+				true
+			)
+			jestExpect(foundIndex).toBe(1)
+		end)
+
+		it("should include initial message if __recalculateStacktrace is NOT called", function()
+			local res = createError()
+			res.message = "new message"
+			assert(typeof(res.stack) == "string", "stack should be defined")
+			local foundIndex = res.stack:find(
+				("Error: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.0.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
+					lineNumber
+				),
+				1,
+				true
+			)
+			jestExpect(foundIndex).toBe(1)
+		end)
+	end)
+
+	describe("extend Error", function()
+		type CustomError = Error & {}
+
+		type CustomError_statics = { new: (message: any) -> CustomError }
+		local CustomError
+		CustomError = (setmetatable({}, {
+			__index = Error,
+		}) :: any) :: CustomError & CustomError_statics;
+		(CustomError :: any).__index = CustomError
+		function CustomError.new(message): CustomError
+			local self = setmetatable(Error.new(message), CustomError)
+			self.name = "CustomError"
+			return (self :: any) :: CustomError
+		end
+
+		it("should have stack accessible from a subclass instance (using extends function)", function()
+			local customError = MyError.new("some message")
+
+			jestExpect(customError.stack).toBeDefined()
+			jestExpect(instanceof(customError, MyError)).toBe(true)
+			jestExpect(instanceof(customError, Error)).toBe(true)
+		end)
+
+		it("should have stack accessible from a subclass instance (manual)", function()
+			local customError = CustomError.new("some message")
+
+			jestExpect(customError.stack).toBeDefined()
+			jestExpect(instanceof(customError, CustomError)).toBe(true)
+			jestExpect(instanceof(customError, Error)).toBe(true)
 		end)
 	end)
 end
