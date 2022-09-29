@@ -315,14 +315,18 @@ return function()
 			local res = createError()
 			res.message = "new message"
 			assert(typeof(res.stack) == "string", "stack should be defined")
-			local foundIndex = res.stack:find(
-				("Error: new message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.1.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
-					lineNumber
-				),
-				1,
-				true
+			local expectedMessage = "Error: new message\n"
+			local expectedStack = (
+				"LoadedCode%.LuauPolyfillTestModel%.Packages%._Workspace%.LuauPolyfill%-%d%.%d%.%d%.LuauPolyfill%.Error%.__tests__%.Error%.spec:"
+				.. lineNumber
+				.. " function createError"
 			)
-			jestExpect(foundIndex).toBe(1)
+			local expectedMessageIndex = 1
+			local expectedStackIndex = string.len(expectedMessage) + 1
+			local msgIndex = res.stack:find(expectedMessage)
+			local stackIndex = res.stack:find(expectedStack, 1)
+			jestExpect(msgIndex).toBe(expectedMessageIndex)
+			jestExpect(stackIndex).toBe(expectedStackIndex)
 		end)
 
 		it("should include initial message if stacktrace IS accessed before", function()
@@ -330,14 +334,18 @@ return function()
 			local _tmp = res.stack
 			res.message = "new message"
 			assert(typeof(res.stack) == "string", "stack should be defined")
-			local foundIndex = res.stack:find(
-				("Error: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.1.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
-					lineNumber
-				),
-				1,
-				true
+			local expectedMessage = "Error: initial message\n"
+			local expectedStack = (
+				"LoadedCode%.LuauPolyfillTestModel%.Packages%._Workspace%.LuauPolyfill%-%d%.%d%.%d%.LuauPolyfill%.Error%.__tests__%.Error%.spec:"
+				.. lineNumber
+				.. " function createError"
 			)
-			jestExpect(foundIndex).toBe(1)
+			local expectedMessageIndex = 1
+			local expectedStackIndex = string.len(expectedMessage) + 1
+			local msgIndex = res.stack:find(expectedMessage)
+			local stackIndex = res.stack:find(expectedStack, 1)
+			jestExpect(msgIndex).toBe(expectedMessageIndex)
+			jestExpect(stackIndex).toBe(expectedStackIndex)
 		end)
 	end)
 
@@ -353,14 +361,18 @@ return function()
 			local res = createError()
 			res.name = "MyCustomError"
 			assert(typeof(res.stack) == "string", "stack should be defined")
-			local foundIndex = res.stack:find(
-				("MyCustomError: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.1.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
-					lineNumber
-				),
-				1,
-				true
+			local expectedMessage = "MyCustomError: initial message\n"
+			local expectedStack = (
+				"LoadedCode%.LuauPolyfillTestModel%.Packages%._Workspace%.LuauPolyfill%-%d%.%d%.%d%.LuauPolyfill%.Error%.__tests__%.Error%.spec:"
+				.. lineNumber
+				.. " function createError"
 			)
-			jestExpect(foundIndex).toBe(1)
+			local expectedMessageIndex = 1
+			local expectedStackIndex = string.len(expectedMessage) + 1
+			local msgIndex = res.stack:find(expectedMessage)
+			local stackIndex = res.stack:find(expectedStack, 1)
+			jestExpect(msgIndex).toBe(expectedMessageIndex)
+			jestExpect(stackIndex).toBe(expectedStackIndex)
 		end)
 
 		it("should include initial name if stacktrace IS accessed before", function()
@@ -368,14 +380,18 @@ return function()
 			local _tmp = res.stack
 			res.name = "MyCustomError"
 			assert(typeof(res.stack) == "string", "stack should be defined")
-			local foundIndex = res.stack:find(
-				("Error: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.1.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
-					lineNumber
-				),
-				1,
-				true
+			local expectedMessage = "Error: initial message\n"
+			local expectedStack = (
+				"LoadedCode%.LuauPolyfillTestModel%.Packages%._Workspace%.LuauPolyfill%-%d%.%d%.%d%.LuauPolyfill%.Error%.__tests__%.Error%.spec:"
+				.. lineNumber
+				.. " function createError"
 			)
-			jestExpect(foundIndex).toBe(1)
+			local expectedMessageIndex = 1
+			local expectedStackIndex = string.len(expectedMessage) + 1
+			local msgIndex = res.stack:find(expectedMessage)
+			local stackIndex = res.stack:find(expectedStack, 1)
+			jestExpect(msgIndex).toBe(expectedMessageIndex)
+			jestExpect(stackIndex).toBe(expectedStackIndex)
 		end)
 	end)
 
@@ -392,28 +408,36 @@ return function()
 			res.message = "new message"
 			Error.__recalculateStacktrace(res)
 			assert(typeof(res.stack) == "string", "stack should be defined")
-			local foundIndex = res.stack:find(
-				("Error: new message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.1.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
-					lineNumber
-				),
-				1,
-				true
+			local expectedMessage = "Error: new message\n"
+			local expectedStack = (
+				"LoadedCode%.LuauPolyfillTestModel%.Packages%._Workspace%.LuauPolyfill%-%d%.%d%.%d%.LuauPolyfill%.Error%.__tests__%.Error%.spec:"
+				.. lineNumber
+				.. " function createError"
 			)
-			jestExpect(foundIndex).toBe(1)
+			local expectedMessageIndex = 1
+			local expectedStackIndex = string.len(expectedMessage) + 1
+			local msgIndex = res.stack:find(expectedMessage)
+			local stackIndex = res.stack:find(expectedStack, 1)
+			jestExpect(msgIndex).toBe(expectedMessageIndex)
+			jestExpect(stackIndex).toBe(expectedStackIndex)
 		end)
 
 		it("should include initial message if __recalculateStacktrace is NOT called", function()
 			local res = createError()
 			res.message = "new message"
 			assert(typeof(res.stack) == "string", "stack should be defined")
-			local foundIndex = res.stack:find(
-				("Error: initial message\nLoadedCode.LuauPolyfillTestModel.Packages._Workspace.LuauPolyfill-1.1.1.LuauPolyfill.Error.__tests__.Error.spec:%s function createError"):format(
-					lineNumber
-				),
-				1,
-				true
+			local expectedMessage = "Error: initial message\n"
+			local expectedStack = (
+				"LoadedCode%.LuauPolyfillTestModel%.Packages%._Workspace%.LuauPolyfill%-%d%.%d%.%d%.LuauPolyfill%.Error%.__tests__%.Error%.spec:"
+				.. lineNumber
+				.. " function createError"
 			)
-			jestExpect(foundIndex).toBe(1)
+			local expectedMessageIndex = 1
+			local expectedStackIndex = string.len(expectedMessage) + 1
+			local msgIndex = res.stack:find(expectedMessage, 1, true)
+			local stackIndex = res.stack:find(expectedStack, 1)
+			jestExpect(msgIndex).toBe(expectedMessageIndex)
+			jestExpect(stackIndex).toBe(expectedStackIndex)
 		end)
 	end)
 
