@@ -33,7 +33,7 @@ local function instanceof(tbl: any, class: any): boolean
 		return true
 	end
 
-	local seen = { tbl = true }
+	local seen = { [tbl] = true }
 
 	while tbl and typeof(tbl) == "table" do
 		tbl = getmetatable(tbl)
