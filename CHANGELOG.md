@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+* slightly optimize `instanceof` loop detection
+
 ## 1.1.1
 
 * When `__DEV__` global is true, the Map object will no longer overflow the C stack when you access a field on it after incorrectly calling table.clear(). It now asserts with actionable information.
