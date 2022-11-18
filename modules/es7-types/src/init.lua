@@ -43,7 +43,7 @@ export type Map<K, V> = typeof(setmetatable(
 		_map: { [K]: V },
 		_array: { [number]: K },
 		__index: (self: Map<K, V>, key: K) -> V,
-		__iter: (self: Map<K, V>) -> (<K, V>({ [K]: V }, K?) -> (K, V), V),
+		__iter: (self: Map<K, V>) -> (<K, V>({ [K]: V }, K?) -> (K?, V), V),
 		__newindex: (self: Map<K, V>, key: K, value: V) -> (),
 	},
 	{} :: {
