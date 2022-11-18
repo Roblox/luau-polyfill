@@ -6,6 +6,7 @@ content_root = "src"
 files = ["*", "!**/__tests__/**"]
 
 [dependencies]
+Symbol = "github.com/roblox/symbol-luau@1.0"
 Boolean = { path = "../boolean" }
 Collections = { path = "../collections" }
 Console = { path = "../console" }
@@ -14,7 +15,6 @@ Math = { path = "../math" }
 Number = { path = "../number" }
 ES7Types = { path = "../es7-types" }
 String = { path = "../string" }
-Symbol = { path = "../symbol" }
 Timers = { path = "../timers" }
 
 [dev_dependencies]
