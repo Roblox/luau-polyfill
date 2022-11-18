@@ -2,7 +2,10 @@
 
 ## Unreleased
 
+## 1.1.2
+
 * slightly optimize `instanceof` loop detection
+* Export Symbol from a separate repo to work around rotriever limitations, reduce total available versions for Symbol, and keep the global registry working.
 * Fix lint in `Map` implementation around type of `next`
 
 ## 1.1.1
