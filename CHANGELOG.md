@@ -3,6 +3,7 @@
 ## Unreleased
 
 * slightly optimize `instanceof` loop detection
+* Fix lint in `Map` implementation around type of `next`
 
 ## 1.1.1
 
