@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 1.2.0
+
+* add `flat` to `Array` type
+* add `flatMap` to `Array` type
+
 ## 1.1.2
 
 * slightly optimize `instanceof` loop detection
