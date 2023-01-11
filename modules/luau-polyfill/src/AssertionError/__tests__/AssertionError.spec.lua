@@ -19,7 +19,7 @@ return function()
 	local Packages = SrcWorkspace.Parent
 
 	local Error = require(SrcWorkspace.Error)
-	local AssertionError = require(CurrentModule.Parent.AssertionError).AssertionError
+	local AssertionError = require(CurrentModule.Parent)
 
 	local JestGlobals = require(Packages.Dev.JestGlobals)
 	local jestExpect = JestGlobals.expect
