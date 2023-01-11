@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.2.1
+
+* :hammer_and_wrench: Error and AssertionError use global suffix ([#178](https://github.com/Roblox/luau-polyfill/pull/178))
+
 ## 1.2.0
 
 * add `flat` to `Array` type
