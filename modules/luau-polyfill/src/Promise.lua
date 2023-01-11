@@ -12,7 +12,6 @@
 	* See the License for the specific language governing permissions and
 	* limitations under the License.
 ]]
---!strict
 -- this maps onto community promise libraries which won't support Luau, so we inline
 export type PromiseLike<T> = {
 	andThen: (

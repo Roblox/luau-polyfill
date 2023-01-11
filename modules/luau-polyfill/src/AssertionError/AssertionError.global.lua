@@ -1,5 +1,4 @@
 -- ROBLOX upstream: https://github.com/nodejs/node/blob/v18.1.0/lib/internal/assert/assertion_error.js
---!strict
 --[[
 	Copyright Node.js contributors. All rights reserved.
 
