@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.2.2
+
+* Optimize charCodeAt by removing an iterations over all codepoints in the input string.
+
 ## 1.2.1
 
 * :hammer_and_wrench: Error and AssertionError use global suffix ([#178](https://github.com/Roblox/luau-polyfill/pull/178))
