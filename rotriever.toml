@@ -1,5 +1,5 @@
 [workspace]
-version = "1.2.2"
+version = "1.2.3"
 members = ["modules/*"]
 default_member = "LuauPolyfill"
 authors = [

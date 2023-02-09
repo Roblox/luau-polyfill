@@ -76,6 +76,7 @@ return function()
 			local body = "\u{8123}a"
 
 			jestExpect(charCodeAt(body, 0)).toBe(Number.NaN)
+			jestExpect(charCodeAt(body, 3)).toBe(Number.NaN)
 			jestExpect(charCodeAt(body, 100)).toBe(Number.NaN)
 		end)
 
