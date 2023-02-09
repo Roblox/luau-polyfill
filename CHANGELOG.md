@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 1.2.3
+* Fix an edge case in String.charCodeAt introduced in 1.2.2
+
 ## 1.2.2
 
 * Optimize charCodeAt by removing an iterations over all codepoints in the input string.
