@@ -11,7 +11,7 @@ build_with_darklua_config () {
 
     mkdir -p roblox
 
-    cp -r node_modules/ roblox/
+    cp -rL node_modules/ roblox/
     cp -r roblox-model/ roblox/
 
     ./scripts/remove-tests.sh roblox
