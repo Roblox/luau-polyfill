@@ -1,6 +1,14 @@
 # Libraries don't commit lockfiles, apps do
 rotriever.lock
 
+.yarn
+/*.tgz
+
+**/sourcemap.json
+**/node_modules
+/build
+/roblox
+
 # Dependencies
 Packages/*
 !Packages/.robloxrc

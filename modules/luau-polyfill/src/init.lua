@@ -1,21 +1,19 @@
 --!strict
-local Packages = script.Parent
+local Boolean = require("@pkg/@jsdotlua/boolean")
+local Collections = require("@pkg/@jsdotlua/collections")
+local Console = require("@pkg/@jsdotlua/console")
+local Math = require("@pkg/@jsdotlua/math")
+local Number = require("@pkg/@jsdotlua/number")
+local String = require("@pkg/@jsdotlua/string")
+local Symbol = require("@pkg/symbol-luau")
+local Timers = require("@pkg/@jsdotlua/timers")
+local types = require("@pkg/@jsdotlua/es7-types")
 
-local Boolean = require(Packages.Boolean)
-local Collections = require(Packages.Collections)
-local Console = require(Packages.Console)
-local Math = require(Packages.Math)
-local Number = require(Packages.Number)
-local String = require(Packages.String)
-local Symbol = require(Packages.Symbol)
-local Timers = require(Packages.Timers)
-local types = require(Packages.ES7Types)
-
-local AssertionError = require(script.AssertionError)
-local Error = require(script.Error)
-local PromiseModule = require(script.Promise)
-local extends = require(script.extends)
-local instanceof = require(Packages.InstanceOf)
+local AssertionError = require("./AssertionError")
+local Error = require("./Error")
+local PromiseModule = require("./Promise")
+local extends = require("./extends")
+local instanceof = require("@pkg/@jsdotlua/instance-of")
 
 export type Array<T> = types.Array<T>
 export type AssertionError = AssertionError.AssertionError

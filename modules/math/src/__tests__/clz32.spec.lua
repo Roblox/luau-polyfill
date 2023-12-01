@@ -1,9 +1,7 @@
 return function()
-	local Math = script.Parent.Parent
-	local clz32 = require(Math.clz32)
+	local clz32 = require("../clz32")
 
-	local Packages = Math.Parent
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("gives the number of leading zero of powers of 2", function()

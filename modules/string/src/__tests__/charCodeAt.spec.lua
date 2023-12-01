@@ -1,11 +1,8 @@
 return function()
-	local String = script.Parent.Parent
-	local Packages = String.Parent
+	local charCodeAt = require("../charCodeAt")
 
-	local charCodeAt = require(String.charCodeAt)
-
-	local Number = require(Packages.Number)
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local Number = require("@pkg/number")
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	describe("charCodeAt", function()

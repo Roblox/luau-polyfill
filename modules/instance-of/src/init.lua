@@ -1,3 +1,3 @@
-local instanceof = require(script.instanceof)
+local instanceof = require("./instanceof")
 
 return instanceof

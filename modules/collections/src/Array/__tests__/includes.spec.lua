@@ -1,12 +1,9 @@
 -- Tests partially based on examples from:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
 return function()
-	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
+	local includes = require("../includes")
 
-	local includes = require(Array.includes)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	local beasts = { "ant", "bison", "camel", "duck", "bison" }

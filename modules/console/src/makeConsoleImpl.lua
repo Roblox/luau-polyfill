@@ -1,7 +1,5 @@
 --!strict
-local root = script.Parent
-local Packages = root.Parent
-local inspect = require(Packages.Collections).inspect
+local inspect = require("@pkg/@jsdotlua/collections").inspect
 
 local INDENT = "  "
 

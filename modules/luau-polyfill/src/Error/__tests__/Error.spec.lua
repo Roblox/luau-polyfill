@@ -1,15 +1,12 @@
 return function()
-	local ErrorModule = script.Parent.Parent
-	local Error = require(ErrorModule)
+	local Error = require("../init")
 	type Error = Error.Error
-	local LuauPolyfill = ErrorModule.Parent
-	local Packages = LuauPolyfill.Parent
-	local RegExp = require(Packages.Dev.RegExp)
-	local extends = require(LuauPolyfill).extends
-	local instanceof = require(LuauPolyfill).instanceof
-	local Object = require(Packages.Collections).Object
+	local RegExp = require("@dev-packages/RegExp")
+	local extends = require("../../init").extends
+	local instanceof = require("../../init").instanceof
+	local Object = require("@pkg/collections").Object
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	local MyError = extends(Error, "MyError", function(self, message)

@@ -2,13 +2,10 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
 
 return function()
-	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
-
-	local types = require(Packages.ES7Types)
-	local filter = require(Array.filter)
-	local isFinite = require(Packages.Dev.Number).isFinite
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local types = require("@pkg/es7-types")
+	local filter = require("../filter")
+	local isFinite = require("@dev-packages/Number").isFinite
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	type Array<T> = types.Array<T>

@@ -1,16 +1,16 @@
 --!strict
 
 return {
-	assign = require(script.assign),
-	entries = require(script.entries),
-	freeze = require(script.freeze),
-	is = require(script.is),
-	isFrozen = require(script.isFrozen),
-	keys = require(script.keys),
-	preventExtensions = require(script.preventExtensions),
-	seal = require(script.seal),
-	values = require(script.values),
+	assign = require("./assign"),
+	entries = require("./entries"),
+	freeze = require("./freeze"),
+	is = require("./is"),
+	isFrozen = require("./isFrozen"),
+	keys = require("./keys"),
+	preventExtensions = require("./preventExtensions"),
+	seal = require("./seal"),
+	values = require("./values"),
 	-- Special marker type used in conjunction with `assign` to remove values
 	-- from tables, since nil cannot be stored in a table
-	None = require(script.None),
+	None = require("./None"),
 }

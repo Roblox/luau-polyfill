@@ -1,9 +1,7 @@
 return function()
-	local Boolean = script.Parent.Parent
-	local toJSBoolean = require(Boolean.toJSBoolean)
+	local toJSBoolean = require("./toJSBoolean")
 
-	local Packages = Boolean.Parent
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	-- https://developer.mozilla.org/en-US/docs/Glossary/Falsy

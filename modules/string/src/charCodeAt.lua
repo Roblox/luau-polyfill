@@ -1,7 +1,5 @@
 --!strict
-local String = script.Parent
-local Packages = String.Parent
-local Number = require(Packages.Number)
+local Number = require("@pkg/@jsdotlua/number")
 
 local NaN = Number.NaN
 

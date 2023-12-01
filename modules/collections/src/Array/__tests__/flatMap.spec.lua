@@ -1,11 +1,8 @@
 -- Some tests are adapted from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap
 return function()
-	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
-
-	local flatMap = require(Array.flatMap)
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local flatMap = require("../flatMap")
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("should flatten arrays returned from callback function", function()

@@ -1,9 +1,7 @@
 return function()
-	local Number = script.Parent.Parent
-	local isFinite = require(Number.isFinite)
+	local isFinite = require("../isFinite")
 
-	local Packages = Number.Parent
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	-- test values taken from these examples:

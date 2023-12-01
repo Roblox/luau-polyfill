@@ -1,5 +1,6 @@
 [tools]
-rotrieve = { source = "roblox/rotriever", version = "0.5.5" }
-rojo = { source = "Roblox/rojo-rbx-rojo", version = "7.2.0" }
-selene = { source = "Roblox/Kampfkarren-selene", version = "0.21.1" }
-stylua = { source = "Roblox/JohnnyMorganz-StyLua", version = "=0.14.3" }
+darklua = { github = "seaofvoices/darklua", version = "=0.12.0" }
+rojo = { github = "rojo-rbx/rojo", version = "=7.4.0-rc3" }
+selene = { github = "Kampfkarren/selene", version = "=0.21.1" }
+stylua = { github = "JohnnyMorganz/StyLua", version = "=0.14.3" }
+wally = { github = "UpliftGames/wally", version = "=0.3.2" }

@@ -1,12 +1,10 @@
 --!strict
-local String = script.Parent
-local findOr = require(String.findOr)
-local slice = require(String.slice)
+local findOr = require("./findOr")
+local slice = require("./slice")
 
-local Packages = String.Parent
-local types = require(Packages.ES7Types)
+local types = require("@pkg/@jsdotlua/es7-types")
 type Array<T> = types.Array<T>
-local MAX_SAFE_INTEGER = require(Packages.Number).MAX_SAFE_INTEGER
+local MAX_SAFE_INTEGER = require("@pkg/@jsdotlua/number").MAX_SAFE_INTEGER
 
 type Pattern = string | Array<string>
 

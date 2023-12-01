@@ -1,9 +1,7 @@
 --!strict
 local __DEV__ = _G.__DEV__
-local Object = script.Parent
-local Packages = Object.Parent.Parent
 
-local types = require(Packages.ES7Types)
+local types = require("@pkg/@jsdotlua/es7-types")
 type Array<T> = types.Array<T>
 type Object = types.Object
 

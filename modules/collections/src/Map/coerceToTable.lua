@@ -1,11 +1,7 @@
-local MapModule = script.Parent
-local Collections = MapModule.Parent
-local Packages = Collections.Parent
-
-local Map = require(MapModule.Map)
-local instanceOf = require(Packages.InstanceOf)
-local arrayReduce = require(Collections.Array.reduce)
-local types = require(Packages.ES7Types)
+local Map = require("./Map")
+local instanceOf = require("@pkg/@jsdotlua/instance-of")
+local arrayReduce = require("../Array/reduce")
+local types = require("@pkg/@jsdotlua/es7-types")
 
 type Map<K, V> = types.Map<K, V>
 type Table<K, V> = types.Table<K, V>

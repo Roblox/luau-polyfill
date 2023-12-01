@@ -21,19 +21,16 @@
 	IN THE SOFTWARE.
 ]]
 
-local LuauPolyfill = script.Parent.Parent
-local Packages = LuauPolyfill.Parent
-
-local Collections = require(Packages.Collections)
+local Collections = require("@pkg/@jsdotlua/collections")
 local Array = Collections.Array
 local Object = Collections.Object
-local Boolean = require(Packages.Boolean)
-local String = require(Packages.String)
-local types = require(Packages.ES7Types)
+local Boolean = require("@pkg/@jsdotlua/boolean")
+local String = require("@pkg/@jsdotlua/string")
+local types = require("@pkg/@jsdotlua/es7-types")
 local inspect = Collections.inspect
 
-local Error = require(LuauPolyfill.Error)
-local instanceof = require(Packages.InstanceOf)
+local Error = require("../Error")
+local instanceof = require("@pkg/@jsdotlua/instance-of")
 
 type Error = Error.Error
 type Array<T> = types.Array<T>

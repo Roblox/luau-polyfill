@@ -1,9 +1,7 @@
 return function()
-	local NumberModule = script.Parent.Parent
-	local Number = require(NumberModule)
+	local Number = require("../init")
 
-	local Packages = NumberModule.Parent
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("has MAX_SAFE_INTEGER constant", function()

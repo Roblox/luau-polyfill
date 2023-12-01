@@ -1,9 +1,7 @@
 return function()
-	local ArrayPath = script.Parent.Parent
-	local Array = require(ArrayPath)
-	local Packages = ArrayPath.Parent.Parent
+	local Array = require("../init")
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("should expose concat method", function()

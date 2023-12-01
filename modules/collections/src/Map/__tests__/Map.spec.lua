@@ -1,21 +1,18 @@
 --!strict
 return function()
 	local __DEV__ = _G.__DEV__
-	local MapModule = script.Parent.Parent
-	local Collections = MapModule.Parent
-	local Packages = Collections.Parent
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 	local jest = JestGlobals.jest
 
-	local Array = require(Collections.Array)
-	local types = require(Packages.ES7Types)
-	local instanceOf = require(Packages.InstanceOf)
+	local Array = require("../../Array")
+	local types = require("@pkg/es7-types")
+	local instanceOf = require("@pkg/instance-of")
 
-	local Map = require(MapModule.Map)
-	local coerceToMap = require(MapModule.coerceToMap)
-	local coerceToTable = require(MapModule.coerceToTable)
+	local Map = require("../Map")
+	local coerceToMap = require("../coerceToMap")
+	local coerceToTable = require("../coerceToTable")
 
 	type Function = types.Function
 	type Map<K, V> = types.Map<K, V>

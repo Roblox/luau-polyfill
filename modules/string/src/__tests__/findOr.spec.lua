@@ -1,9 +1,6 @@
 return function()
-	local String = script.Parent.Parent
-	local Packages = String.Parent
-
-	local findOr = require(String.findOr)
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local findOr = require("../findOr")
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns nil when not found", function()

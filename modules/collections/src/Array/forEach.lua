@@ -1,8 +1,6 @@
 --!strict
 local __DEV__ = _G.__DEV__
-local Array = script.Parent
-local Packages = Array.Parent.Parent
-local types = require(Packages.ES7Types)
+local types = require("@pkg/@jsdotlua/es7-types")
 type Array<T> = types.Array<T>
 type Object = types.Object
 type callbackFn<T> = (element: T, index: number, array: Array<T>) -> ()

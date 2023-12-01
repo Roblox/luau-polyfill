@@ -1,9 +1,6 @@
 return function()
-	local String = script.Parent.Parent
-	local Packages = String.Parent
-
-	local split = require(String.split)
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local split = require("../split")
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("should split with single split pattern", function()

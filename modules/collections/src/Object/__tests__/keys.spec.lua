@@ -1,11 +1,8 @@
 return function()
-	local Object = script.Parent.Parent
-	local Collections = Object.Parent
-	local Packages = Collections.Parent
-	local keys = require(Object.keys)
+	local keys = require("../keys")
 
-	local Set = require(Collections.Set)
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local Set = require("../../Set")
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns an empty array for an empty table", function()

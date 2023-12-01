@@ -1,12 +1,9 @@
 -- Tests adapted directly from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
 return function()
-	local Object = script.Parent.Parent
-	local Packages = Object.Parent.Parent
+	local is = require("../is")
 
-	local is = require(Object.is)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns true when given ('foo', 'foo')", function()

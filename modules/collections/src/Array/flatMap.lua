@@ -1,9 +1,7 @@
 local __DEV__ = _G.__DEV__
-local Array = script.Parent
-local Packages = Array.Parent.Parent
-local flat = require(Array.flat)
-local map = require(Array.map)
-local types = require(Packages.ES7Types)
+local flat = require("./flat")
+local map = require("./map")
+local types = require("@pkg/@jsdotlua/es7-types")
 type Array<T> = types.Array<T>
 type callbackFn<T, U> = (element: T, index: number, array: Array<T>) -> U
 type callbackFnWithThisArg<T, U, V> = (thisArg: V, element: T, index: number, array: Array<T>) -> U

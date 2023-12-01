@@ -1,12 +1,8 @@
 return function()
-	local Array = script.Parent.Parent
-	local Collections = Array.Parent
-	local Packages = Collections.Parent
+	local join = require("../join")
+	local Set = require("../../Set")
 
-	local join = require(Array.join)
-	local Set = require(Collections.Set)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	describe("Join", function()

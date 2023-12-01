@@ -1,17 +1,14 @@
 --!strict
-local Array = script.Parent
-local Collections = Array.Parent
-local Packages = Collections.Parent
-local Set = require(Collections.Set)
-local Map = require(Collections.Map.Map)
-local isArray = require(Array.isArray)
-local instanceof = require(Packages.InstanceOf)
-local types = require(Packages.ES7Types)
+local Set = require("../../Set")
+local Map = require("../../Map/Map")
+local isArray = require("../isArray")
+local instanceof = require("@pkg/@jsdotlua/instance-of")
+local types = require("@pkg/@jsdotlua/es7-types")
 
-local fromString = require(script.fromString)
-local fromSet = require(script.fromSet)
-local fromMap = require(script.fromMap)
-local fromArray = require(script.fromArray)
+local fromString = require("./fromString")
+local fromSet = require("./fromSet")
+local fromMap = require("./fromMap")
+local fromArray = require("./fromArray")
 
 type Array<T> = types.Array<T>
 type Object = types.Object

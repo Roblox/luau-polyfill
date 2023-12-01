@@ -1,15 +1,11 @@
 -- tests based on the examples provided on MDN web docs:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
 return function()
-	local Array = script.Parent.Parent
-	local Collections = Array.Parent
-	local Packages = Collections.Parent
-
-	local types = require(Packages.ES7Types)
-	local from = require(Array.from)
-	local Set = require(Collections.Set)
-	local Map = require(Collections.Map.Map)
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local types = require("@pkg/es7-types")
+	local from = require("../from")
+	local Set = require("../../Set")
+	local Map = require("../../Map/Map")
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	type Array<T> = types.Array<T>

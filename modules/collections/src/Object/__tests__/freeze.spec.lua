@@ -1,12 +1,9 @@
 --!strict
 return function()
-	local Object = script.Parent.Parent
-	local Packages = Object.Parent.Parent
+	local freeze = require("../freeze")
+	local isFrozen = require("../isFrozen")
 
-	local freeze = require(Object.freeze)
-	local isFrozen = require(Object.isFrozen)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("should return the same table and isFrozen is true", function()

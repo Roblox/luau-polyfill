@@ -1,11 +1,8 @@
 -- tests inspired by MDN documentation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substr
 return function()
-	local String = script.Parent.Parent
-	local Packages = String.Parent
+	local substr = require("../substr")
 
-	local substr = require(String.substr)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("goes to end of string when number of characters is not supplied", function()

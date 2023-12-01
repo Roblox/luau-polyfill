@@ -1,18 +1,15 @@
 --!strict
 return function()
 	local __DEV__ = _G.__DEV__
-	local SetModule = script.Parent.Parent
-	local Collections = SetModule.Parent
-	local Packages = Collections.Parent
 
-	local types = require(Packages.ES7Types)
+	local types = require("@pkg/es7-types")
 	type Object = types.Object
-	local Object = require(Collections.Object)
-	local Array = require(Collections.Array)
+	local Object = require("../../Object")
+	local Array = require("../../Array")
 	type Set<T> = types.Set<T>
-	local Set = require(SetModule)
+	local Set = require("../init")
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 	local jest = JestGlobals.jest
 

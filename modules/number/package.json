@@ -1,0 +1,14 @@
+{
+  "name": "@jsdotlua/number",
+  "version": "1.2.3",
+  "license": "MIT",
+  "main": "src/init.lua",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsdotlua/luau-polyfill.git",
+    "directory": "modules/number"
+  },
+  "scripts": {
+    "prepare": "npmluau"
+  }
+}

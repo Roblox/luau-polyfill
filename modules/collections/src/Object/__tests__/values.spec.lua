@@ -1,10 +1,7 @@
 return function()
-	local Object = script.Parent.Parent
-	local Packages = Object.Parent.Parent
+	local values = require("../values")
 
-	local values = require(Object.values)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns the values of a table", function()

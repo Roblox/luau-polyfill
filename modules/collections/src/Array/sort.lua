@@ -1,9 +1,6 @@
 --!strict
-local Array = script.Parent
-local Collections = Array.Parent
-local Packages = Collections.Parent
-local None = require(Collections.Object.None)
-local types = require(Packages.ES7Types)
+local None = require("../Object/None")
+local types = require("@pkg/@jsdotlua/es7-types")
 type Array<T> = types.Array<T>
 type Comparable = (any, any) -> number
 local defaultSort = function<T>(a: T, b: T): boolean

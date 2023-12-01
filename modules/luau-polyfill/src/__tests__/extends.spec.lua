@@ -1,13 +1,11 @@
 --!nocheck
 return function()
-	local LuauPolyfillModule = script.Parent.Parent
-	local LuauPolyfill = require(LuauPolyfillModule)
+	local LuauPolyfill = require("../init")
 	local extends = LuauPolyfill.extends
 	local instanceof = LuauPolyfill.instanceof
 	local Error = LuauPolyfill.Error
 
-	local Packages = LuauPolyfillModule.Parent
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	-- https://roblox.github.io/lua-style-guide/#prototype-based-classes

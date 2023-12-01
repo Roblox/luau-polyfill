@@ -1,4 +1,4 @@
-local AssertionErrorModule = require(script["AssertionError.global"])
+local AssertionErrorModule = require("./AssertionError.global.lua")
 
 export type AssertionError = AssertionErrorModule.AssertionError
 

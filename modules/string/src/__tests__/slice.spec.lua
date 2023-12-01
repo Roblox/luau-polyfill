@@ -1,9 +1,6 @@
 return function()
-	local String = script.Parent.Parent
-	local Packages = String.Parent
-
-	local slice = require(String.slice)
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local slice = require("../slice")
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns a sliced string", function()

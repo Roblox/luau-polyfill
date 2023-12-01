@@ -1,17 +1,15 @@
 --!strict
 return function()
 	local __DEV__ = _G.__DEV__
-	local root = script.Parent.Parent
 
-	local instanceof = require(root.instanceof)
+	local instanceof = require("../instanceof")
 
-	local Packages = root.Parent
-	local Collections = require(Packages.Dev.Collections)
+	local Collections = require("@dev-packages/Collections")
 	local Set = Collections.Set
 	local Map = Collections.Map
-	local LuauPolyfill = require(Packages.Dev.LuauPolyfill)
+	local LuauPolyfill = require("@dev-packages/LuauPolyfill")
 	local Error = LuauPolyfill.Error
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	-- https://roblox.github.io/lua-style-guide/#prototype-based-classes

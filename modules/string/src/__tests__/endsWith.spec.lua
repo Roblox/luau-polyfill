@@ -1,10 +1,7 @@
 return function()
-	local String = script.Parent.Parent
-	local Packages = String.Parent
+	local endsWith = require("../endsWith")
 
-	local endsWith = require(String.endsWith)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("is true if the string ends with the given substring", function()

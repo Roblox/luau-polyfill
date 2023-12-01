@@ -1,12 +1,9 @@
 -- reference documentation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
 local HttpService = game:GetService("HttpService")
 
-local root = script.Parent
-local Packages = root.Parent
-
-local String = require(Packages.String)
+local String = require("@pkg/@jsdotlua/string")
 local charCodeAt = String.charCodeAt
-local Error = require(script.Parent.Error)
+local Error = require("./Error")
 
 local function encodeURIComponent(value: string): string
 	local valueLength = utf8.len(value)

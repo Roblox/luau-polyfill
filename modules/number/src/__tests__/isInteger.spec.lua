@@ -1,9 +1,7 @@
 return function()
-	local Number = script.Parent.Parent
-	local isInteger = require(Number.isInteger)
+	local isInteger = require("../isInteger")
 
-	local Packages = Number.Parent
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns true when given 0", function()

@@ -1,12 +1,9 @@
 -- Tests adapted directly from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
 return function()
-	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
+	local splice = require("../splice")
 
-	local splice = require(Array.splice)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it('Remove 0 (zero) elements before index 3, and insert "drum"', function()

@@ -1,8 +1,6 @@
 --!strict
 local __DEV__ = _G.__DEV__
-local Array = script.Parent
-local Packages = Array.Parent.Parent
-local types = require(Packages.ES7Types)
+local types = require("@pkg/@jsdotlua/es7-types")
 type Array<T> = types.Array<T>
 type reduceFn<T, U> = (previousValue: U, currentValue: T, currentIndex: number, array: Array<T>) -> U
 

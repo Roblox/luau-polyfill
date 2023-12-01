@@ -1,0 +1,29 @@
+{
+  "name": "@jsdotlua/luau-polyfill",
+  "version": "1.2.3",
+  "license": "MIT",
+  "main": "src/init.lua",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsdotlua/luau-polyfill.git",
+    "directory": "modules/luau-polyfill"
+  },
+  "scripts": {
+    "prepare": "npmluau"
+  },
+  "dependencies": {
+    "@jsdotlua/boolean": "workspace:^",
+    "@jsdotlua/collections": "workspace:^",
+    "@jsdotlua/console": "workspace:^",
+    "@jsdotlua/es7-types": "workspace:^",
+    "@jsdotlua/instance-of": "workspace:^",
+    "@jsdotlua/math": "workspace:^",
+    "@jsdotlua/number": "workspace:^",
+    "@jsdotlua/string": "workspace:^",
+    "@jsdotlua/timers": "workspace:^",
+    "symbol-luau": "^1.0.0"
+  },
+  "devDependencies": {
+    "npmluau": "^0.1.0"
+  }
+}
