@@ -2,7 +2,7 @@ return function()
 	local keys = require("../keys")
 
 	local Set = require("../../Set")
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns an empty array for an empty table", function()

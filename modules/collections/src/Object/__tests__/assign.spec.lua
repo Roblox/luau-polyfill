@@ -3,7 +3,7 @@ return function()
 	local assign = require("../assign")
 	local None = require("../None")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("should accept zero additional tables", function()

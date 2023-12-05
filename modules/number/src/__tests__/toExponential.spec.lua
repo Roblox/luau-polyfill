@@ -1,7 +1,7 @@
 return function()
 	local toExponential = require("../toExponential")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	describe("returns nil for invalid input", function()

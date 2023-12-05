@@ -1,12 +1,12 @@
 return function()
 	local Error = require("../init")
 	type Error = Error.Error
-	local RegExp = require("@dev-packages/RegExp")
+	local RegExp = require("@pkg/luau-regexp")
 	local extends = require("../../init").extends
 	local instanceof = require("../../init").instanceof
 	local Object = require("@pkg/collections").Object
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = (require)("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	local MyError = extends(Error, "MyError", function(self, message)

@@ -6,7 +6,7 @@ return function()
 	type Array<T> = types.Array<T>
 	local isArray = require("../isArray")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns false for non-tables", function()

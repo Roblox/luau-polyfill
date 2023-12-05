@@ -3,7 +3,7 @@ return function()
 	local freeze = require("../freeze")
 	local isFrozen = require("../isFrozen")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("should return the same table and isFrozen is true", function()

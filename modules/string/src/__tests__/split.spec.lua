@@ -1,6 +1,6 @@
 return function()
 	local split = require("../split")
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("should split with single split pattern", function()

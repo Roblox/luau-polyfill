@@ -4,11 +4,11 @@
 return function()
 	local inspect = require("../inspect")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = (require)("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
-	local Promise = require("@dev-packages/Promise")
+	local Promise = require("@pkg/@jsdotlua/promise")
 	local Set = require("../Set")
-	local types = require("@pkg/es7-types")
+	local types = require("@pkg/@jsdotlua/es7-types")
 
 	type Array<T> = types.Array<T>
 	type Object = types.Object

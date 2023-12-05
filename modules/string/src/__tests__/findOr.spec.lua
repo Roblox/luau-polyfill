@@ -1,6 +1,6 @@
 return function()
 	local findOr = require("../findOr")
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns nil when not found", function()

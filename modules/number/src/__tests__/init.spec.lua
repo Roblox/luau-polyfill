@@ -1,7 +1,7 @@
 return function()
 	local Number = require("../init")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("has MAX_SAFE_INTEGER constant", function()

@@ -7,7 +7,7 @@ return function()
 	local types = require("@pkg/es7-types")
 	type Array<T> = types.Array<T>
 	type Object = types.Object
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns an empty array for an empty table", function()

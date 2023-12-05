@@ -5,7 +5,7 @@ return function()
 	local from = require("../from")
 	local Set = require("../../Set")
 	local Map = require("../../Map/Map")
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	type Array<T> = types.Array<T>

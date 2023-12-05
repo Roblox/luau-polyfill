@@ -3,7 +3,7 @@
 return function()
 	local indexOf = require("../indexOf")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns the fromIndex when search term is empty string", function()

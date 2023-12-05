@@ -2,7 +2,7 @@ return function()
 	local Error = require("../../Error")
 	local AssertionError = require("../init")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	describe("AssertionError", function()

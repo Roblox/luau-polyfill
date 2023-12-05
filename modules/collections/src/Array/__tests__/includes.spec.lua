@@ -3,7 +3,7 @@
 return function()
 	local includes = require("../includes")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	local beasts = { "ant", "bison", "camel", "duck", "bison" }

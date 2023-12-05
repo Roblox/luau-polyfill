@@ -1,7 +1,7 @@
 return function()
 	local Array = require("../init")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("should expose concat method", function()

@@ -3,7 +3,7 @@
 return function()
 	local splice = require("../splice")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it('Remove 0 (zero) elements before index 3, and insert "drum"', function()

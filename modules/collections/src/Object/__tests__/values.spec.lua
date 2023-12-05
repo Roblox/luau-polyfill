@@ -1,7 +1,7 @@
 return function()
 	local values = require("../values")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns the values of a table", function()

@@ -5,7 +5,7 @@ return function()
 	type Array<T> = types.Array<T>
 	local slice = require("../slice")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("Invalid argument", function()

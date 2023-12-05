@@ -1,7 +1,7 @@
 return function()
 	local findIndex = require("../findIndex")
 	local types = require("@pkg/es7-types")
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	type Array<T> = types.Array<T>

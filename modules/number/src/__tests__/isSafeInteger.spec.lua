@@ -1,7 +1,7 @@
 return function()
 	local isSafeInteger = require("../isSafeInteger")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns true when given 3", function()

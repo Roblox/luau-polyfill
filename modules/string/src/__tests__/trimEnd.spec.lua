@@ -1,7 +1,7 @@
 return function()
 	local trimEnd = require("../trimEnd")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("does not remove spaces at beginning", function()

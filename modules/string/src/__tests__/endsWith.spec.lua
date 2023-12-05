@@ -1,7 +1,7 @@
 return function()
 	local endsWith = require("../endsWith")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("is true if the string ends with the given substring", function()

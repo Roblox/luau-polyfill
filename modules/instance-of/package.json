@@ -12,6 +12,8 @@
     "prepare": "npmluau"
   },
   "devDependencies": {
+    "@jsdotlua/collections": "workspace:^",
+    "@jsdotlua/luau-polyfill": "workspace:^",
     "npmluau": "^0.1.0"
   }
 }

@@ -5,7 +5,7 @@ return function()
 	type Array<T> = types.Array<T>
 	local reduce = require("../reduce")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("calls the reducer function with the indexes", function()

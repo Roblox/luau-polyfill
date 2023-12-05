@@ -4,7 +4,7 @@ return function()
 	local forEach = require("../forEach")
 	local isArray = require("../isArray")
 	local types = require("@pkg/es7-types")
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 	local jest = JestGlobals.jest
 

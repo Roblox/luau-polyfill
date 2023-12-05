@@ -20,6 +20,7 @@ __metadata:
   dependencies:
     "@jsdotlua/es7-types": "workspace:^"
     "@jsdotlua/instance-of": "workspace:^"
+    "@jsdotlua/number": "workspace:^"
     npmluau: "npm:^0.1.0"
   languageName: unknown
   linkType: soft
@@ -45,11 +46,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@jsdotlua/instance-of@workspace:modules/instance-of"
   dependencies:
+    "@jsdotlua/collections": "workspace:^"
+    "@jsdotlua/luau-polyfill": "workspace:^"
     npmluau: "npm:^0.1.0"
   languageName: unknown
   linkType: soft
 
-"@jsdotlua/luau-polyfill@workspace:modules/luau-polyfill":
+"@jsdotlua/luau-polyfill@workspace:^, @jsdotlua/luau-polyfill@workspace:modules/luau-polyfill":
   version: 0.0.0-use.local
   resolution: "@jsdotlua/luau-polyfill@workspace:modules/luau-polyfill"
   dependencies:

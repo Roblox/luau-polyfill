@@ -1,7 +1,7 @@
 return function()
 	local clz32 = require("../clz32")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("gives the number of leading zero of powers of 2", function()

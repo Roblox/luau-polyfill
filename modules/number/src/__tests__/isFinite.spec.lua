@@ -1,7 +1,7 @@
 return function()
 	local isFinite = require("../isFinite")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	-- test values taken from these examples:

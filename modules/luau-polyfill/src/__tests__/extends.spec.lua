@@ -5,7 +5,7 @@ return function()
 	local instanceof = LuauPolyfill.instanceof
 	local Error = LuauPolyfill.Error
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	-- https://roblox.github.io/lua-style-guide/#prototype-based-classes

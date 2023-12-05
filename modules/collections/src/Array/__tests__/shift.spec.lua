@@ -4,7 +4,7 @@ return function()
 	local __DEV__ = _G.__DEV__
 	local shift = require("../shift")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("shifts three element array", function()

@@ -5,7 +5,7 @@ return function()
 	local sort = require("../sort")
 
 	local None = require("../../Object/None")
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("sorts string by default", function()

@@ -2,10 +2,10 @@ return function()
 	local makeTimerImpl = require("../makeTimerImpl")
 	local makeIntervalImpl = require("../makeIntervalImpl")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = (require)("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 	local jest = JestGlobals.jest
-	local Promise = require("@dev-packages/Promise")
+	local Promise = require("@pkg/@jsdotlua/promise")
 
 	local Timeout
 	local Interval

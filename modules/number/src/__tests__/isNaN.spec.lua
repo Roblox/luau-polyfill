@@ -1,7 +1,7 @@
 return function()
 	local isNaN = require("../isNaN")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns true when given 0/0", function()

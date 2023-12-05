@@ -3,7 +3,7 @@
 return function()
 	local some = require("../some")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("Invalid argument", function()

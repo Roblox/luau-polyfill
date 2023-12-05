@@ -1,6 +1,6 @@
 return function()
 	local slice = require("../slice")
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns a sliced string", function()

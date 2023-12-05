@@ -4,7 +4,7 @@ return function()
 	local __DEV__ = _G.__DEV__
 	local unshift = require("../unshift")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("unshifts multi-element array with multiple elements", function()

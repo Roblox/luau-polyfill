@@ -2,7 +2,7 @@ return function()
 	local join = require("../join")
 	local Set = require("../../Set")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	describe("Join", function()

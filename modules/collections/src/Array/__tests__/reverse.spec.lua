@@ -1,7 +1,7 @@
 return function()
 	local reverse = require("../reverse")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns the same array", function()

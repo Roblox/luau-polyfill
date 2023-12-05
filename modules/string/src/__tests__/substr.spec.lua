@@ -2,7 +2,7 @@
 return function()
 	local substr = require("../substr")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("goes to end of string when number of characters is not supplied", function()

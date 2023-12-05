@@ -2,7 +2,7 @@
 return function()
 	local lastIndexOf = require("../lastIndexOf")
 
-	local JestGlobals = require("@pkg/jest-globals")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns -1 when character is not found", function()
