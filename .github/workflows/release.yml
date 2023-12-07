@@ -80,7 +80,7 @@ jobs:
         run: yarn run build-assets
 
       - name: Login to wally
-        run: wally login --project-path build/wally --token ${{ secrets.WALLY_ACCESS_TOKEN }}
+        run: wally login --project-path build/wally/es7-types --token ${{ secrets.WALLY_ACCESS_TOKEN }}
 
       - name: Publish es7-types to wally
         run: wally publish --project-path build/wally/es7-types
