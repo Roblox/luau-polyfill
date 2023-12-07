@@ -1,9 +1,7 @@
 return function()
-	local Number = script.Parent.Parent
-	local MIN_SAFE_INTEGER = require(Number.MIN_SAFE_INTEGER)
+	local MIN_SAFE_INTEGER = require("../MIN_SAFE_INTEGER")
 
-	local Packages = Number.Parent
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("is not equal to the next smaller integer", function()

@@ -2,11 +2,9 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/ununshift
 return function()
 	local __DEV__ = _G.__DEV__
-	local Array = script.Parent.Parent
-	local unshift = require(Array.unshift)
+	local unshift = require("../unshift")
 
-	local Packages = Array.Parent.Parent
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("unshifts multi-element array with multiple elements", function()

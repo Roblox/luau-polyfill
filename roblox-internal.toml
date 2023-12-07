@@ -1,6 +1,0 @@
-[[table.freeze.args]]
-type = "table"
-
-[[table.isfrozen.args]]
-type = "table"
-

@@ -1,12 +1,8 @@
 return function()
-	local CurrentModule = script.Parent
-	local SrcWorkspace = CurrentModule.Parent.Parent
-	local Packages = SrcWorkspace.Parent
+	local Error = require("../../Error")
+	local AssertionError = require("../init")
 
-	local Error = require(SrcWorkspace.Error)
-	local AssertionError = require(CurrentModule.Parent)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	describe("AssertionError", function()

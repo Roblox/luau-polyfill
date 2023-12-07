@@ -1,9 +1,7 @@
 return function()
-	local Number = script.Parent.Parent
-	local isNaN = require(Number.isNaN)
+	local isNaN = require("../isNaN")
 
-	local Packages = Number.Parent
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns true when given 0/0", function()

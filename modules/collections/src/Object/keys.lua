@@ -1,10 +1,6 @@
-local Object = script.Parent
-local Collections = Object.Parent
-local Packages = Object.Parent.Parent
-
-local Set = require(Collections.Set)
-local types = require(Packages.ES7Types)
-local instanceOf = require(Packages.InstanceOf)
+local Set = require("../Set")
+local types = require("@pkg/@jsdotlua/es7-types")
+local instanceOf = require("@pkg/@jsdotlua/instance-of")
 type Array<T> = types.Array<T>
 type Set<T> = types.Set<T>
 type Table = { [any]: any }

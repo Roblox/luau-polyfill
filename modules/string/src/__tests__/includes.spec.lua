@@ -1,11 +1,8 @@
 -- tests inspired by MDN documentation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/includes
 return function()
-	local String = script.Parent.Parent
-	local Packages = String.Parent
+	local includes = require("../includes")
 
-	local includes = require(String.includes)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	local VALUE = "To be, or not to be, that is the question."

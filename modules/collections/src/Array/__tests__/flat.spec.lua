@@ -1,11 +1,8 @@
 -- Some tests are adapted from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat
 return function()
-	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
-
-	local flat = require(Array.flat)
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local flat = require("../flat")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	local arr1 = { 1 :: number | { number }, 2, { 3, 4 } }

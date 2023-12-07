@@ -1,4 +1,4 @@
-std = "roblox+testez+roblox-internal"
+std = "selene_definitions+testez"
 
 [config]
 empty_if = { comments_count = true }
@@ -9,6 +9,7 @@ shadowing = { ignore_pattern = "result|ok|^_" }
 # global_usage = { ignore_pattern = "^__" }
 
 [rules]
+bad_string_escape = "allow"
 # remove this once the feature request here is implemented: https://github.com/Kampfkarren/selene/issues/181
 global_usage = "allow"
 unused_variable = "allow"

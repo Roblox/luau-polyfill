@@ -1,3 +1,3 @@
-local Error = require(script["Error.global"])
+local Error = require("./Error.global.lua")
 export type Error = Error.Error
 return Error

@@ -1,16 +1,12 @@
 -- Tests partially based on examples from:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
 return function()
-	local Array = script.Parent.Parent
-	local Collections = Array.Parent
-	local Packages = Collections.Parent
-
-	local Map = require(Collections).Map
-	local types = require(Packages.ES7Types)
+	local Map = require("../../init").Map
+	local types = require("@pkg/es7-types")
 	type Array<T> = types.Array<T>
-	local isArray = require(Array.isArray)
+	local isArray = require("../isArray")
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns false for non-tables", function()

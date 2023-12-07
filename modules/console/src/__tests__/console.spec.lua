@@ -1,11 +1,9 @@
 return function()
 	type Function = (...any) -> ...any
-	local consoleModule = script.Parent.Parent
-	local Packages = consoleModule.Parent
 
-	local makeConsoleImpl = require(consoleModule.makeConsoleImpl)
+	local makeConsoleImpl = require("../makeConsoleImpl")
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	local console, capturedPrints, capturedWarns

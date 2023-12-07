@@ -2,11 +2,8 @@
 -- https://github.com/graphql/graphql-js/blob/1951bce42092123e844763b6a8e985a8a3327511/src/jsutils/inspect.js
 local HttpService = game:GetService("HttpService")
 
-local Collections = script.Parent
-local Packages = Collections.Parent
-
-local isArray = require(Collections.Array.isArray)
-local ES7Types = require(Packages.ES7Types)
+local isArray = require("./Array/isArray")
+local ES7Types = require("@pkg/@jsdotlua/es7-types")
 
 type Array<T> = ES7Types.Array<T>
 -- local NULL = require(srcWorkspace.luaUtils.null)

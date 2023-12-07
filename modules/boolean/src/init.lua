@@ -1,4 +1,4 @@
 --!strict
 return {
-	toJSBoolean = require(script.toJSBoolean),
+	toJSBoolean = require("./toJSBoolean"),
 }

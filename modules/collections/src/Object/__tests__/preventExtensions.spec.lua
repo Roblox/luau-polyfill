@@ -1,10 +1,7 @@
 return function()
-	local Object = script.Parent.Parent
-	local Packages = Object.Parent.Parent
+	local preventExtensions = require("../preventExtensions")
 
-	local preventExtensions = require(Object.preventExtensions)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("should return the same table", function()

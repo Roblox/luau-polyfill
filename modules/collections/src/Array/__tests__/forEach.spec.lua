@@ -1,13 +1,10 @@
 -- Tests adapted directly from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 return function()
-	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
-
-	local forEach = require(Array.forEach)
-	local isArray = require(Array.isArray)
-	local types = require(Packages.ES7Types)
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local forEach = require("../forEach")
+	local isArray = require("../isArray")
+	local types = require("@pkg/es7-types")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 	local jest = JestGlobals.jest
 

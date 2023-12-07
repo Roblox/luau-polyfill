@@ -1,7 +1,7 @@
 --!strict
 
-local trimStart = require(script.Parent.trimStart)
-local trimEnd = require(script.Parent.trimEnd)
+local trimStart = require("./trimStart")
+local trimEnd = require("./trimEnd")
 
 return function(source: string): string
 	return trimStart(trimEnd(source))

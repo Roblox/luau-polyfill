@@ -1,4 +1,4 @@
 --!strict
 return {
-	clz32 = require(script.clz32),
+	clz32 = require("./clz32"),
 }

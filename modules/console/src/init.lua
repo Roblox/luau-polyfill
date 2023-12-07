@@ -1,4 +1,4 @@
 --!strict
-local makeConsoleImpl = require(script.makeConsoleImpl)
+local makeConsoleImpl = require("./makeConsoleImpl")
 
 return makeConsoleImpl()

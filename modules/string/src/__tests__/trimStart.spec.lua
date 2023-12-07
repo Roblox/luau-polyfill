@@ -1,10 +1,7 @@
 return function()
-	local String = script.Parent.Parent
-	local Packages = String.Parent
+	local trimStart = require("../trimStart")
 
-	local trimStart = require(String.trimStart)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("removes spaces at beginning", function()

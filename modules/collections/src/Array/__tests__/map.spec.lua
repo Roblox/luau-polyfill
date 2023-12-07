@@ -1,12 +1,9 @@
 -- Tests adapted directly from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 return function()
-	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
+	local map = require("../map")
 
-	local map = require(Array.map)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("Invalid argument", function()

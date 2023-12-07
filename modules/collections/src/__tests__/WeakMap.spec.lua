@@ -1,11 +1,8 @@
 return function()
-	local root = script.Parent.Parent
-	local Packages = root.Parent
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
-	local WeakMap = require(root.WeakMap)
+	local WeakMap = require("../WeakMap")
 
 	describe("WeakMap", function()
 		it("should be imported", function()

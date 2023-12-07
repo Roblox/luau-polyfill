@@ -1,14 +1,12 @@
 --!nonstrict
 local __DEV__ = _G.__DEV__
-local Collections = script.Parent
-local Packages = Collections.Parent
 
-local inspect = require(Collections.inspect)
-local isArray = require(Collections.Array.isArray)
-local arrayForEach = require(Collections.Array.forEach)
-local arrayFromString = require(Collections.Array.from.fromString)
+local inspect = require("../inspect")
+local isArray = require("../Array/isArray")
+local arrayForEach = require("../Array/forEach")
+local arrayFromString = require("../Array/from/fromString")
 
-local types = require(Packages.ES7Types)
+local types = require("@pkg/@jsdotlua/es7-types")
 
 type Array<T> = types.Array<T>
 type Object = types.Object

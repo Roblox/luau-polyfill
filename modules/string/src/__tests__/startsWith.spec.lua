@@ -1,10 +1,7 @@
 return function()
-	local String = script.Parent.Parent
-	local Packages = String.Parent
+	local startsWith = require("../startsWith")
 
-	local startsWith = require(String.startsWith)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("is true if the string starts with the given substring", function()

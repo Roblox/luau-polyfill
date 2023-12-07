@@ -2,12 +2,10 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
 return function()
 	local __DEV__ = _G.__DEV__
-	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
 
-	local concat = require(Array.concat)
-	local types = require(Packages.ES7Types)
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local concat = require("../concat")
+	local types = require("@pkg/es7-types")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	type Array<T> = types.Array<T>

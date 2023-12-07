@@ -1,12 +1,9 @@
 -- Tests partially based on examples from:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
 return function()
-	local String = script.Parent.Parent
-	local Packages = String.Parent
+	local indexOf = require("../indexOf")
 
-	local indexOf = require(String.indexOf)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns the fromIndex when search term is empty string", function()

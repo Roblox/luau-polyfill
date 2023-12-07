@@ -1,6 +1,5 @@
 --!strict
-local Packages = script.Parent.Parent
-local Number = require(Packages.Number)
+local Number = require("@pkg/@jsdotlua/number")
 
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 return function(val: any): boolean

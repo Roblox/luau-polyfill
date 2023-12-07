@@ -1,10 +1,8 @@
 return function()
-	local LuauPolyfillModule = script.Parent.Parent
-	local Packages = LuauPolyfillModule.Parent
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
-	local encodeURIComponent = require(LuauPolyfillModule.encodeURIComponent)
+	local encodeURIComponent = require("../encodeURIComponent")
 
 	describe("encodeURIComponent", function()
 		it("encodes characters like MDN example #1", function()

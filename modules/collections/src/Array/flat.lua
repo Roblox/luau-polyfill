@@ -1,8 +1,6 @@
 local __DEV__ = _G.__DEV__
-local Array = script.Parent
-local Packages = Array.Parent.Parent
-local isArray = require(Array.isArray)
-local types = require(Packages.ES7Types)
+local isArray = require("./isArray")
+local types = require("@pkg/@jsdotlua/es7-types")
 type Array<T> = types.Array<T>
 local function flat<T>(array: Array<T>, depth_: number?): Array<T>
 	if __DEV__ then

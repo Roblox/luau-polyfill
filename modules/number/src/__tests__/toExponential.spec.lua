@@ -1,9 +1,7 @@
 return function()
-	local Number = script.Parent.Parent
-	local toExponential = require(Number.toExponential)
+	local toExponential = require("../toExponential")
 
-	local Packages = Number.Parent
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	describe("returns nil for invalid input", function()

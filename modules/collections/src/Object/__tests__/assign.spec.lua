@@ -1,12 +1,9 @@
 --!strict
 return function()
-	local Object = script.Parent.Parent
-	local Packages = Object.Parent.Parent
+	local assign = require("../assign")
+	local None = require("../None")
 
-	local assign = require(Object.assign)
-	local None = require(Object.None)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("should accept zero additional tables", function()

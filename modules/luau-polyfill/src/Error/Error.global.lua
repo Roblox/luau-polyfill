@@ -1,7 +1,4 @@
-local LuauPolyfill = script.Parent.Parent
-local Packages = LuauPolyfill.Parent
-
-local types = require(Packages.ES7Types)
+local types = require("@pkg/@jsdotlua/es7-types")
 
 type Function = types.Function
 

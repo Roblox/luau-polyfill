@@ -2,12 +2,9 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift
 return function()
 	local __DEV__ = _G.__DEV__
-	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
+	local shift = require("../shift")
 
-	local shift = require(Array.shift)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("shifts three element array", function()

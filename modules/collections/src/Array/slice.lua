@@ -1,7 +1,5 @@
 --!strict
-local Array = script.Parent
-local Packages = Array.Parent.Parent
-local types = require(Packages.ES7Types)
+local types = require("@pkg/@jsdotlua/es7-types")
 type Array<T> = types.Array<T>
 
 -- Implements Javascript's `Array.prototype.slice` as defined below, but with 1-indexing

@@ -1,6 +1,9 @@
 {
   "name": "RobloxLuauPolyfill",
   "tree": {
-    "$path": "modules"
+    "$path": "roblox-model",
+    "node_modules": {
+      "$path": "node_modules"
+    }
   }
 }

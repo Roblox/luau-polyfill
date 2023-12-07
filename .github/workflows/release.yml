@@ -1,0 +1,202 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "The version to release starting with `v`"
+        required: true
+        type: string
+
+      release_ref:
+        description: "The branch, tag or SHA to checkout (default to latest)"
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  publish-package:
+    name: Publish package
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "latest"
+          cache: "yarn"
+          cache-dependency-path: "yarn.lock"
+
+      - name: Update yarn
+        run: yarn set version stable
+
+      - name: Install packages
+        run: yarn install --immutable
+
+      - name: Run npmluau
+        run: yarn run prepare
+
+      - name: Authenticate yarn
+        run: |
+          yarn config set npmAlwaysAuth true
+          yarn config set npmScopes.jsdotlua.npmAuthToken $NPM_AUTH_TOKEN
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - run: yarn workspaces foreach --all --no-private npm publish --access public
+
+  publish-wally-package:
+    needs: publish-package
+
+    name: Publish wally package
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: Roblox/setup-foreman@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "latest"
+          cache: "yarn"
+          cache-dependency-path: "yarn.lock"
+
+      - name: Update yarn
+        run: yarn set version stable
+
+      - name: Install packages
+        run: yarn install --immutable
+
+      - name: Run npmluau
+        run: yarn run prepare
+
+      - name: Build assets
+        run: yarn run build-assets
+
+      - name: Login to wally
+        run: wally login --project-path build/wally --token ${{ secrets.WALLY_ACCESS_TOKEN }}
+
+      - name: Publish es7-types to wally
+        run: wally publish --project-path build/wally/es7-types
+
+      - name: Publish math to wally
+        run: wally publish --project-path build/wally/math
+
+      - name: Publish number to wally
+        run: wally publish --project-path build/wally/number
+
+      - name: Publish instance-of to wally
+        run: wally publish --project-path build/wally/instance-of
+
+      - name: Publish boolean to wally
+        run: wally publish --project-path build/wally/boolean
+
+      - name: Publish string to wally
+        run: wally publish --project-path build/wally/string
+
+      - name: Publish collections to wally
+        run: wally publish --project-path build/wally/collections
+
+      - name: Publish console to wally
+        run: wally publish --project-path build/wally/console
+
+      - name: Publish timers to wally
+        run: wally publish --project-path build/wally/timers
+
+      - name: Publish luau-polyfill to wally
+        run: wally publish --project-path build/wally/luau-polyfill
+
+  create-release:
+    needs: publish-package
+
+    name: Create release
+    runs-on: ubuntu-latest
+
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create tag
+        run: |
+          git fetch --tags --no-recurse-submodules
+          if [ ! $(git tag -l ${{ inputs.release_tag }}) ]; then
+            git tag ${{ inputs.release_tag }}
+            git push origin ${{ inputs.release_tag }}
+          fi
+
+      - name: Create release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ inputs.release_tag }}
+          name: ${{ inputs.release_tag }}
+          draft: false
+
+  build-assets:
+    needs: create-release
+
+    name: Add assets
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - artifact-name: luau-polyfill.rbxm
+            path: build/luau-polyfill.rbxm
+            asset-type: application/octet-stream
+
+          - artifact-name: luau-polyfill-dev.lua
+            path: build/debug/luau-polyfill.rbxm
+            asset-type: application/octet-stream
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: Roblox/setup-foreman@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "latest"
+          cache: "yarn"
+          cache-dependency-path: "yarn.lock"
+
+      - name: Update yarn
+        run: yarn set version stable
+
+      - name: Install packages
+        run: yarn install --immutable
+
+      - name: Run npmluau
+        run: yarn run prepare
+
+      - name: Build assets
+        run: yarn run build-assets
+
+      - name: Upload asset
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.artifact-name }}
+          path: ${{ matrix.path }}
+
+      - name: Add asset to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ${{ matrix.path }}
+          asset_name: ${{ matrix.artifact-name }}
+          asset_content_type: ${{ matrix.asset-type }}

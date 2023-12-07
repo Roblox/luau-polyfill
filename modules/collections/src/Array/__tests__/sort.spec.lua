@@ -2,14 +2,10 @@
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
 
 return function()
-	local Array = script.Parent.Parent
-	local Collections = Array.Parent
-	local Packages = Collections.Parent
+	local sort = require("../sort")
 
-	local sort = require(Array.sort)
-
-	local None = require(Collections.Object.None)
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local None = require("../../Object/None")
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("sorts string by default", function()

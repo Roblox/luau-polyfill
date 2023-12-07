@@ -1,0 +1,20 @@
+{
+  "name": "@jsdotlua/console",
+  "version": "1.2.3",
+  "license": "MIT",
+  "main": "src/init.lua",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jsdotlua/luau-polyfill.git",
+    "directory": "modules/console"
+  },
+  "scripts": {
+    "prepare": "npmluau"
+  },
+  "dependencies": {
+    "@jsdotlua/collections": "workspace:^"
+  },
+  "devDependencies": {
+    "npmluau": "^0.1.0"
+  }
+}

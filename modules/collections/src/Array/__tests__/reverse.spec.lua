@@ -1,10 +1,7 @@
 return function()
-	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
+	local reverse = require("../reverse")
 
-	local reverse = require(Array.reverse)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns the same array", function()

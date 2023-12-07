@@ -1,12 +1,9 @@
 -- Tests partially based on examples from:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
 return function()
-	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
+	local indexOf = require("../indexOf")
 
-	local indexOf = require(Array.indexOf)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	local beasts = { "ant", "bison", "camel", "duck", "bison" }

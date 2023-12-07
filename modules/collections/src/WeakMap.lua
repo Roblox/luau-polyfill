@@ -1,8 +1,5 @@
 --!strict
-local Collections = script.Parent
-local Packages = Collections.Parent
-
-local ES7Types = require(Packages.ES7Types)
+local ES7Types = require("@pkg/@jsdotlua/es7-types")
 
 type WeakMap<K, V> = ES7Types.WeakMap<K, V>
 

@@ -1,11 +1,8 @@
 -- unit tests based on MDN examples: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/lastIndexOf
 return function()
-	local String = script.Parent.Parent
-	local Packages = String.Parent
+	local lastIndexOf = require("../lastIndexOf")
 
-	local lastIndexOf = require(String.lastIndexOf)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns -1 when character is not found", function()

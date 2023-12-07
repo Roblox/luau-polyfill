@@ -2,16 +2,13 @@
 -- https://github.com/graphql/graphql-js/blob/1951bce42092123e844763b6a8e985a8a3327511/src/jsutils/__tests__/inspect-test.js
 -- https://github.com/edam/inspect.lua/blob/master/spec/inspect_spec.lua
 return function()
-	local root = script.Parent.Parent
-	local Packages = root.Parent
+	local inspect = require("../inspect")
 
-	local inspect = require(root.inspect)
-
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = (require)("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
-	local Promise = require(Packages.Dev.Promise)
-	local Set = require(root.Set)
-	local types = require(Packages.ES7Types)
+	local Promise = require("@pkg/@jsdotlua/promise")
+	local Set = require("../Set")
+	local types = require("@pkg/@jsdotlua/es7-types")
 
 	type Array<T> = types.Array<T>
 	type Object = types.Object

@@ -1,14 +1,11 @@
 -- Tests adapted directly from examples at:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
 return function()
-	local Array = script.Parent.Parent
-	local Packages = Array.Parent.Parent
-
-	local types = require(Packages.ES7Types)
+	local types = require("@pkg/es7-types")
 	type Array<T> = types.Array<T>
-	local reduce = require(Array.reduce)
+	local reduce = require("../reduce")
 
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("calls the reducer function with the indexes", function()

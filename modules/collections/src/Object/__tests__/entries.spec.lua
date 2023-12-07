@@ -2,15 +2,12 @@
 -- tests based on the examples provided on MDN web docs:
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries
 return function()
-	local Object = script.Parent.Parent
-	local Packages = Object.Parent.Parent
+	local entries = require("../entries")
 
-	local entries = require(Object.entries)
-
-	local types = require(Packages.ES7Types)
+	local types = require("@pkg/es7-types")
 	type Array<T> = types.Array<T>
 	type Object = types.Object
-	local JestGlobals = require(Packages.Dev.JestGlobals)
+	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
 	local jestExpect = JestGlobals.expect
 
 	it("returns an empty array for an empty table", function()
