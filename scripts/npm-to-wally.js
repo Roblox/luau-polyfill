@@ -24,7 +24,12 @@ const readPackageConfig = async (packagePath) => {
   return null;
 };
 
-const main = async (packageJsonPath, wallyOutputPath, { workspacePath }) => {
+const main = async (
+  packageJsonPath,
+  wallyOutputPath,
+  rojoConfigPath,
+  { workspacePath }
+) => {
   const packageData = await readPackageConfig(packageJsonPath);
 
   const { name: scopedName, version, license, dependencies = [] } = packageData;
@@ -40,12 +45,26 @@ const main = async (packageJsonPath, wallyOutputPath, { workspacePath }) => {
     "[dependencies]",
   ];
 
+  const rojoConfig = {
+    name: "WallyPackage",
+    tree: {
+      $className: "Folder",
+      Package: {
+        $path: "src",
+      },
+    },
+  };
+
   for (const [dependencyName, specifiedVersion] of Object.entries(
     dependencies
   )) {
     const name = dependencyName.startsWith("@")
       ? dependencyName.substring(dependencyName.indexOf("/") + 1)
       : dependencyName;
+
+    rojoConfig.tree[name] = {
+      $path: dependencyName + ".luau",
+    };
 
     const wallyPackageName = name.indexOf("-") !== -1 ? `"${name}"` : name;
 
@@ -72,11 +91,20 @@ const main = async (packageJsonPath, wallyOutputPath, { workspacePath }) => {
 
   tomlLines.push("");
 
-  await fs.writeFile(wallyOutputPath, tomlLines.join("\n")).catch((err) => {
-    console.error(
-      `unable to write wally config at '${wallyOutputPath}': ${err}`
-    );
-  });
+  await Promise.all([
+    fs.writeFile(wallyOutputPath, tomlLines.join("\n")).catch((err) => {
+      console.error(
+        `unable to write wally config at '${wallyOutputPath}': ${err}`
+      );
+    }),
+    fs
+      .writeFile(rojoConfigPath, JSON.stringify(rojoConfig, null, 2))
+      .catch((err) => {
+        console.error(
+          `unable to write rojo config at '${rojoConfigPath}': ${err}`
+        );
+      }),
+  ]);
 };
 
 const createCLI = () => {
@@ -87,16 +115,24 @@ const createCLI = () => {
     .description("a utility to convert npm packages to wally packages")
     .argument("<package-json>")
     .argument("<wally-toml>")
+    .argument("<package-rojo-config>")
     .option(
       "--workspace-path <workspace>",
       "the path containing all workspace members"
     )
-    .action(async (packageJson, wallyToml, { workspacePath = null }) => {
-      const cwd = process.cwd();
-      main(path.join(cwd, packageJson), path.join(cwd, wallyToml), {
-        workspacePath: workspacePath && path.join(cwd, workspacePath),
-      });
-    });
+    .action(
+      async (packageJson, wallyToml, rojoConfig, { workspacePath = null }) => {
+        const cwd = process.cwd();
+        main(
+          path.join(cwd, packageJson),
+          path.join(cwd, wallyToml),
+          path.join(cwd, rojoConfig),
+          {
+            workspacePath: workspacePath && path.join(cwd, workspacePath),
+          }
+        );
+      }
+    );
 
   return (args) => {
     program.parse(args);
