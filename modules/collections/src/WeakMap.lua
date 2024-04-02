@@ -1,4 +1,3 @@
---!strict
 local ES7Types = require("@pkg/@jsdotlua/es7-types")
 
 type WeakMap<K, V> = ES7Types.WeakMap<K, V>

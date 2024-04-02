@@ -1,4 +1,3 @@
---!strict
 -- https://programming-idioms.org/idiom/19/reverse-a-list/1314/lua
 local types = require("@pkg/@jsdotlua/es7-types")
 type Array<T> = types.Array<T>

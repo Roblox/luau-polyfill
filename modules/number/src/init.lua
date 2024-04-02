@@ -1,4 +1,3 @@
---!strict
 return {
 	isFinite = require("./isFinite"),
 	isInteger = require("./isInteger"),

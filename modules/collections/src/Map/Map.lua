@@ -1,4 +1,3 @@
---!strict
 local __DEV__ = _G.__DEV__
 
 local arrayForEach = require("../Array/forEach")

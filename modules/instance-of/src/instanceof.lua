@@ -1,4 +1,3 @@
---!strict
 -- polyfill for https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof
 local __DEV__ = _G.__DEV__
 

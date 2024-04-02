@@ -1,4 +1,3 @@
---!strict
 local findOr = require("./findOr")
 local slice = require("./slice")
 

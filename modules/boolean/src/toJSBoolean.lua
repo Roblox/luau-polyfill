@@ -1,4 +1,3 @@
---!strict
 local Number = require("@pkg/@jsdotlua/number")
 
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean

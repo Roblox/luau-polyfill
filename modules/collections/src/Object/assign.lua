@@ -1,4 +1,3 @@
---!strict
 local None = require("./None")
 local types = require("@pkg/@jsdotlua/es7-types")
 type Object = types.Object

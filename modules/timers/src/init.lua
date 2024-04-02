@@ -1,4 +1,3 @@
---!strict
 local Object = require("@pkg/@jsdotlua/collections").Object
 
 local makeTimerImpl = require("./makeTimerImpl")

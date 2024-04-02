@@ -1,4 +1,3 @@
---!strict
 local Array = require("./Array")
 local Map = require("./Map")
 local Object = require("./Object")

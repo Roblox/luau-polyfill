@@ -1,5 +1,3 @@
---!strict
-
 return {
 	assign = require("./assign"),
 	entries = require("./entries"),

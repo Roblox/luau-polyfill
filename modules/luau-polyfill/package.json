@@ -24,6 +24,6 @@
     "symbol-luau": "^1.0.0"
   },
   "devDependencies": {
-    "npmluau": "^0.1.0"
+    "npmluau": "^0.1.1"
   }
 }

@@ -1,40 +1,39 @@
-return function()
-	local startsWith = require("../startsWith")
+local startsWith = require("../startsWith")
 
-	local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
-	local jestExpect = JestGlobals.expect
+local JestGlobals = require("@pkg/@jsdotlua/jest-globals")
+local jestExpect = JestGlobals.expect
+local it = JestGlobals.it
 
-	it("is true if the string starts with the given substring", function()
-		jestExpect(startsWith("foo", "fo")).toEqual(true)
-	end)
+it("is true if the string starts with the given substring", function()
+	jestExpect(startsWith("foo", "fo")).toEqual(true)
+end)
 
-	it("is true if the string starts with the given substring at the given position", function()
-		jestExpect(startsWith("foo", "o", 3)).toEqual(true)
-	end)
+it("is true if the string starts with the given substring at the given position", function()
+	jestExpect(startsWith("foo", "o", 3)).toEqual(true)
+end)
 
-	it("is false if the string does not start with the given substring", function()
-		jestExpect(startsWith("foo", "b")).toEqual(false)
-	end)
+it("is false if the string does not start with the given substring", function()
+	jestExpect(startsWith("foo", "b")).toEqual(false)
+end)
 
-	it("is false if the initial search position is greater than the length", function()
-		jestExpect(startsWith("foo", "f", 10)).toEqual(false)
-	end)
+it("is false if the initial search position is greater than the length", function()
+	jestExpect(startsWith("foo", "f", 10)).toEqual(false)
+end)
 
-	it("is true if the initial search position is lower than one and the string matches", function()
-		jestExpect(startsWith("foo", "fo", -4)).toEqual(true)
-	end)
+it("is true if the initial search position is lower than one and the string matches", function()
+	jestExpect(startsWith("foo", "fo", -4)).toEqual(true)
+end)
 
-	it("is true if the substring is empty", function()
-		jestExpect(startsWith("foo", "")).toEqual(true)
-		jestExpect(startsWith("foo", "", 10)).toEqual(true)
-		jestExpect(startsWith("foo", "", -10)).toEqual(true)
-	end)
+it("is true if the substring is empty", function()
+	jestExpect(startsWith("foo", "")).toEqual(true)
+	jestExpect(startsWith("foo", "", 10)).toEqual(true)
+	jestExpect(startsWith("foo", "", -10)).toEqual(true)
+end)
 
-	it("passes the examples on MDN", function()
-		local str = "To be, or not to be, that is the question."
+it("passes the examples on MDN", function()
+	local str = "To be, or not to be, that is the question."
 
-		jestExpect(startsWith(str, "To be")).toEqual(true)
-		jestExpect(startsWith(str, "not to be")).toEqual(false)
-		jestExpect(startsWith(str, "not to be", 11)).toEqual(true)
-	end)
-end
+	jestExpect(startsWith(str, "To be")).toEqual(true)
+	jestExpect(startsWith(str, "not to be")).toEqual(false)
+	jestExpect(startsWith(str, "not to be", 11)).toEqual(true)
+end)

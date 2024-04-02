@@ -12,6 +12,6 @@
     "prepare": "npmluau"
   },
   "devDependencies": {
-    "npmluau": "^0.1.0"
+    "npmluau": "^0.1.1"
   }
 }

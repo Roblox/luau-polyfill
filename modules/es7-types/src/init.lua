@@ -1,4 +1,3 @@
---!strict
 export type Object = { [string]: any }
 export type Array<T> = { [number]: T }
 export type Function = (...any) -> ...any

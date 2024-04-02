@@ -1,4 +1,3 @@
---!strict
 local ES7Types = require("@pkg/@jsdotlua/es7-types")
 
 export type Array<T> = ES7Types.Array<T>

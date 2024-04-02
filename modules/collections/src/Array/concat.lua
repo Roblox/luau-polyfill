@@ -1,4 +1,3 @@
---!strict
 local __DEV__ = _G.__DEV__
 local isArray = require("./isArray")
 local types = require("@pkg/@jsdotlua/es7-types")

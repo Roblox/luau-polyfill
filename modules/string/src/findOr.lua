@@ -1,4 +1,3 @@
---!strict
 type Match = {
 	index: number,
 	match: string,

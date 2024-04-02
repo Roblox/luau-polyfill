@@ -1,5 +1,3 @@
---!strict
-
 local trimStart = require("./trimStart")
 local trimEnd = require("./trimEnd")
 
