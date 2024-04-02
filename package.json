@@ -7,13 +7,18 @@
   "scripts": {
     "prepare": "npmluau",
     "build-assets": "sh ./scripts/build-assets.sh",
-    "lint": "selene modules",
+    "test:roblox": "sh ./scripts/roblox-test.sh",
+    "lint": "selene modules && sh ./scripts/luau-analyze.sh",
+    "lint:luau": "sh ./scripts/luau-analyze.sh",
+    "lint:selene": "selene modules",
     "format": "stylua modules",
     "style-check": "stylua modules --check",
     "clean": "rm -rf roblox build node_modules"
   },
   "devDependencies": {
+    "@jsdotlua/jest": "^3.6.1-rc.2",
     "commander": "^11.1.0",
     "npmluau": "^0.1.1"
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }

@@ -1,0 +1,26 @@
+{
+  "name": "test-place",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "node_modules": {
+        "$path": "./node_modules"
+      }
+    },
+    "ServerScriptService": {
+      "RunTests": {
+        "$path": "./scripts/roblox-test.server.lua"
+      }
+    },
+    "HttpService": {
+      "$properties": {
+        "HttpEnabled": true
+      }
+    },
+    "Players": {
+      "$properties": {
+        "CharacterAutoLoads": false
+      }
+    }
+  }
+}
