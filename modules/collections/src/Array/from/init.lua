@@ -1,4 +1,3 @@
---!strict
 local Set = require("../../Set")
 local Map = require("../../Map/Map")
 local isArray = require("../isArray")

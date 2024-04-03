@@ -13,7 +13,8 @@
   },
   "devDependencies": {
     "@jsdotlua/collections": "workspace:^",
+    "@jsdotlua/jest-globals": "^3.6.1-rc.2",
     "@jsdotlua/luau-polyfill": "workspace:^",
-    "npmluau": "^0.1.0"
+    "npmluau": "^0.1.1"
   }
 }

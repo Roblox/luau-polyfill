@@ -1,4 +1,3 @@
---!strict
 -- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isSafeInteger
 local isInteger = require("./isInteger")
 local MAX_SAFE_INTEGER = require("./MAX_SAFE_INTEGER")

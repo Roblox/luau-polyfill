@@ -1,4 +1,3 @@
---!strict
 local Number = require("@pkg/@jsdotlua/number")
 
 local NaN = Number.NaN

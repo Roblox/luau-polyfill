@@ -1,4 +1,3 @@
---!strict
 local inspect = require("@pkg/@jsdotlua/collections").inspect
 
 local INDENT = "  "

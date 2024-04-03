@@ -1,5 +1,3 @@
-local Packages = script.Parent.Parent
-
 local ES7Types = require("@pkg/@jsdotlua/es7-types")
 
 local Map = require("./Map")

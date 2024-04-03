@@ -1,4 +1,3 @@
---!strict
 local Boolean = require("@pkg/@jsdotlua/boolean")
 local Collections = require("@pkg/@jsdotlua/collections")
 local Console = require("@pkg/@jsdotlua/console")

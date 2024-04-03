@@ -8,6 +8,7 @@ rotriever.lock
 **/node_modules
 /build
 /roblox
+/*.d.lua
 
 # Dependencies
 Packages/*
