@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 1.2.7
+* Remove `--!strict` annotations ([#4](https://github.com/jsdotlua/luau-polyfill/pull/4))
+
 ## 1.2.3
 * Fix an edge case in String.charCodeAt introduced in 1.2.2
 
