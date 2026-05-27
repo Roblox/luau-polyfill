@@ -1,0 +1,13 @@
+[package]
+name = "roblox/luau-polyfill-es7-types"
+description = "ES7-style type definitions (Array, Map, Object, Set), part of luau-polyfill"
+version = "1.2.3"
+
+license = "MIT"
+
+authors = ["Roblox <no-reply@roblox.com>"]
+
+realm = "shared"
+registry = "https://github.com/upliftgames/wally-index"
+
+repository = "https://github.com/Roblox/luau-polyfill"

@@ -1,0 +1,17 @@
+[package]
+name = "roblox/luau-polyfill-collections"
+description = "Collection utilities (Array, Object, Map, Set, WeakMap), part of luau-polyfill"
+version = "1.2.3"
+
+license = "MIT"
+
+authors = ["Roblox <no-reply@roblox.com>"]
+
+realm = "shared"
+registry = "https://github.com/upliftgames/wally-index"
+
+repository = "https://github.com/Roblox/luau-polyfill"
+
+[dependencies]
+InstanceOf = "roblox/luau-polyfill-instance-of@=1.2.3"
+ES7Types = "roblox/luau-polyfill-es7-types@=1.2.3"
