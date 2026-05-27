@@ -1,0 +1,25 @@
+[package]
+name = "roblox/luau-polyfill"
+description = "A set of utilities to mimic common JS polyfills needed for translating projects from JS to Lua/Luau"
+version = "1.2.3"
+
+license = "MIT"
+
+authors = ["Roblox <no-reply@roblox.com>"]
+
+realm = "shared"
+registry = "https://github.com/upliftgames/wally-index"
+
+repository = "https://github.com/Roblox/luau-polyfill"
+
+[dependencies]
+Symbol = "roblox/symbol@=1.0.0"
+Boolean = "roblox/luau-polyfill-boolean@=1.2.3"
+Collections = "roblox/luau-polyfill-collections@=1.2.3"
+Console = "roblox/luau-polyfill-console@=1.2.3"
+InstanceOf = "roblox/luau-polyfill-instance-of@=1.2.3"
+Math = "roblox/luau-polyfill-math@=1.2.3"
+Number = "roblox/luau-polyfill-number@=1.2.3"
+ES7Types = "roblox/luau-polyfill-es7-types@=1.2.3"
+String = "roblox/luau-polyfill-string@=1.2.3"
+Timers = "roblox/luau-polyfill-timers@=1.2.3"

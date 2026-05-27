@@ -1,0 +1,16 @@
+[package]
+name = "roblox/luau-polyfill-console"
+description = "console.* utilities, part of luau-polyfill"
+version = "1.2.3"
+
+license = "MIT"
+
+authors = ["Roblox <no-reply@roblox.com>"]
+
+realm = "shared"
+registry = "https://github.com/upliftgames/wally-index"
+
+repository = "https://github.com/Roblox/luau-polyfill"
+
+[dependencies]
+Collections = "roblox/luau-polyfill-collections@=1.2.3"

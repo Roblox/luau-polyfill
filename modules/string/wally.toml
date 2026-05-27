@@ -1,0 +1,17 @@
+[package]
+name = "roblox/luau-polyfill-string"
+description = "String utilities, part of luau-polyfill"
+version = "1.2.3"
+
+license = "MIT"
+
+authors = ["Roblox <no-reply@roblox.com>"]
+
+realm = "shared"
+registry = "https://github.com/upliftgames/wally-index"
+
+repository = "https://github.com/Roblox/luau-polyfill"
+
+[dependencies]
+Number = "roblox/luau-polyfill-number@=1.2.3"
+ES7Types = "roblox/luau-polyfill-es7-types@=1.2.3"
