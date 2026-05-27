@@ -12,11 +12,14 @@ authors = [
     "Zack Ovits <zack@boatbomber.com>",
 ]
 
+[config]
+registry_index = true
+
 [workspace.dependencies]
-JestGlobals = "github.com/roblox/jest-roblox@2.4.1"
-TestEZ = "github.com/roblox/jest-roblox@2.4.1"
-RegExp = "github.com/roblox/luau-regexp@0.1.3"
-Promise = "github.com/roblox/roblox-lua-promise@3.3.0"
+JestGlobals = "2.4.1"
+TestEZ = "2.4.1"
+RegExp = "0.2.2"
+Promise = "3.3.0"
 
 # Patch latest copies of collections into jest dependencies to dodge lint
 [config.patch."github.com/roblox/luau-polyfill"]

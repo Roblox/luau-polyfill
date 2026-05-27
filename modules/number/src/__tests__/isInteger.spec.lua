@@ -1,3 +1,4 @@
+--!nolint IntegerParsing
 return function()
 	local Number = script.Parent.Parent
 	local isInteger = require(Number.isInteger)
