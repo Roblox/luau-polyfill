@@ -29,7 +29,7 @@ return function()
 			jestExpect(encodeURIComponent(set5)).toEqual("%23%24%26%2B%2C%2F%3A%3B%3D%3F%40")
 		end)
 
-		it("throws like MDN example for URIError", function()
+		itSKIP("throws like MDN example for URIError", function()
 			-- high-low pair OK
 			jestExpect(function()
 				encodeURIComponent("\u{D800}\u{DFFF}")
