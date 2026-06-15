@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 1.2.4
+* Updated to support Wally publishing.
+
 ## 1.2.3
 * Fix an edge case in String.charCodeAt introduced in 1.2.2
 
