@@ -1,16 +1,17 @@
 [package]
 name = "roblox/luau-polyfill-boolean"
 description = "Boolean utilities, part of luau-polyfill"
-version = "1.2.4"
+version = "1.2.5"
 
 license = "MIT"
 
 authors = ["Roblox <no-reply@roblox.com>"]
 
 realm = "shared"
-registry = "https://github.com/upliftgames/wally-index"
+registry = "https://github.com/UpliftGames/wally-index"
 
 repository = "https://github.com/Roblox/luau-polyfill"
+exclude = ["rotriever.toml"]
 
 [dependencies]
-Number = "roblox/luau-polyfill-number@=1.2.4"
+Number = "roblox/luau-polyfill-number@=1.2.5"

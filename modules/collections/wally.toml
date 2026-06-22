@@ -1,17 +1,18 @@
 [package]
 name = "roblox/luau-polyfill-collections"
 description = "Collection utilities (Array, Object, Map, Set, WeakMap), part of luau-polyfill"
-version = "1.2.4"
+version = "1.2.5"
 
 license = "MIT"
 
 authors = ["Roblox <no-reply@roblox.com>"]
 
 realm = "shared"
-registry = "https://github.com/upliftgames/wally-index"
+registry = "https://github.com/UpliftGames/wally-index"
 
 repository = "https://github.com/Roblox/luau-polyfill"
+exclude = ["rotriever.toml"]
 
 [dependencies]
-InstanceOf = "roblox/luau-polyfill-instance-of@=1.2.4"
-ES7Types = "roblox/luau-polyfill-es7-types@=1.2.4"
+InstanceOf = "roblox/luau-polyfill-instance-of@=1.2.5"
+ES7Types = "roblox/luau-polyfill-es7-types@=1.2.5"
