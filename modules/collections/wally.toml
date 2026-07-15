@@ -14,5 +14,5 @@ repository = "https://github.com/Roblox/luau-polyfill"
 exclude = ["rotriever.toml"]
 
 [dependencies]
-InstanceOf = "roblox/luau-polyfill-instance-of@=1.2.5"
-ES7Types = "roblox/luau-polyfill-es7-types@=1.2.5"
+InstanceOf = "roblox/luau-polyfill-instance-of@^1.2.5"
+ES7Types = "roblox/luau-polyfill-es7-types@^1.2.5"
