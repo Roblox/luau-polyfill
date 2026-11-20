@@ -2,6 +2,7 @@
 name = "LuauPolyfill"
 version = { workspace = true }
 authors = { workspace = true }
+repository = "https://github.com/Roblox/luau-polyfill-internal"
 content_root = "src"
 files = ["*", "!**/__tests__/**"]
 
